@@ -1,0 +1,2300 @@
+    <!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>审批</title>
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!-- icon样式   -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{css/a/iconfont.css}">
+    <!--时间插件-->
+    <link th:href="@{/ajax/libs/datapicker/bootstrap-datetimepicker.min.css}" rel="stylesheet"/>
+    <!-- bootstrap-table 表格插件样式 -->
+    <link th:href="@{/ajax/libs/bootstrap-table/bootstrap-table.min.css}" rel="stylesheet"/>
+    <!-- layui-->
+    <link th:href="@{/ajax/libs/layuiv2.5.5/layui/css/layui.css}" rel="stylesheet"/>
+    <!-- ztree-->
+    <link th:href="@{/ajax/libs/zTreev3/css/zTreeStyle/zTreeStyle.css}" rel="stylesheet"/>
+    <!--  树形穿梭框   -->
+    <link th:href="@{/css/tree.css}" rel="stylesheet"/>
+    <!--  动画css  -->
+    <link th:href="@{/css/animate.css}" rel="stylesheet"/>
+    <!-- ruoyi-css   -->
+    <link th:href="@{/ajax/libs/ruoyi/css/ryui.css}" rel="stylesheet"/>
+    <!-- 自定义css   -->
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/test2.css}" rel="stylesheet"/>
+</head>
+<style>
+    .droppable-active {
+        background-color: #ffe !important
+    }
+
+    .tools a {
+        cursor: pointer;
+        font-size: 80%
+    }
+
+    .form-body .col-md-6, .form-body .col-md-12 {
+        min-height: 400px
+    }
+
+    .draggable {
+        cursor: move
+    }
+    .layui-fom  .layui-form -label{
+        disply:flex;
+        align-center:center;
+        justify-content: center;
+    }
+</style>
+<body class="gray-bg">
+<div>
+    <button onclick="prevNode()">1233333</button>
+</div>
+<div class="step_con_btn">
+    <a href="#none" class="step_con_select">保存</a>
+    <a href="#none" class="">退出</a>
+</div>
+<div class="layui-tab" lay-filter="outer-tab">
+    <ul class="layui-tab-title">
+        <li >基础设置</li>
+        <li>表单设计</li>
+        <li class="layui-this">流程设计</li>
+        <li>高级设置</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item">
+
+        </div>
+        <div class="layui-tab-item">
+            <div class="wrapper wrapper-content">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>元素</h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li><a href="#">基本</a>
+                                        </li>
+                                        <li><a href="#">其他</a>
+                                        </li>
+                                    </ul>
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="alert alert-info">
+                                    拖拽左侧的表单元素到右侧区域，即可生成相应的HTML代码，表单代码，轻松搞定！
+                                </div>
+                                <form role="form" class="form-horizontal m-t">
+                                    <div class="form-group draggable" my_field_type="单行输入框">
+                                        <div data_type="varchar" field_tag="input" field_type="text" myattr="myattr" is_required="0" is_hidden="0" field_placeholder="请输入" field_label="单行输入框" validate="0"></div>
+                                        <label class="col-sm-3 control-label">单行输入框</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="" class="form-control" placeholder="请输入">
+                                        </div>
+                                    </div>
+                                    <div class="form-group draggable" my_field_type="数字输入框">
+                                        <div data_type="int" field_tag="input" field_type="number" myattr="myattr" is_required="0" is_hidden="0" field_placeholder="请输入" field_label="数字输入框" validate="0"></div>
+                                        <label class="col-sm-3 control-label">数字输入框</label>
+                                        <div class="col-sm-9">
+                                            <input type="number" name="" class="form-control" placeholder="请输入">
+                                        </div>
+                                    </div>
+
+                                    <div  class="form-group draggable" my_field_type="多行输入框">
+                                        <div data_type="varchar" field_tag="textarea" field_type="text" myattr="myattr" is_required="0" is_hidden="0" field_placeholder="请输入" field_label="多行输入框" validate="0"></div>
+                                        <label class="col-sm-3 control-label">多行输入框</label>
+                                        <div class="col-sm-9">
+                                            <textarea type="text"  class="form-control" is_required="0" is_hidden="0" placeholder="请输入文本"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group draggable" my_field_type="下拉框">
+                                        <div data_type="varchar" field_tag="select" field_type="select" myattr="myattr" is_required="0" is_hidden="0" field_placeholder="" field_label="下拉框"></div>
+                                        <label class="col-sm-3 control-label">下拉框</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" >
+                                                <option value="选项 1">选项 1</option>
+                                                <option value="选项 2">选项 2</option>
+                                                <option value="选项 3">选项 3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="col-sm-3 control-label">单选框：</label>
+                                        <div class="col-sm-9">
+                                            <label class="radio-box"><input type="radio" checked="" value="option1"
+                                                                            id="optionsRadios1" name="optionsRadios">选项1</label>
+                                            <label class="radio-box"><input type="radio" value="option2" id="optionsRadios2"
+                                                                            name="optionsRadios">选项2</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group draggable">
+                                        <label class="col-sm-3 control-label">切换按钮：
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <label class="toggle-switch switch-solid">
+                                                <input type="checkbox" id="status" checked>
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group draggable" my_field_type="日期选择框">
+                                        <div data_type="date" field_tag="input" field_type="date" myattr="myattr" is_required="0" is_hidden="0" field_label="日期选择框"></div>
+                                        <label class="col-sm-3 control-label">日期选择框</label>
+                                        <div class="col-sm-9">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group draggable">
+                                        <div class="col-sm-12 col-sm-offset-3">
+                                            <button type="submit" class="btn btn-primary">提交</button>
+                                            <button onclick="$.modal.close()" class="btn btn-danger" type="button">关闭</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>拖拽左侧表单元素到此区域</h5>
+                                <div class="ibox-tools">
+                                    请选择显示的列数：
+                                    <select id="n-columns">
+                                        <option value="1">显示1列</option>
+                                        <option value="2">显示2列</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="ibox-content" class="ibox-content">
+                                <div class="row form-body form-horizontal m-t">
+                                    <div class="col-md-12 droppable sortable">
+                                    </div>
+                                    <div class="col-md-6 droppable sortable" style="display: none;">
+                                    </div>
+                                    <div class="col-md-6 droppable sortable" style="display: none;">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-warning" data-clipboard-text="testing" id="copy-to-clipboard">
+                                    复制代码
+                                </button>
+                                <button type="submit" class="btn btn-warning" data-clipboard-text="testing" id="save-to-clipboard">
+                                    保存
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 attribute">
+                        <div class="ibox-content" id="not_attribute">
+                            无表单字段，请拖拽！
+                        </div>
+                    </div>
+                    <div class="col-sm-3 hide attribute" id="text_attribute">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>属性</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div>
+                                    <label class="control-label">标题：</label>
+                                    <input name="field_label" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">提示文字：</label>
+                                    <input name="field_placeholder" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段ID：</label>
+                                    <input name="field_id" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段name属性：</label>
+                                    <input name="field_datakey" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段过滤选择：</label>
+                                    <input name="field_filter" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段class选择：</label>
+                                    <input name="field_class" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">验证类型：</label>
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="validate">
+                                            <option value="0">无</option>
+                                            <option value="phone">手机号</option>
+                                            <option value="email">邮箱</option>
+                                            <option value="url">网址</option>
+                                            <option value="identity">身份证</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label">数据类型：</label>
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="data_type">
+                                            <option value="varchar">varchar</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label">字段长度：</label>
+                                    <input name="field_length" type="text" class="form-control" >
+                                </div>
+                                <div >
+                                    <label class="control-label">是否隐藏：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_hidden"></label>
+                                </div>
+                                <div >
+                                    <label class="control-label">是否必填：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_required" ></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3 hide attribute" id="number_attribute">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>属性</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div>
+                                    <label class="control-label">标题：</label>
+                                    <input name="field_label" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">提示文字：</label>
+                                    <input name="field_placeholder" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段ID：</label>
+                                    <input name="field_id" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段name属性：</label>
+                                    <input name="field_datakey" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段过滤选择：</label>
+                                    <input name="field_filter" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段class选择：</label>
+                                    <input name="field_class" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">数据类型：</label>
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="data_type">
+                                            <option value="int">int</option>
+                                            <option value="bigint">bigint</option>
+                                            <option value="float">float</option>
+                                            <option value="double">double</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label">字段长度：</label>
+                                    <input name="field_length" type="text" class="form-control" >
+                                </div>
+                                <div >
+                                    <label class="control-label">是否隐藏：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_hidden"></label>
+                                </div>
+                                <div >
+                                    <label class="control-label">是否必填：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_required" ></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3 hide attribute" id="textarea_attribute">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>属性</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div>
+                                    <label class="control-label">标题：</label>
+                                    <input name="field_label" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">提示文字：</label>
+                                    <input name="field_placeholder" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段ID：</label>
+                                    <input name="field_id" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段name属性：</label>
+                                    <input name="field_datakey" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段过滤选择：</label>
+                                    <input name="field_filter" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段class选择：</label>
+                                    <input name="field_class" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段长度：</label>
+                                    <input name="field_length" type="text" class="form-control" >
+                                </div>
+                                <div >
+                                    <label class="control-label">是否隐藏：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_hidden"></label>
+                                </div>
+                                <div >
+                                    <label class="control-label">是否必填：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_required" ></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3 hide attribute" id="select_attribute">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>属性</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div>
+                                    <label class="control-label">标题：</label>
+                                    <input name="field_label" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">选择项：</label>
+                                    <div id="select">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label">字段ID：</label>
+                                    <input name="field_id" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段name属性：</label>
+                                    <input name="field_datakey" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段过滤选择：</label>
+                                    <input name="field_filter" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段class选择：</label>
+                                    <input name="field_class" type="text" class="form-control" >
+                                </div>
+                                <div >
+                                    <label class="control-label">是否隐藏：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_hidden"></label>
+                                </div>
+
+                                <div >
+                                    <label class="control-label">是否必填：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_required" ></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3 hide attribute" id="date_attribute">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>属性</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div>
+                                    <label class="control-label">标题：</label>
+                                    <input name="field_label" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">日期选择类型：</label>
+                                    <div class="col-sm-12">
+                                        <select class="form-control" name="field_type">
+                                            <option value="date">年-月-日</option>
+                                            <option value="datetime">年-月-日 时:分:秒</option>
+                                            <option value="time">时:分:秒</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="control-label">字段ID：</label>
+                                    <input name="field_id" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段name属性：</label>
+                                    <input name="field_datakey" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段过滤选择：</label>
+                                    <input name="field_filter" type="text" class="form-control" >
+                                </div>
+                                <div>
+                                    <label class="control-label">字段class选择：</label>
+                                    <input name="field_class" type="text" class="form-control" >
+                                </div>
+                                <div >
+                                    <label class="control-label">是否隐藏：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_hidden"></label>
+                                </div>
+                                <div >
+                                    <label class="control-label">是否必填：</label>
+                                    <label class="check-box">
+                                        <input type="checkbox" value="option1" name="is_required" ></label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-tab-item layui-show">
+            <div class="outerBox">
+                <button onclick="getAllJson()">123</button>
+                <div class="edit_board">
+                    <div class="star_node node" id="s_node" squid="1">
+                        <div class="node_box star_box">
+                            <div class="node_title">发起人</div>
+                            <div class="node_content">
+                                <div class="node_text sign_drug">选择发起人</div>
+                            </div>
+                        </div>
+                        <div class="add_node">
+                            <a href="#none" class="add_btn">+</a>
+                        </div>
+                    </div>
+                    <div class="end_node">
+                        <i class="end_icon"></i>
+                        <div class="node_title">流程结束</div>
+                    </div>
+                </div>
+            </div>
+            <div class="zoomBox">
+                <a href="#none" class="zoom_up"><</a>
+                <span class="zoom_msg">100%</span>
+                <a href="#none" class="zoom_down">></a>
+            </div>
+        </div>
+        <div class="layui-tab-item">
+
+        </div>
+    </div>
+</div>
+</body>
+<!--拼接form-->
+<div class="hide" id="my_form">
+    <form class="layui-form" style="width: 90%; margin-top: inherit;">
+    </form>
+</div>
+<!--插入按钮响应-->
+<div class="add_alert close_box" style="display:none;">
+    <div class="node_title alert_node_title">123</div>
+    <a href="#none" class="add_approval_btn">添加审批人</a>
+    <a href="#none" class="add_branch_btn">添加条件</a>
+</div>
+<!-- 开始节点弹窗 -->
+<div class="msg_alert start_msg" id="start_msg" style="display:none;">
+    <div class="layui-tab layui-tab-brief" lay-filter="start_tab" style="width:500px;">
+        <ul class="layui-tab-title">
+            <li class="layui-this" lay-id="start_sponsor">选择发起人</li>
+            <li lay-id="start_access">表单权限管理</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form action="" class="layui-form">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">发起人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="promoter" required lay-verify="required" placeholder="选择发起人" autocomplete="off" class="layui-input" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="layui-form-item isLeader_box">
+                        <label class="layui-form-label">是否是领导</label>
+                        <div class="layui-input-block">
+                            <input type="checkbox" name="islEeader" title="是否是领导" lay-skin="primary">
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="layui-tab-item">
+                <form class="layui-form">
+                        <div class="access_box" >
+                        <div class="access_title layui-container" style="width:100%;">
+                            <div class="layui-row">
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">表单字段</span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a" title="可编辑" lay-filter="all_edit" checked class="all_edit"></span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a" title="只读" lay-filter="all_readOnly" class="all_readOnly"></span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a" title="隐藏" lay-filter="all_hidden" class="all_hidden"></span>
+                            </div>
+                        </div>
+                        <ul class="access_content layui-container" style="width:100%;">
+                            <li class="layui-row">
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">表单字段</span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a2" value="0" title="可编辑" checked lay-filter="subRadio1" class="subRadio1"></span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a2" value="1" title="只读" lay-filter="subRadio2" class="subRadio2"></span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a2" value="2" title="隐藏" lay-filter="subRadio3" class="subRadio3"> </span>
+                            </li>
+                            <li class="layui-row">
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">表单字段</span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a3" value="0" title="可编辑" checked lay-filter="subRadio1" class="subRadio1"></span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a3" value="1" title="只读" lay-filter="subRadio2" class="subRadio2"></span>
+                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a3" value="2" title="隐藏" lay-filter="subRadio3" class="subRadio3"></span>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 审批弹窗 -->
+<div class="msg_alert approval_msg" id="approval_msg" style="display:none;">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">选择审批人</li>
+            <li>表单权限管理</li>
+        </ul>
+        <div class="layui-tab-content" style="width:500px;">
+            <div class="layui-tab-item layui-show approval_memType">
+                <h4>选择审批人类型</h4>
+                <form action="" class="layui-form layui-row">
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><input type="radio" name="role" value="1" title="指定成员" checked lay-filter="approval_role"></div>
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><input type="radio" name="role" value="0" title="指定上级" lay-filter="approval_role"></div>
+                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><input type="radio" name="role" value="2" title="指定角色" lay-filter="approval_role"></div>
+                    <div class="approval_select layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <div class="approval_member" style="display:none;">
+                            <a href="#none" class="approval_member_select layui-btn layui-btn-sm">修改成员</a>
+                            <div><a href="#none" class="approval_member_clearAll">清空</a></div>
+                            <div style="font-size:12px;color:#ccc;">最多只能选择20个用户</div>
+                            <ul class="approval_member_list"></ul>
+                        </div>
+<!--                        <div class="approval_manager" style="display:none;">-->
+<!--                            <div class="layui-form-item">-->
+<!--                                <label class="layui-form-label">选择主管</label>-->
+<!--                                <div class="layui-input-block">-->
+<!--                                    <select  name="city" lay-verify="required" type="select">-->
+<!--                                        <option value="0">直接主管</option>-->
+<!--                                        <option value="1">第二级主管</option>-->
+<!--                                        <option value="2">第三级主管</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                    </div>-->
+                        <div class="approval_roles layui-col-xs12 layui-col-sm12 layui-col-md12" style="display:none;">
+                            <a href="#none"class="layui-btn layui-btn-sm approval_role_select">添加角色</a>
+                            <div><a href="#none" class="approval_role_clearAll">清空</a></div>
+                            <ul class="approval_role_list"></ul>
+                        </div>
+                    </div>
+                    <div class="approval_type layui-col-xs12 layui-col-sm12 layui-col-md12" style="display:none;">
+                        <h4>多人审批时采用的审批方式</h4>
+                        <div><input type="radio" name="a" value="2" title="依次审批" checked></div>
+                        <div><input type="radio" name="a" value="1" title="会签（须所有审批人同意）"></div>
+                        <div><input type="radio" name="a" value="0" title="或签（一名审批人同意或拒绝即可）"></div>
+                    </div>
+                    <div class="approval_none layui-col-xs12 layui-col-sm12 layui-col-md12" style="display:none;">
+                        <h4>审批人为空时</h4>
+                        <div><input type="radio" name="a" title="自动通过" checked></div>
+                        <div><input type="radio" name="a" title="自动转交管理员"></div>
+                    </div>
+                    <div class="dis_node_select layui-col-xs12 layui-col-sm12 layui-col-md12">
+                        <h4>不同意节点走向</h4>
+                        <div class="dis_node_sum_select">
+                            <select name="dis_node_select_option" lay-verify="" lay-filter="dis_node_select_option">
+                                <option value="0" selected>开始节点</option>
+                                <option value="2">指定特定节点</option>
+                                <option value="1">结束节点</option>
+                            </select>
+                        </div>
+                        <div class="dis_node_sp_select">
+                            <div id="node_select" style="" class="xm-select-demo"></div>
+                        </div>
+                    </div>
+                    <div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-tab-item">
+                <form class="layui-form">
+                    <div class="access_box" >
+<!--                        <div class="access_title layui-container" style="width:100%;">-->
+<!--                            <div class="layui-row">-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">表单字段</span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a" title="可编辑" lay-filter="all_edit" checked class="all_edit"></span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a" title="只读" lay-filter="all_readOnly" class="all_readOnly"></span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a" title="隐藏" lay-filter="all_hidden" class="all_hidden"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <ul class="access_content layui-container" style="width:100%;">-->
+<!--                            <li class="layui-row">-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">表单字段</span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a2" value="0" title="可编辑" checked lay-filter="subRadio1" class="subRadio1"></span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a2" value="1" title="只读" lay-filter="subRadio2" class="subRadio2"></span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a2" value="2" title="隐藏" lay-filter="subRadio3" class="subRadio3"> </span>-->
+<!--                            </li>-->
+<!--                            <li class="layui-row">-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">表单字段</span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a3" value="0" title="可编辑" checked lay-filter="subRadio1" class="subRadio1"></span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a3" value="1" title="只读" lay-filter="subRadio2" class="subRadio2"></span>-->
+<!--                                <span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="a3" value="2" title="隐藏" lay-filter="subRadio3" class="subRadio3"></span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 条件弹窗 -->
+<div class="msg_alert condition_msg" id="condition_msg" style="display:none;">
+    <div class="condition_msg_con">
+        <a href="#none" class="layui-btn layui-btn-normal add-condition-btn">添加条件</a>
+        <div>还有<span class="condition_list_sum">0</span>个可用条件</div>
+    </div>
+    <form action="" class="layui-form" lay-filter="conForm">
+        <ul class="condition_msg_list">
+<!--            <li>-->
+<!--                <div class="layui-form-item layui-double-input">-->
+<!--                    <label class="layui-form-label">数字选择框</label>-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <div class="layui-nomal-box layui-double-box">-->
+<!--                            <select name="city" lay-filter="logical-select">-->
+<!--                                <option value="0">小于</option>-->
+<!--                                <option value="1">大于</option>-->
+<!--                                <option value="2">小于等于</option>-->
+<!--                                <option value="3">等于</option>-->
+<!--                                <option value="4">大于等于</option>-->
+<!--                                <option value="5">介于(两个数之间)</option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <div class="layui-nomal-box layui-double-box">-->
+<!--                            <input type="text" name="title" required  lay-verify="required" placeholder="请输入数字  " autocomplete="off" class="layui-input">-->
+<!--                        </div>-->
+<!--                        <div class="layui-quattuor-input layui-row layui-col-space5">-->
+<!--                            <div class="layui-col-md2 layui-col-sm2">-->
+<!--                                <input type="text" name="title" required  lay-verify="required" placeholder="0" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                            <div class="layui-col-md2 layui-col-sm3">-->
+<!--                                <select name="city" lay-verify="">-->
+<!--                                    <option value="1">大于</option>-->
+<!--                                    <option value="3">大于等于</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="layui-col-md2 layui-col-sm2">输入框</div>-->
+<!--                            <div class="layui-col-md2 layui-col-sm3">-->
+<!--                                <select name="city" lay-verify="">-->
+<!--                                    <option value="0">小于</option>-->
+<!--                                    <option value="0">小于</option>-->
+<!--                                    <option value="2">小于等于</option>-->
+<!--                                </select>-->
+<!--                            </div>-->
+<!--                            <div class="layui-col-md2 layui-col-sm2">-->
+<!--                                <input type="text" name="title" required  lay-verify="required" placeholder="0" autocomplete="off" class="layui-input">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <a href="#none" class="condition_del"><i class="fa fa-trash-o" aria-hidden="true"></i></a>-->
+<!--                </div>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <div class="layui-form-item">-->
+<!--                    <label class="layui-form-label">发起人</label>-->
+<!--                    <div class="layui-input-block">-->
+<!--                        <input type="text" name="promoter" required  lay-verify="required" placeholder="请输入发起人" autocomplete="off" class="layui-input">-->
+<!--                    </div>-->
+<!--                    <a href="#none" class="condition_del"><i class="fa fa-trash-o" aria-hidden="true"></i></a>-->
+<!--                </div>-->
+<!--            </li>-->
+        </ul>
+    </form>
+</div>
+<!--添加条件弹窗-->
+<div class="add_condition" id="add_condition" style="display:none;">
+    <form action="" class="layui-form">
+        <h5>请选择用来区分审批流程的条件字段 ，已选<span class="condition_sum">0</span>个</h5>
+        <div class="layui-form-item">
+            <div class="layui-input-block condition_sum_list">
+<!--                <input type="checkbox" name="sel" title="写作" lay-skin="primary" lay-filter="condition_list_sel">-->
+<!--                <input type="checkbox" name="sel" title="阅读" lay-skin="primary" lay-filter="condition_list_sel">-->
+<!--                <input type="checkbox" name="sel" title="发呆" lay-skin="primary" lay-filter="condition_list_sel">-->
+            </div>
+        </div>
+    </form>
+</div>
+<!-- 穿梭框A 选择人员 -->
+<div class="msg_alert screen_msg" id="screen_msg" style="display:none;">
+    <div class="content_wrap">
+        <div class="zTreeDemoBackground left">
+            <div class="input-search">
+                <input type="text" placeholder="输入关键字查询" id="filter-text" class="empty" /><span style="color:red;font-size:12px;position:absolute;left:0;right:0;top:40px;display:none;" class="no-data">查找不到结果~</span>
+            </div>
+            <div class="tree-content">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="right">
+            <ul class="choose-content">
+            </ul>
+        </div>
+    </div>
+</div>
+<!--穿梭框B 仅选择人员-->
+<div class="msg_alert screen_msg_only" id="screen_msg_only" style="display:none;">
+    <div class="content_wrap">
+        <div class="zTreeDemoBackground left">
+            <div class="input-search">
+                <input type="text" placeholder="输入关键字查询" id="filter-text-only" class="empty" /><span style="color:red;font-size:12px;position:absolute;left:0;right:0;top:40px;display:none;" class="no-data">查找不到结果~</span>
+            </div>
+            <div class="tree-content">
+                <ul id="treeDemo_only" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="right">
+            <ul class="choose-content-only">
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 双重穿梭框 可以选择人员和角色-->
+<div class="msg_alert screen_msg_doulbe" id="screen_msg_double" style="display:block;">
+    <div class="content_wrap">
+        <div class="zTreeDemoBackground left">
+            <div class="tree-change">
+                <a href="#none" class="select">选择人员</a>
+                <a href="#none">选择角色</a>
+            </div>
+            <div class="input-search">
+                <input type="text" placeholder="输入关键字查询" id="filter-text-doulbe" class="empty" /><span style="color:red;font-size:12px;position:absolute;left:0;right:0;top:40px;display:none;" class="no-data">查找不到结果~</span>
+            </div>
+            <div class="tree-content">
+                <ul id="treeDemo_doulbe" class="ztree"></ul>
+            </div>
+        </div>
+        <div class="right">
+            <ul class="choose-content-doulbe">
+            </ul>
+        </div>
+    </div>
+</div>
+<!--jquery-->
+<script th:src="@{/js/jquery.min.js}"></script>
+<!--bootstrap-->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!--jquery-ui -->
+<script th:src="@{/js/jquery-ui-1.10.4.min.js}"></script>
+<!-- 格式化html -->
+<script th:src="@{/ajax/libs/beautifyhtml/beautifyhtml.js}"></script>
+<!--时间插件-->
+<script th:src="@{/ajax/libs//datapicker/bootstrap-datetimepicker.min.js}"></script>
+<!-- bootstrap-table 表格插件 -->
+<script th:src="@{/ajax/libs/bootstrap-table/bootstrap-table.min.js}"></script>
+<script th:src="@{/ajax/libs/bootstrap-table/locale/bootstrap-table-zh-CN.min.js}"></script>
+<script th:src="@{/ajax/libs/bootstrap-table/extensions/mobile/bootstrap-table-mobile.js}"></script>
+<script th:src="@{/ajax/libs/bootstrap-table/extensions/toolbar/bootstrap-table-toolbar.min.js}"></script>
+<script th:src="@{/ajax/libs/bootstrap-table/extensions/columns/bootstrap-table-fixed-columns.js}"></script>
+<!-- jquery-validate 表单验证插件 -->
+<script th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script th:src="@{/ajax/libs/validate/messages_zh.min.js}"></script>
+<script th:src="@{/ajax/libs/validate/jquery.validate.extend.js}"></script>
+<!-- jquery-validate 表单树插件 -->
+<script th:src="@{/ajax/libs/bootstrap-treetable/bootstrap-treetable.js}"></script>
+<!-- jquery-export 表格导出插件 -->
+<script th:src="@{/ajax/libs/bootstrap-table/extensions/export/bootstrap-table-export.js}"></script>
+<script th:src="@{/ajax/libs/bootstrap-table/extensions/export/tableExport.js}"></script>
+<!-- 遮罩层 -->
+<script th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script th:src="@{/ajax/libs/iCheck/icheck.min.js}"></script>
+<!--<script th:src="@{/ajax/libs/ 	/layer.min.js}"></script>-->
+<!--<script th:src="@{/ajax/libs/layui/layui.js}"></script>-->
+<!--layui -->
+<script th:src="@{/ajax/libs/layuiv2.5.5/layui/layui.all.js}"></script>
+<!--ztree-->
+<script th:src="@{/ajax/libs/zTree-Plugin-for-jquery-master/resources/libs/zTree_v3/js/jquery.ztree.all.min.js}"></script>
+<!--ruoyi-ui -->
+<script th:src="@{/ajax/libs/ruoyi/js/common.js}"></script>
+<script th:src="@{/ajax/libs/ruoyi/js/ry-ui.js}"></script>
+<!--<script th:src="@{/ajax/libs/ruoyi/js/ry-ui.js}"></script>-->
+<!--<script th:src="@{/ruoyi/js/ry-ui.js?v=4.0.0}"></script>-->
+<!--<script th:inline="javascript"> var ctx = [[@{/}]]; </script>-->
+<!--自定义-->
+<script src="../js/my_js/build.js"></script>
+<script th:src="@{/js/my_js/common.js}"></script>
+<script src="../js/my_js/tree.js"></script>
+<script src="../js/my_js/tree2.js"></script>
+<script type="text/javascript">
+    layui.config({
+        base: './lib/xmSelect/'
+    }).extend({
+        xmSelect: 'xm-select'
+    }).use(['jquery','layer','transfer','form','element','xmSelect'], function(){
+        var layer = layui.layer,$ = layui.$,transfer = layui.transfer,form=layui.form,element=layui.element;
+        /* 穿梭框 */
+        //替换方案
+        // http://www.weivb.com/so/iframe.php?a=https://blog.csdn.net/weixin_42603150/article/details/80999605
+        // https://fullsmilespace.com/?p=15081
+        // https://blog.csdn.net/cuicui_web/article/details/89154487
+        var zNodes = [
+            { id: 1, pId: 0, name: "集团", open: false, checked: false, searchdata: "集团",idname:'officeid'},
+            { id: 11, pId: 1, name: "一汽", open: true, checked: false, searchdata: '集团一汽',idname:'officeid' },
+            { id: 111, pId: 11, name: "一汽子成员1", checked: false, searchdata: '集团一汽一汽子成员1',idname:'userId' },
+            { id: 112, pId: 11, name: "一汽子成员2", checked: false, searchdata: '集团一汽一汽子成员2' ,idname:'userId'},
+            { id: 12, pId: 1, name: "二汽", open: false, checked: false, searchdata: '集团二汽' },
+            { id: 121, pId: 12, name: "二汽子成员1", checked: false, searchdata: '集团二汽二汽子成员1' },
+            { id: 122, pId: 12, name: "二汽子成员2", checked: false, searchdata: '集团二汽二汽子成员2' },
+            { id: 2, pId: 0, name: "集团 2", checked: false, open: false, searchdata: '集团 2' },
+            { id: 21, pId: 2, name: "一汽", checked: false, searchdata: '集团 2一汽' },
+            { id: 22, pId: 2, name: "二汽", open: false, checked: false, searchdata: '集团 2二汽' },
+            { id: 221, pId: 22, name: "二汽1", checked: false, searchdata: '集团 2二汽二汽1' },
+            { id: 222, pId: 22, name: "二汽2", checked: false, searchdata: '集团 2二汽二汽2' },
+            { id: 23, pId: 2, name: "三汽", checked: false, searchdata: '集团 2二汽三汽' },
+            { id: 3, pId: 0, name: "其他", open: false, checked: false, searchdata: "其他" },
+        ];
+        var tree = $("#treeDemo").TransferTree({
+            zNodes: zNodes,
+        });
+        //创建only tree
+        var tree2 = $("#treeDemo_only").TransferTree2({
+            zNodes: zNodes,
+        });
+
+        var tree3 = $("#treeDemo_only").TransferTree2({
+            zNodes: zNodes,
+        });
+        //多节点保存
+        $('.step_con_btn').unbind('click').on('click',function(){
+            var sArr=[];
+            var actIndex=1;
+            console.log($('.node'))
+            $('.node').each(function(i,v){
+                var json={};
+                if($(v).hasClass('star_node')){
+                    json['act_step_id']=$(v).attr('squid');
+                    json['act_id']=1;
+                    json['step_name']=$(v).find('.node_title').text();
+                    json['step_node_type']=2;
+                    json['approve_user_type']='';
+                    json['roles_approve_type']='';
+                    json['approve_user']='';
+                    json['role_user']='';
+                    json['role_form']=$(v).data('role_form')||'';
+                    json['judge']=$(v).data('dValue')||'';
+                    json['priority']='';
+                    var nextArr=[];
+                    if((i+1)<=$('.node').length-1){
+                        if($($('.node')[i+1]).hasClass('branch_sub_node')){
+                            $($('.node')[i+1]).parents('.branch_node').children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
+                                nextArr.push($(k).attr('squid'));
+                            });
+                        } else if($($('.node')[i+1]).hasClass('approval_node')){
+                            nextArr.push($($('.node')[i+1]).attr('squid'));
+                        }
+                    }
+                    json['next_node']=nextArr;
+                    json['disagree_node']='';
+                    json['status']=0;
+                }
+                if($(v).hasClass('branch_sub_node')){
+                    json['act_step_id']=$(v).attr('squid');
+                    json['act_id']=1;
+                    json['step_name']=$(v).find('.node_title').text();
+                    json['step_node_type']=1;
+                    json['approve_user_type']='';
+                    json['roles_approve_type']='';
+                    json['approve_user']='';
+                    json['role_user']='';
+                    json['role_form']='';
+                    json['judge']=$(v).data('dValue')||'';
+                    json['priority']='';
+                    var nextArr=[];
+                    if((i+1)<=$('.node').length-1){
+                        if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
+                            if($(v).parents('.branch_node').next().hasClass('end_node')){
+                                nextArr=[];
+                            }else {
+                                if($(v).parents('.branch_node').next().hasClass('approval_node')){
+                                    nextArr.push($(v).parents('.branch_node').next().attr('squid'));
+                                }else if($(v).parents('.branch_node').next().hasClass('branch_node')){
+                                    $(v).parents('.branch_node').next().find('.node').each(function(j,k){
+                                        nextArr.push($(k).attr('squid'));
+                                    });
+                                }
+                            }
+                        } else {
+                            if($($('.node')[i+1]).hasClass('branch_sub_node')){
+                                $($('.node')[i+1]).parent().parent().parent().children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
+                                    nextArr.push($(k).attr('squid'));
+                                });
+                            } else if($($('.node')[i+1]).hasClass('approval_node')){
+                                nextArr.push($($('.node')[i+1]).attr('squid'));
+                            }
+                        }
+                    }
+                    json['next_node']=nextArr;
+                    json['disagree_node']='';
+                    json['status']=0;
+                    var nextArr=[];
+                }
+                if($(v).hasClass('approval_node')){
+                    json['act_step_id']=$(v).attr('squid');
+                    json['act_id']=1;
+                    json['step_name']=$(v).find('.node_title').text();
+                    json['step_node_type']=0;
+                    var nextArr=[];
+                    json['judge']='';
+                    if((i+1)<=$('.node').length-1){
+                        if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
+                            if($(v).parents('.branch_node').next().hasClass('end_node')){
+                                nextArr=[];
+                            }else {
+                                if($(v).parents('.branch_node').next().hasClass('approval_node')){
+                                    nextArr.push($(v).parents('.branch_node').next().attr('squid'));
+                                }else if($(v).parents('.branch_node').next().hasClass('branch_node')){
+                                    $(v).parents('.branch_node').next().find('.node').each(function(j,k){
+                                        nextArr.push($(k).attr('squid'));
+                                    });
+                                }
+                            }
+                        }else {
+                            if($($('.node')[i+1]).hasClass('branch_sub_node')){
+                                $($('.node')[i+1]).parent().parent().parent().children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
+                                    nextArr.push($(k).attr('squid'));
+                                });
+                            } else if($($('.node')[i+1]).hasClass('approval_node')){
+                                nextArr.push($($('.node')[i+1]).attr('squid'));
+                            }
+                        }
+
+
+                    }
+                    json['next_node']=nextArr;
+                    json['status']=0;
+                    var nodeJson=$(v).data('dValue');
+                    json['approve_user_type']=nodeJson['approve_user_type'];
+                    json['approve_user']=nodeJson['approve_user'];
+                    json['role_user']=nodeJson['role_user'];
+                    json['disagree_node']=nodeJson['disagree_node'];
+
+
+                }
+                console.log(json);
+                // console.log($(v).data('dValue'));
+                // console.log($(v).data('role_form'));
+            });
+
+
+
+
+        });
+        //多节点读取
+
+        //表单权限 0 可编辑  1 只读  2 隐藏
+        /*
+            表单权限
+        */
+        //点击全部选中
+        form.on('radio(all_edit)', function(data){
+            if(data.value=='on'){
+                $('.access_content li span:nth-child(2)').find('input').prop('checked', true);
+                form.render();
+            }
+        });
+        form.on('radio(all_readOnly)', function(data){
+            if(data.value=='on'){
+                $('.access_content li span:nth-child(3)').find('input').prop('checked', true);
+                form.render();
+            }
+        });
+        form.on('radio(all_hidden)', function(data){
+            if(data.value=='on'){
+                $('.access_content li span:nth-child(4)').find('input').prop('checked', true);
+                form.render();
+            }
+        });
+        // 单选去除全选 ,单选所有后添加全选
+        form.on('radio(subRadio1)', function(data){
+            if($(this).parents('.access_box').find('.subRadio1:checked').length==$(this).parents('.access_box').find('.access_content li').length){
+                $(this).parents('.access_box').find('.all_edit').prop('checked', true);
+                form.render();
+            } else {
+                $(this).parents('.access_box').find('.all_edit').prop('checked', false);
+                $(this).parents('.access_box').find('.all_readOnly').prop('checked', false);
+                $(this).parents('.access_box').find('.all_hidden').prop('checked', false);
+                form.render();
+            }
+        });
+        form.on('radio(subRadio2)', function(data){
+            if($(this).parents('.access_box').find('.subRadio2:checked').length==$(this).parents('.access_box').find('.access_content li').length){
+                $(this).parents('.access_box').find('.all_readOnly').prop('checked', true);
+                form.render();
+            } else {
+                $(this).parents('.access_box').find('.all_edit').prop('checked', false);
+                $(this).parents('.access_box').find('.all_readOnly').prop('checked', false);
+                $(this).parents('.access_box').find('.all_hidden').prop('checked', false);
+                form.render();
+            }
+        });
+        form.on('radio(subRadio3)', function(data){
+            if($(this).parents('.access_box').find('.subRadio3:checked').length==$(this).parents('.access_box').find('.access_content li').length){
+                $(this).parents('.access_box').find('.all_hidden').prop('checked', true);
+                form.render();
+            } else {
+                $(this).parents('.access_box').find('.all_edit').prop('checked', false);
+                $(this).parents('.access_box').find('.all_readOnly').prop('checked', false);
+                $(this).parents('.access_box').find('.all_hidden').prop('checked', false);
+                form.render();
+            }
+        });
+        // 发起人 选择
+        // $('input[name="promoter"]').on('click',function(){
+        //     var inp=layer.open({
+        //         type:1,
+        //         title:'请选择发起人',
+        //         content:$('#screen_msg'),
+        //         area:['680px','540px'],
+        //         btn: ['确定', '取消'],
+        //         success:function(){
+        //             $('input[name="promoter"]').data('v','');
+        //         },
+        //         yes:function(){
+        //             var getData = tree.getCheckData('obj').varStr;
+        //             console.log(getData);
+        //             $('input[name="promoter"]').data('v',tree.getCheckData('obj'));
+        //             $('input[name="promoter"]').val(getData);
+        //             tree.resetPlug();
+        //             layer.close(inp);
+        //         }
+        //     });
+        // });
+        /* 放大缩小 */
+        $('.zoom_up').on('click',function(){
+            if(parseInt($('.zoom_msg').text())<=50){
+                return
+            } else{
+                var text=parseInt($('.zoom_msg').text())-10;
+                $('.outerBox').css('transform','scale('+text/100+')');
+                $('.zoom_msg').text(text+'%');
+            }
+        });
+        $('.zoom_down').on('click',function(){
+            if(parseInt($('.zoom_msg').text())>=100){
+                return
+            } else{
+                var text=parseInt($('.zoom_msg').text())+10;
+                $('.outerBox').css('transform','scale('+text/100+')');
+                $('.zoom_msg').text(text+'%');
+            }
+        });
+        /* transform: scale(1);
+        transform-origin: 50% 0px 0px;*/
+        //下拉多选 实例化
+        var xm_select = xmSelect.render({
+            el: '#node_select',
+            paging: true,
+            filterable: true,
+            data: [
+                {name: '张三', value: 1},
+                {name: '李四', value: 2},
+                {name: '王五', value: 3},
+                {name: '赵六', value: 4},
+                {name: '苹果', value: 5},
+                {name: '香蕉', value: 6},
+                {name: '凤梨', value: 7},
+                {name: '葡萄', value: 8},
+                {name: '樱桃', value: 9},
+                {name: '车厘子', value: 10},
+                {name: '火龙果', value: 11},
+            ]
+        })
+        //可编辑div 延后
+        // transfer.render({
+        //   elem: '#test123'  //绑定元素
+        //   ,data: [
+        // 	{"value": "1", "title": "李白", "disabled": "", "checked": ""}
+        // 	,{"value": "2", "title": "杜甫", "disabled": "", "checked": ""}
+        // 	,{"value": "3", "title": "贤心", "disabled": "", "checked": ""}
+        //   ]
+        //   ,id: 'demo1' //定义索引
+        // });
+        // $('body').on('click','.edit_box',function(e){
+        // 	var this_=this;
+        // 	var inputIns = $("<input type='text' class='edit_input new_input'/>");
+
+        // 	if($('body').find('.new_input').length>0){
+        // 		var parentNode;
+        // 		debugger
+        // 		if(!$(e.target).hasClass('edit_input')){
+        // 			$('body').find('.new_input').addClass('old_input').removeClass('new_input');
+        // 			parentNode=$('.old_input').parent('.node_title');
+        // 			parentNode.attr('value',$('.old_input').val());
+        // 			if($('.old_input').val()==''){
+        // 				parentNode.empty();
+        // 				parentNode.html('审批人');
+        // 			}else {
+        // 				parentNode.empty();
+        // 				parentNode.html(parentNode.attr('value'));
+        // 			}
+        // 		} else {
+        // 			parentNode=$('.new_input').parent('.node_title');
+        // 			parentNode.attr('value',$('.new_input').val());
+        // 			if($('.new_input').val()==''){
+        // 				parentNode.empty();
+        // 				parentNode.html('审批人');
+        // 			}else {
+        // 				parentNode.empty();
+        // 				parentNode.html(parentNode.attr('value'));
+        // 			}
+        // 		}
+
+
+        // 	}
+        // 	if($(this_).attr('value')){
+        // 		$(inputIns).val($(zhe).attr('value'));
+        // 	}
+        // 	if($(this_).children('input').length>0){
+        // 		return;
+        // 	}
+        // 	//可编辑div·
+        // 	$(this_).html(inputIns);
+        // 	$(inputIns).trigger('focus');
+        // 	// 节点删除
+        // });
+        // $('body').on('click',function(e){
+        // 	// debugger
+        // 	// if(!$(e.target).hasClass('#edit_input')){
+        // 	// 	$('body').find('.new_input').parent('.node_title').attr('value',$('body').find('.new_input').val());
+        // 	// 	if($('body').find('.new_input').val()==''){
+        // 	// 		$('body').find('.new_input').parent('.node_title').html('审批人');
+        // 	// 	}else {
+        // 	// 		$('body').find('.new_input').parent('.node_title').html($('body').find('.new_input').attr('value'));
+        // 	// 	}
+        // 	// }
+        // })
+
+        //条件节点移位 延后
+        //回退节点连接线 延后
+        /*
+            json处理相关
+        */
+        //根据json生成节点
+        //通过json 生成
+        //条件节点弹窗
+        $('body').on('click','.baranch_box',function(e){
+            var this_=this;
+            if(!$(e.target).hasClass('close_btn')){
+                var baranch = layer.tab({
+                    title:$(this_).find('.node_title>div').text(),
+                    type: 1,
+                    closeBtn: 0,
+                    area: ['500px','100%'],
+                    offset: 'r',
+                    fixed:true,
+                    shadeClose: true,
+                    btn: ['保存', '取消'],
+                    anim: 2,
+                    content: $('#condition_msg'),
+                    success:function(){
+                        //初始化
+                        $('#condition_msg').data('pId','');
+                        $('#condition_msg').data('cv',[]);
+                        tree.resetPlug();
+                        $('.condition_msg_list').empty();
+                        //存取父级class和数据
+                        $('#condition_msg').data('pId',$(this_).parent('.branch_sub_node').attr('id'));
+                        $('#condition_msg').data('cv',$('#'+$('#condition_msg').data('pId')).data('cv')||[]);
+                        if(typeof getFormJson() == 'string'){
+                            if($('#condition_msg').data('cv') instanceof Array && $('#condition_msg').data('cv').length!=0) {
+                                $('.condition_list_sum').text(0);
+                                inst_promoter(tree,$('.condition_msg_list'),$('#condition_msg').data('cv'),$('#'+$('#condition_msg').data('pId')).data('dValue'));
+
+                                var jsArr=$('#'+$('#condition_msg').data('pId')).data('dValue');
+                                if(jsArr.length>0){
+                                    var pstr='';
+                                    $.each(jsArr[0]['content'][0].value.concat(jsArr[0]['content'][1].value),function(i,v){
+                                        pstr+=v.name+','
+                                        tree.checkNodeByData(v, true, true);
+                                    });
+                                    $('.condition_msg input[name="promoter"]').val(pstr.substr(0,pstr.length-1))
+                                }
+                                if($('#'+$('#condition_msg').data('pId')).data('dValue')){
+
+                                } else {
+                                    var pArr=$('#'+$('#condition_msg').data('pId')).data('dValue')['发起人'].condition.pArr.concat($('#'+$('#condition_msg').data('pId')).data('dValue')['发起人'].condition.cArr);
+                                    var pstr='';
+                                    $.each(pArr,function(w,m){
+                                        pstr+=m.name+','
+                                        tree.checkNodeByData(m, true, true);
+                                });
+                        }
+                            }else{
+                                $('.condition_list_sum').text(1);
+                            }
+                        } else{
+                            var sum=0;
+                            $.each(getFormJson().form_data,function(index,item){
+                                if(item.field_type== 'number' || item.field_type== 'select') {
+                                    sum++;
+                                }
+                            });
+                            if($('#condition_msg').data('cv') instanceof Array && $('#condition_msg').data('cv').length!=0){
+                                $.each($('#condition_msg').data('cv'),function(index,v){
+                                    switch (v.type) {
+                                        case 'promoter':
+                                            inst_promoter(tree,$('.condition_msg_list'),$('#condition_msg').data('cv'),$('#'+$('#condition_msg').data('pId')).data('dValue'));
+
+                                            if($('#'+$('#condition_msg').data('pId')).data('dValue').length===0){} else{
+                                                var pArr=$('#'+$('#condition_msg').data('pId')).data('dValue')[0]['content'][0].value.concat($('#'+$('#condition_msg').data('pId')).data('dValue')[0]['content'][1].value);
+                                                var pstr='';
+                                                $.each(pArr,function(w,m){
+                                                    pstr+=m.name+','
+                                                    tree.checkNodeByData(m, true, true);
+                                                });
+                                                $('.condition_msg input[name="promoter"]').val(pstr.substr(0,pstr.length-1))
+                                            }
+                                            break;
+                                        case 'number':
+                                            var json={};
+                                            var dV=[];
+                                            $.each(getFormJson().form_data,function(j,k){
+                                                    if(k.field_type==v.type){
+                                                        json=k;
+                                                    }
+                                            });
+                                            $.each($('#'+$('#condition_msg').data('pId')).data('dValue'),function(i,v){
+                                                if(v.type==json.field_type){
+                                                    dV=v.content;
+                                                }
+                                            });
+                                            var len= dV.length;
+                                            inst_number(json,$('.condition_msg_list'),form,$('#condition_msg').data('cv'),$('#'+$('#condition_msg').data('pId')).data('dValue'));
+                                            if(len>=2){
+                                                $('.layui-quattuor-input').css('display','block');
+                                                $('.layui-nomal-box').removeClass('layui-double-box');
+                                                $('#condition_msg').find('input[name="douValueA"]').val(dV[0].value);
+                                                $('#condition_msg').find('select[name="logical_sub_selectA"]').val(dV[0].operator);
+                                                $('#condition_msg').find('select[name="logical_sub_selectB"]').val(dV[1].operator);
+                                                $('#condition_msg').find('input[name="douValueB"]').val(dV[1].value);
+                                                $('#condition_msg').find('select[name="logical_sum_select"]').val(5);
+                                                $('#condition_msg').find('input[name="sigValue"]').val('');
+                                            }else {
+                                                $('.layui-quattuor-input').css('display','none');
+                                                $('.layui-nomal-box').addClass('layui-double-box');
+                                                $('#condition_msg').find('select[name="logical_sum_select"]').val(dV[0].operator);
+                                                $('#condition_msg').find('input[name="sigValue"]').val(dV[0].value);
+                                                $('#condition_msg').find('input[name="douValueA"]').val('');
+                                                $('#condition_msg').find('select[name="logical_sub_selectA"]').val(0);
+                                                $('#condition_msg').find('select[name="logical_sub_selectB"]').val(0);
+                                                $('#condition_msg').find('input[name="douValueB"]').val('');
+                                            }
+                                            form.render();
+                                            break;
+                                        case 'select':
+                                            var json={};
+                                            var dV=[];
+                                            $.each(getFormJson().form_data,function(j,k){
+                                                if(k.field_type==v.type){
+                                                    json=k;
+                                                }
+                                            });
+                                            $.each($('#'+$('#condition_msg').data('pId')).data('dValue'),function(i,v){
+                                                if(v.type==json.field_type){
+                                                    dV=v.content;
+                                                }
+                                            });
+                                            inst_select(json,$('.condition_msg_list'),form,$('#condition_msg').data('cv'),$('#'+$('#condition_msg').data('pId')).data('dValue'));
+                                            $.each(dV,function(n,m){
+                                                $('#condition_msg').find('input[name="'+m.value+'"]').prop("checked", true);
+                                            });
+                                            form.render();
+                                        default:
+                                            break;
+                                    }
+                                });
+                                $('.condition_list_sum').text(sum+1 - $('#condition_msg').data('cv').length);
+                            } else {
+                                $('.condition_list_sum').text(sum+1);
+                            }
+                        }
+                    },
+                    yes:function(){
+                        var sumArr=[];
+                        //数据保存
+                        $('.condition_msg_list>li').each(function(i,v){
+                            var json={};
+                            json['content']=[];
+                            json['title']=$(v).attr('con-type');
+                            json['name']=$(v).attr('title');
+                            json['cname']='a';
+                            if($(v).hasClass('promoter-box')){
+                                json['type']='promoter';
+                                var Arr1=$('input[name="promoter"]').data('v')?$('input[name="promoter"]').data('v').cArr:[];
+                                var Arr2=$('input[name="promoter"]').data('v')?$('input[name="promoter"]').data('v').pArr:[];
+                                json['content'].push({value:Arr1.concat(Arr2),operator:6,label:'userId',field:''});
+                                json['content'].push({value:[],operator:6,label:'roleId',field:''});
+                                sumArr.push(json);
+                            } else if($(v).hasClass('number-box')){
+                                json['type']='number';
+                                if(form.val("conForm").logical_sum_select==5){
+                                    json['content'].push({
+                                        "value":form.val("conForm").douValueA,
+                                        "operator":form.val("conForm").logical_sub_selectA,//6
+                                        "label":"",
+                                        "field":''
+                                    });
+                                    json['content'].push({
+                                        "value":form.val("conForm").douValueB,
+                                        "operator":form.val("conForm").logical_sub_selectB,//6
+                                        "label":"",
+                                        "field":''
+                                    });
+                                } else{
+                                    json['content'].push({
+                                        "value":form.val("conForm").sigValue,
+                                        "operator":form.val("conForm").logical_sum_select,//6
+                                        "label":"",
+                                        "field":''
+                                    });
+                                }
+                                sumArr.push(json);
+                            } else if($(v).hasClass('select-box')){
+                                json['type']='select';
+                                $(v).find('input:checked').each(function(i,item){
+                                    json['content'].push({
+                                        "value":$(item).attr('name'),
+                                        "operator":6,
+                                        "label":$(item).val(),
+                                        "field":''
+                                    });
+                                });
+                                sumArr.push(json);
+                            } else {
+
+                            }
+                        });
+                        $('#'+$('#condition_msg').data('pId')).data('cv',$('#condition_msg').data('cv'));
+                        $('#'+$('#condition_msg').data('pId')).data('dValue',sumArr);
+                        console.log(sumArr)
+                        console.log($('#condition_msg').data('cv'));
+                        //更新node数据
+                        update_node_text($('#condition_msg').data('pId'),sumArr);
+                    },
+                    btn2:function(){
+                        $('#condition_msg').data('pId','');
+                        $('#condition_msg').data('cv',[]);
+                        tree.resetPlug();
+                        layer.close(baranch);
+                    },
+                    cancel:function () {
+                        $('#condition_msg').data('pId','');
+                        $('#condition_msg').data('cv',[]);
+                        tree.resetPlug();
+                    }
+                });
+            }
+        });
+        //添加条件弹窗
+        $('body').on('click','.add-condition-btn',function(e){
+            var this_=this;
+            var addCondition = layer.tab({
+                title:'添加条件',
+                type: 1,
+                area: ['500px'],
+                fixed:true,
+                btn: ['取消'],
+                content: $('#add_condition'),
+                success:function(){
+                    var arrJson=$('#condition_msg').data('cv')||[];
+                    var allsum=0;
+                    $('.condition_sum_list').empty();
+                    $('.condition_sum_list').append('<input type="checkbox" name="promoter" title="发起人" lay-skin="primary" lay-filter="condition_list_sel">');
+                    $.each(arrJson,function(i,v){
+                        if(v.name=='promoter'){
+                            $('.condition_sum_list').find('input[name="promoter"]').prop("checked", true);
+                        }
+                    });
+                    $('.condition_sum_list').find('input[name="promoter"]').data("v",{'field_label':'发起人','field_tag':'input','field_type':'promoter','field_datakey':'promoter'});
+                    form.render();
+                    if(typeof getFormJson() !='string'){
+                        allsum=getFormJson().form_data.length+1;
+                        $.each(getFormJson().form_data,function(index,item){
+                            if(item.field_type== 'number' || item.field_type== 'select') {
+                                $('.condition_sum_list').append('<input type="checkbox" name="'+item.field_datakey+'" title="'+item.field_label+'" lay-skin="primary" lay-filter="condition_list_sel">')
+                                $.each(arrJson,function(i,v){
+                                    if(v.name==item.field_datakey){
+                                        $('.condition_sum_list').find('input[name="'+item.field_datakey+'"]').prop("checked", true);
+                                    }
+                                });
+                                $('.condition_sum_list').find('input[name="'+item.field_datakey+'"]').data("v",item);
+                            }
+                        });
+                        $.each(arrJson,function(index,item){
+                            $('#add_condition').find('input[name='+item.name+']').prop("checked",true);
+                        });
+                        form.render();
+                        $('.condition_sum').text(arrJson.length);
+                        form.on('checkbox(condition_list_sel)', function(data){
+                            // 添加条件
+                            switch($(data.elem).data('v').field_type) {
+                                    case 'promoter':
+                                        if(data.elem.checked){
+                                            inst_promoter(tree,$('.condition_msg_list'),arrJson,$('#'+$('#condition_msg').data('pId')).data('dValue'));
+                                            //条件选择存取
+                                            if(arrJson.length==0){
+                                                arrJson.push({name:$(data.elem).attr('name'),type:'promoter'});
+                                            }else {
+                                                var hasItem=0;
+                                                $.each(arrJson,function(i,v){
+                                                    if(v.name==($(data.elem).attr('promoter'))){
+                                                        hasItem=1;
+                                                    }
+                                                });
+                                                if(hasItem==0){
+                                                    arrJson.push({name:$(data.elem).attr('name'),type:'promoter'});
+                                                }
+                                            }
+
+                                            $('#condition_msg').data('cv',arrJson);
+                                        } else{
+                                            //条件选择存取
+                                            var narrJson = JSON.parse(JSON.stringify(arrJson));
+                                            $.each(narrJson,function(i,v){
+                                                if(v.name==($(data.elem).attr('name'))){
+                                                    arrJson.splice(i, 1);
+                                                } else {
+                                                    return;
+                                                }
+                                            });
+                                            $('#condition_msg').data('cv',arrJson);
+                                            $('.condition_msg_list').find('li').each(function(j,k){
+                                                if($(k).attr('con-type')==$(data.elem).attr('name')){
+                                                    $(k).remove();
+                                                }
+                                            });
+                                        }
+                                        break;
+                                    case 'number':
+                                        if(data.elem.checked){
+                                            inst_number($(data.elem).data('v'),$('.condition_msg_list'),form,arrJson,$('#'+$('#condition_msg').data('pId')).data('dValue'));
+                                            //条件选择存取
+                                            if(arrJson.length==0){
+                                                arrJson.push({name:$(data.elem).attr('name'),type:'number'});
+                                            }else{
+                                                var hasItem=0;
+                                                $.each(arrJson,function(i,v){
+                                                    if(v.name==($(data.elem).attr('name'))){
+                                                        hasItem=1;
+                                                    }
+                                                });
+                                                if(hasItem==0){
+                                                    arrJson.push({name:$(data.elem).attr('name'),type:'number'});
+                                                }
+                                            }
+                                            $('#condition_msg').data('cv',arrJson);
+                                        } else{
+                                            //条件选择存取
+                                            var narrJson = JSON.parse(JSON.stringify(arrJson));
+                                            $.each(narrJson,function(i,v){
+                                                if(v.name==($(data.elem).attr('name'))){
+                                                    arrJson.splice(i, 1);
+                                                } else {
+                                                    return;
+                                                }
+                                            });
+                                            $('#condition_msg').data('cv',arrJson);
+                                            $('.condition_msg_list').find('li').each(function(j,k){
+                                                if($(k).attr('con-type')==$(data.elem).attr('name')){
+                                                    $(k).remove();
+                                                }
+                                            });
+                                        }
+                                        // $('.condition_list_sum').text(allsum-arrJson.length);
+                                        // $('.condition_sum').text(arrJson.length);
+                                        break;
+                                    case 'select':
+                                        if(data.elem.checked){
+                                            inst_select($(data.elem).data('v'),$('.condition_msg_list'),form,arrJson,$('#'+$('#condition_msg').data('pId')).data('dValue'));
+                                            //条件选择存取
+                                            if(arrJson.length==0){
+                                                arrJson.push({name:$(data.elem).attr('name'),type:'select'});
+                                            }else{
+                                                var hasItem=0;
+                                                $.each(arrJson,function(i,v){
+                                                    if(v.name==($(data.elem).attr('name'))){
+                                                        hasItem=1;
+                                                    }
+                                                });
+                                                if(hasItem==0){
+                                                    arrJson.push({name:$(data.elem).attr('name'),type:'select'});
+                                                }
+                                            }
+                                            $('#condition_msg').data('cv',arrJson);
+                                        } else{
+
+                                            //条件选择存取
+                                            var narrJson = JSON.parse(JSON.stringify(arrJson));
+                                            $.each(narrJson,function(i,v){
+                                                if(v.name==($(data.elem).attr('name'))){
+                                                    arrJson.splice(i, 1);
+                                                } else {
+                                                    return;
+                                                }
+                                            });
+                                            $('#condition_msg').data('cv',arrJson);
+                                            $('.condition_msg_list').find('li').each(function(j,k){
+                                                if($(k).attr('con-type')==$(data.elem).attr('name')){
+                                                    $(k).remove();
+                                                }
+                                            });
+                                        }
+                                        // $('.condition_list_sum').text(allsum-arrJson.length);
+                                        // $('.condition_sum').text(arrJson.length);
+                                        break;
+                                    default:
+                                        return false;
+                                }
+                            //点击时修改数量信息
+                            $('.condition_list_sum').text(allsum-arrJson.length);
+                            $('.condition_sum').text(arrJson.length);
+                        });
+
+
+                    } else{
+                        allsum =1;
+                        $('.condition_list_sum').text(allsum - arrJson.length);
+                        $('.condition_sum').text(arrJson.length);
+                       $.each(arrJson,function(index,item){
+                            $('#add_condition').find('input[name='+$(item).name+']').prop("checked",true);
+                        });
+                        form.on('checkbox(condition_list_sel)', function(data){
+                            if(data.elem.checked){
+                                var dValue=$('#'+$('#condition_msg').data('pId')).data('dValue');
+                                inst_promoter(tree,$('.condition_msg_list'),arrJson,dValue);
+                                //条件选择存取
+                                var hasItem=0;
+                                $.each(arrJson,function(i,v){
+                                    if(v.name==($(data.elem).attr('name'))){
+                                        hasItem=1;
+                                    }
+                                });
+                                if(hasItem==0){
+                                    arrJson.push({name:$(data.elem).attr('name'),type:'promoter'});
+                                }
+                                $('#condition_msg').data('cv',arrJson);
+                            } else{
+                                //条件选择存取
+                                $.each(arrJson,function(i,v){
+                                    if(v.name==($(data.elem).attr('name'))){
+                                        arrJson.splice(i, 1);
+                                    } else {
+                                        return;
+                                    }
+                                });
+                                $('.condition_msg_list').find('li').each(function(j,k){
+                                    if($(k).attr('con-type')==$(data.elem).attr('name')){
+                                        $(k).remove();
+                                    }
+                                });
+                            }
+                            $('.condition_list_sum').text(allsum-arrJson.length);
+                            $('.condition_sum').text(arrJson.length);
+                        });
+                        return false;
+                    }
+
+
+                },
+                yes:function(){
+                    layer.close(addCondition);
+                }
+            });
+        })
+        //审批节点弹窗
+        $('body').on('click','.approval_box',function(e){
+            var this_=this;
+            if(!$(e.target).hasClass('close_btn')){
+                var approval =layer.tab({
+                    title:$(this_).find('.node_title>div').text(),
+                    type: 1,
+                    closeBtn: 0,
+                    area: ['500px','100%'],
+                    offset: 'r',
+                    shadeClose: true,
+                    btn: ['保存', '取消'],
+                    anim: 2,
+                    content: $('#approval_msg'),
+                    yes:function(){
+                        var json={};
+                       json['approve_user_type']=$('.approval_memType>form>div').children('input:checked').val();
+                       switch(json['approve_user_type']){
+                           case '0':
+                               json['approve_user']=[];
+                               json['role_user']=[];
+                               json['roles_approve_type']=$('.approval_type input[type="radio"]:checked').val();
+                               break;
+                           case '1':
+                               json['approve_user']=$('.approval_member_list').data('nameList');
+                               json['approve_user_json']=$('.approval_member_list').data('namedata');
+                               json['role_user']=[];
+                               $('.approval_member_list').find('.app_mem_item').each(function(i,v){
+                                    $(v).data()
+                               });
+                               if($('.approval_member_list').find('.app_mem_item').length>=1){
+                                   json['roles_approve_type']=$('.approval_type input[type="radio"]:checked').val();
+                               }else{
+                                   json['roles_approve_type']='';
+                               }
+                               break;
+                           case '2':
+                               json['approve_user']=[];
+                               json['role_user']=[];
+                               $('.approval_member_list').find('.app_mem_item').each(function(i,v){
+
+                               });
+                               if($('.approval_role_list').find('.app_mem_item').length>=1){
+                                   json['roles_approve_type']=$('.approval_type input[type="radio"]:checked').val();
+                               }else{
+                                   json['roles_approve_type']='';
+                               }
+                               break;
+                           default:
+                               break;
+                       }
+                       json['disagree_node']=[];
+                        if($('.approval_msg select[name="dis_node_select_option"]').val()=='0'){
+                            json['disagree_node'].push(0);
+                        }else if($('.approval_msg select[name="dis_node_select_option"]').val()=='1'){
+                            json['disagree_node'].push(1);
+                        } else if($('.approval_msg select[name="dis_node_select_option"]').val()=='2'){
+                            $.each(xm_select.getValue(value),function(n,m){
+                                json['disagree_node'].push(m.value);
+                            });
+
+                            // json['disagree_node']=;
+                        }
+                        //权限保存
+                        var role_form_arr=[];
+                        if($('.approval_msg .access_box>div').hasClass('no_msg')){
+
+                        } else{
+                            $('.approval_msg .access_box .access_content li').each(function(i,v){
+                                role_form_arr.push({
+                                    name:$(v).find('span').eq(0).text(),
+                                    value:$(v).find('input[type="radio"]:checked').val()
+                                });
+                            });
+                        }
+                        $(this_).parent('.approval_node').data('role_form',role_form_arr);
+                        $(this_).parent('.approval_node').data('dValue',json);
+                        console.log(json)
+                        layer.close(approval);
+                    },
+                    btn2:function(){
+                        $('.approval_member_list').empty();
+                        $('.approval_member_list').data('nameList','');
+                        layer.close(approval);
+                    },
+                    success:function(layero, index){
+                        //初始化json数据
+                        var json=$(this_).parent('.approval_node').data('dValue')||{};
+                        //初始化控件
+                        element.tabChange('start_tab', 'start_sponsor');
+                        //初始化人员选择界面
+                        $('.approval_member').css('display','block').siblings().css('display','none');
+                        $('input[name="dis_node_select_option"]').val('0a');
+                        //初始化人员树选择
+                        tree.resetPlug();
+                        //初始化多人员选择
+                        $('.approval_memType>form>div').children('input').eq(0).prop('checked',true);
+
+                        //初始化不同意控件
+                        var resData=[];
+                        $('.node').each(function(i,v){
+                            if($(v).hasClass('approval_node')){
+                                resData.push({
+                                    name:$(v).find('.node_title div').text(),
+                                    value:parseInt($(v).attr('squid'))
+                                })
+                            }
+                        });
+                        xm_select.update({
+                            data:resData
+                        });
+                        //初始化数据
+                        //不同意节点初始化
+                        if(json.hasOwnProperty('disagree_node')){
+                            xm_select.setValue(json['disagree_node']);
+                        }
+                        //初始化pid pname
+                        $('#approval_msg').data('pId','');
+                        $('#approval_msg').data('pId',$(this_).parent('.approval_node').attr('id'));
+
+                        //$('#approval_msg').find('input[name="promoter"]').val('');
+                        // $('input[name="role"][value="1"]').prop('checked');
+                        //初始化权限数据
+                        setFormAccess(layero);
+                        var accessArr=$(this_).parent('.approval_node').data('role_form')||[];
+                        if(!$('#approval_msg').find('.access_box>div').hasClass('no_msg')){
+                            if(accessArr.length>0){
+                                $('#approval_msg .access_content>li').each(function(i,v){
+                                    if($(v).find('span').eq(0).text()==accessArr[i].name){
+                                        $(v).find('input[value="'+accessArr[i].value+'"]').prop('checked', true);
+                                    }
+                                });
+                            } else {
+                                $('.access_content li').find('input[value="0"]').prop('checked', true);
+                            }
+                        }
+                        // form.render();
+                        //初始化审批人类型数据
+                        if(json.hasOwnProperty("approve_user_type")){
+                            var appValue=json['approve_user_type'];
+                            $('#approval_msg').find('.approval_memType>form>div>input[type="radio"][value="'+appValue+'"]').prop('checked',true);
+                        }
+                        //初始化人员数据
+                        $('.approval_member_list').empty();
+                        if(json.hasOwnProperty('approve_user_json')){
+                            var userValue=json['approve_user_json']||[];
+                            $('.approval_member_list').data('nameList',json['approve_user']);
+                            $('.approval_member_list').data('namedata',json['approve_user_json']);
+                            $.each(userValue,function(i,v){
+                                var str='<li class="app_mem_item">'+userValue[i].name+'<span class="layui-icon layui-icon-close"></span></li>'
+                                $('.approval_member_list').append(str);
+                            });
+                            $('.app_mem_item>span').unbind('click').on('click',function(){
+                                var this__=this;
+                                var arrA=$('.approval_member_list').data('namedata');
+                                var arrB=$('.approval_member_list').data('nameList');
+
+                                $.each($('.approval_member_list').data('namedata'),function(j,k){
+
+                                    if(k.name==$(this__).parent('.app_mem_item').text()){
+                                        arrA.splice(j,1);
+                                        arrB.splice(j,1);
+                                        $('.approval_member_list').data('namedata',arrA);
+                                        $('.approval_member_list').data('nameList',arrB);
+                                    }
+                                });
+                                $(this).parent('.app_mem_item').remove();
+                                if($('.approval_member_list').find('li').length>1){
+                                    $('.approval_type').css('display','block');
+                                } else{
+                                    $('.approval_type').css('display','none');
+                                }
+                            });
+                        }
+                        form.render();
+                        //选择人员弹窗
+                        $('.approval_member_select').unbind('click').on('click', function () {
+                            var inp=layer.open({
+                                type:1,
+                                title:'请选择发起人',
+                                content:$('#screen_msg_only'),
+                                area:['680px','540px'],
+                                btn: ['确定', '取消'],
+                                success:function(){
+                                    $('input[name="promoter"]').data('v','');
+                                    form.render();
+                                },
+                                yes:function(){
+                                    var apArr=tree2.getCheckData('obj').varStr.split(",");
+                                    $('.approval_member_list').data('nameList',apArr);
+                                    $('.approval_member_list').data('namedata',tree2.getCheckData('obj').cArr);
+                                    $('.approval_member_list').empty()
+                                    $.each(apArr,function(i,v){
+                                        if(i>=20){
+                                            return;
+                                        }else {
+                                            var str='<li class="app_mem_item">'+v+'<span class="layui-icon layui-icon-close"></span></li>';
+                                            $('.approval_member_list').append(str);
+                                        }
+                                    });
+                                    if($('.approval_member_list').find('li').length>1){
+                                        $('.approval_type').css('display','block');
+                                        $('.approval_type>div').eq(0).find('input').prop('checked',true);
+                                        form.render();
+                                    } else{
+                                        $('.approval_type').css('display','none');
+                                    }
+                                    //单个删除
+                                    $('.app_mem_item>span').unbind('click').on('click',function(){
+                                        var this__=this;
+                                        var arrA=$('.approval_member_list').data('namedata');
+                                        var arrB=$('.approval_member_list').data('nameList');
+                                        $.each($('.approval_member_list').data('namedata'),function(j,k){
+                                            if(k.name==$(this__).parent('.app_mem_item').text()){
+                                                arrA.splice(j,1);
+                                                arrB.splice(j,1);
+                                                $('.approval_member_list').data('namedata',arrA);
+                                                $('.approval_member_list').data('nameList',arrB);
+                                            }
+                                        });
+                                        $(this).parent('.app_mem_item').remove();
+                                        if($('.approval_member_list').find('li').length>1){
+                                            $('.approval_type').css('display','block');
+                                        } else{
+                                            $('.approval_type').css('display','none');
+                                        }
+                                    });
+                                    // console.log(tree2.getCheckData('obj'))
+                                    var getData = tree2.getCheckData('obj').varStr;
+                                    // console.log(tree2.getMemData());
+                                    tree2.resetPlug()
+                                    layer.close(inp);
+                                }
+                            });
+                        });
+                        //清空选择人员
+                        $('.approval_member_clearAll').unbind('click').on('click',function(){
+                            $('.approval_member_list').empty();
+                            $('.approval_type').css('display','none');
+                            $('.approval_member_list').data('nameList',[]);
+                            $('.approval_member_list').data('namedata',[]);
+
+
+                            tree2.resetPlug();
+                        });
+
+                        //选择角色弹窗
+                        $('.approval_role_select').unbind('click').on('click', function () {
+                            var inp=layer.open({
+                                type:1,
+                                title:'请选择发起人',
+                                content:$('#screen_msg_only'),
+                                area:['680px','540px'],
+                                btn: ['确定', '取消'],
+                                success:function(){
+                                    // $('input[name="promoter"]').data('v','');
+                                    form.render();
+                                },
+                                yes:function(){
+                                    var apArr=tree3.getCheckData('obj').varStr.split(",");
+                                    $('.approval_role_list').data('roleList',apArr);
+                                    $.each(apArr,function(i,v){
+                                        if(index>=20){
+                                            return;
+                                        }else{
+                                            var str='<li class="app_mem_item item">'+v+'<span class="layui-icon layui-icon-close"></span></li>';
+                                            $('.approval_role_list').append(str);
+                                            $('.approval_role_list').find('.item'+i).data('userdet',tree2.getCheckData('obj').cArr[i]);
+                                        }
+                                    });
+                                    if($('.approval_role_list').find('li').length>1){
+                                        $('.approval_type').css('display','block');
+                                        $('.approval_type>div').eq(0).find('input').prop('checked',true);
+                                        form.render();
+                                    } else{
+                                        $('.approval_type').css('display','none');
+                                    }
+                                    $('.app_mem_item>span').unbind('click').on('click',function(){
+                                        $(this).parent('.app_mem_item').remove();
+                                        if($('.approval_role_list').find('li').length>1){
+                                            $('.approval_type').css('display','block');
+                                        } else{
+                                            $('.approval_type').css('display','none');
+                                        }
+                                    });
+                                    console.log(tree2.getCheckData('obj'))
+                                    var getData = tree2.getCheckData('obj').varStr;
+                                    console.log(tree2.getMemData());
+                                    tree2.resetPlug()
+                                    layer.close(inp);
+                                }
+                            });
+                        });
+                        //清空选择角色
+                        $('.approval_role_clearAll').unbind('click').on('click',function(){
+                            $('.approval_role_list').empty();
+                            $('.approval_type').css('display','none');
+                            tree2.resetPlug();
+                        });
+                        form.render();
+                        //审批人员选择事件
+                        form.on('radio(approval_role)', function(data){
+                            switch (data.value){
+                                case '0':
+                                    $('.approval_select>div').css('display','block').siblings().css('display','none');
+                                    $('.approval_type').css('display','block');
+                                    $('.approval_role_list').data('nameList',[]);
+                                    $('.approval_role_list').data('namedata',[]);
+                                    $('.approval_role_list').empty();
+                                    break;
+                                case '1':
+                                    $('.approval_member').css('display','block').siblings().css('display','none');
+                                    $('.approval_type').css('display','block');
+                                    $('.approval_member_list').data('nameList',[]);
+                                    $('.approval_member_list').data('namedata',[]);
+                                    $('.approval_role_list').data('nameList',[]);
+                                    $('.approval_role_list').data('namedata',[]);
+                                    $('.approval_member_list').empty();
+                                    $('.approval_role_list').empty();
+                                    break;
+                                case '2':
+                                    $('.approval_roles').css('display','block').siblings().css('display','none');
+                                    $('.approval_type').css('display','none');
+                                    $('.approval_member_list').data('nameList',[]);
+                                    $('.approval_member_list').data('namedata',[]);
+                                    $('.approval_member_list').empty();
+                                    break;
+                                default:
+                                    $('approval_select>div').css('display','none');
+                                    $('.approval_member_list').data('nameList',[]);
+                                    $('.approval_member_list').data('namedata',[]);
+                                    $('.approval_role_list').data('nameList',[]);
+                                    $('.approval_role_list').data('namedata',[]);
+                                    $('.approval_member_list').empty();
+                                    $('.approval_role_list').empty();
+                                    break;
+                            }
+                        });
+                        //不同意节点选择
+                        form.on('select(dis_node_select_option)', function(data){
+                            $('.dis_node_sp_select').css('display','none');
+                            switch (data.value) {
+                                case '2':
+                                    $('.dis_node_sp_select').css('display','block');
+                                    break;
+                            }
+                        });
+                    }
+                });
+            }
+        });
+        //开始节点选择弹窗
+        $('body').on('click','.star_box',function(){
+            var this_=this;
+            var s_alert=layer.tab({
+                title:$(this_).find('.node_title').text(),
+                type: 1,
+                closeBtn: 0,
+                area: ['500px','100%'],
+                offset: 'r',
+                shadeClose: true,
+                btn: ['保存', '取消'],
+                anim: 2,
+                content: $('#start_msg'),
+                success:function(layero, index){
+                    // 发起人弹窗
+                    $('.start_msg input[name="promoter"]').unbind('click').on('click',function(){
+                        var inp=layer.open({
+                            type:1,
+                            title:'请选择发起人',
+                            content:$('#screen_msg'),
+                            area:['680px','540px'],
+                            btn: ['确定', '取消'],
+                            success:function(){
+                                $('input[name="promoter"]').data('v','');
+                            },
+                            yes:function(){
+                                var getData = tree.getCheckData('obj').varStr;
+                                console.log(getData);
+                                $('input[name="promoter"]').data('v',tree.getCheckData('obj'));
+                                $('input[name="promoter"]').val(getData);
+                                if(tree.getCheckData('obj').cArr.length==1 && tree.getCheckData('obj').pArr.length<=0){
+                                    $('input[name="islEeader"]').removeAttr('disabled');
+                                    form.render();
+                                } else {
+                                    $('input[name="islEeader"]').prop('checked',false);
+                                    $('input[name="islEeader"]').attr('disabled','disabled');
+                                    form.render();
+                                }
+                                console.log()
+                                tree.resetPlug();
+                                layer.close(inp);
+                            }
+                        });
+                    });
+                    //初始化表单
+                    element.tabChange('start_tab', 'start_sponsor');
+                    $('#start_msg').data('pId','');
+                    $('#start_msg').find('input[name="promoter"]').val('');
+                    tree.resetPlug();
+                    $('#start_msg').data('pId','s_node');
+                    var accessArr=$('#s_node').data('role_form')||[];
+                    var jsonArr=$('#s_node').data('dValue')||[];
+                    $('input[name="islEeader"]').attr('disabled','true');
+                    //初始化表单
+                    if(jsonArr.length>0){
+                        var pstr='';
+                        var arr=jsonArr[0].content[0].value.concat(jsonArr[0].content[1].value);
+                        if(jsonArr[0].content[0].value.length==1 && jsonArr[0].content[1].value.length<=0 && jsonArr[0].content[2].value.length<=0){
+                            $('input[name="islEeader"]').removeAttr('disabled')
+                            form.render();
+                        }
+                        $.each(arr,function(w,m){
+                            pstr+=m.name+','
+                            tree.checkNodeByData(m, true, true);
+                        });
+                        $('.start_msg input[name="promoter"]').val(pstr.substr(0,pstr.length-1))
+                    }
+                    //设置表单权限
+                    setFormAccess(layero);
+                    //初始化权限
+                    if(!$('#start_msg').find('.access_box>div').hasClass('no_msg')){
+                        if(accessArr.length>0){
+                            $('#start_msg .access_content>li').each(function(i,v){
+                                if($(v).find('span').eq(0).text()==accessArr[i].name){
+                                    $(v).find('input[value="'+accessArr[i].value+'"]').prop('checked', true);
+                                }
+                            });
+                        } else {
+                            $('.access_content li').find('input[value="0"]').prop('checked', true);
+                        }
+                    }
+
+                    form.render();
+                    var accessSum=$('#start_msg .access_content li').length;
+                    if($('#start_msg .subRadio1:checked').length==accessSum){
+                        $('#start_msg .all_edit').prop('checked', true);
+                    } else {
+                        $('#start_msg .all_edit').prop('checked', false);
+                    }
+                    if($('#start_msg .subRadio2:checked').length==accessSum){
+                        $('#start_msg .all_readOnly').prop('checked', true);
+                    } else {
+                        $('#start_msg .all_readOnly').prop('checked', false);
+                    }
+                    if($('#start_msg .subRadio3:checked').length==accessSum){
+                        $('#start_msg .all_hidden').prop('checked', true);
+                    } else {
+                        $('#start_msg .all_hidden').prop('checked', false);
+                    }
+                    form.render();
+                    //保存发起人和表单权限数据
+                    $('#condition_msg').data('pId',$(this_).parent('.branch_sub_node').attr('id'));
+                    //是否是领导初始化
+                },
+                yes:function(layero, index){
+                    // dValue 条件
+                    //权限保存
+                    var role_form_arr=[];
+                    if($('.start_msg .access_box>div').hasClass('no_msg')){
+
+                    } else{
+                        $('.start_msg .access_box .access_content li').each(function(i,v){
+                            role_form_arr.push({
+                                name:$(v).find('span').eq(0).text(),
+                                value:$(v).find('input[type="radio"]:checked').val()
+                            });
+                        });
+                    }
+                    $('#s_node').data('role_form',role_form_arr);
+                    var jsonArr=[];
+                    var userContent=[];
+                    userContent.push({
+                        "operator": 6,
+                        "value": $('.start_msg').find('input[name="promoter"]').data('v')?$('.start_msg').find('input[name="promoter"]').data('v').cArr:[],
+                        "label": "用户ID",
+                        "field": "userId"
+                    });
+                    userContent.push({
+                        "operator": 6,
+                        "value": $('.start_msg').find('input[name="promoter"]').data('v')?$('.start_msg').find('input[name="promoter"]').data('v').pArr:[],
+                        "label": "部门ID",
+                        "field": "officeId"
+                    });
+                    userContent.push({
+                        "operator": 6,
+                        "value": [],
+                        "label": "角色ID",
+                        "field": "roleId"
+                    });
+                    jsonArr.push({
+                        title:'发起人',
+                        name:'user',
+                        type:'initiator',
+                        cname:'SysUser',
+                        content:userContent
+                    });
+                    form.render();
+                    console.log()
+                    jsonArr.push({
+                        title:'是否部门领导',
+                        name:'isLeader',
+                        type:'leaderType',
+                        cname:'SysUser',
+                        content:[{
+                            operator: 6,
+                            value: $('input[name="islEeader"]').is(':checked')?1:0,
+                            label: $('input[name="islEeader"]').is(':checked')?'是':'否',
+                            field: ""
+                        }]
+                    });
+
+
+                    if((userContent[0].value.length==0) && (userContent[1].value.length==0)){
+                        $('#s_node').find('.node_text').text('选择发起人');
+                    }
+                    var str='';
+                    var pStr='';
+                    $.each(userContent[0].value.concat(userContent[1].value),function (i,v) {
+                        str+=v.name+'或'
+                    });
+                    pStr+=str.substr(0,str.length-1);
+                    $('#s_node').find('.node_text').text(pStr);
+                    $('#s_node').data('dValue',jsonArr);
+                    layer.close(s_alert);
+                },
+                cancel:function(){
+                    layer.close(s_alert);
+                }
+            });
+        });
+        //滚动关闭tips
+        $('body').on('mousewheel',function(){
+            layer.closeAll('tips');
+        });
+        //切换tab关闭tips
+        element.on('tab(outer-tab)', function(data){
+            layer.closeAll('tips');
+        });
+        //节点添加 审核节点添加
+        $('body').on('click','.add_btn',function(){
+            var this_=this;
+            if($(this_).parent().parent().hasClass('branch_node')){
+                $('.add_alert .node_title').attr('data-id',$(this_).parents('.branch_node').attr('id'));
+            } else{
+                $('.add_alert .node_title').attr('data-id',$(this_).parents('.node').attr('id'));
+            }
+
+            layer.open({
+                type:4,
+                shade:0,
+                tips:[2,'#fff'],
+                content:[$('.add_alert').html(),this_]
+            });
+        });
+        //节点删除
+        $('body').on('click','.close_btn',function(){
+            var this_=this;
+            var pBox=$(this_).parent().parent().parent().parent().parent().parent();
+            var lstr=
+                '<div class="shadeBox">'+
+                '<div class="branch_topShade_left"></div>'+
+                '<div class="branch_bottomShade_left"></div>'+
+                '</div>';
+            var rstr=
+                '<div class="shadeBox">'+
+                '<div class="branch_topShade_right"></div>'+
+                '<div class="branch_bottomShade_right"></div>'+
+                '</div>';
+            if($(this_).parents('.node').hasClass('branch_sub_node')){
+                if(pBox.find('>.branch_innerBox>div').length<=2){
+                    pBox.remove();
+                    $('.alert_node_title').attr('data-id','');
+                } else {
+                    if($(this_).parents('.node').parent().index()==0){
+                        $(this_).parents('.node').parent().next().find('.branch_sub_node').before(lstr);
+                        $(this_).parents('.node').parent().remove();
+                    }else if($(this_).parents('.node').parent().index()==(pBox.find('>.branch_innerBox>div').length-1)){
+                        $(this_).parents('.node').parent().prev().find('.branch_sub_node').before(rstr);
+                        $(this_).parents('.node').parent().remove();
+                    } else {
+                        $(this_).parents('.node').parent().remove();
+                    }
+                    $('.alert_node_title').attr('data-id','');
+                }
+            } else {
+                $(this_).parents('.node').remove();
+                $('.alert_node_title').attr('data-id','');
+            }
+        });
+        //审批节点添加
+        $('body').on('click','.add_approval_btn',function(){
+            var this_=this;
+            if(!$(this_).parent().find('.node_title').attr('data-id') || $(this_).parent().find('.node_title').attr('data-id')==''){
+                s_node.after(cNode());
+            } else{
+                $('#'+$(this_).parent().find('.node_title').attr('data-id')).after(cNode());
+            }
+            $('.alert_node_title').attr('data-id','');
+            layer.closeAll('tips');
+        });
+        //条件节点添加
+        $('body').on('click','.add_branch_btn',function(){
+            var this_=this;
+            if(!$(this_).parent().find('.node_title').attr('data-id') || $(this_).parent().find('.node_title').attr('data-id')==''){
+                s_node.after(bNode());
+                debugger
+                console.log(s_node);
+            } else{
+                $('#'+$(this_).parent().find('.node_title').attr('data-id')).after(bNode());
+                $('#'+$(this_).parent().find('.node_title').attr('data-id')).next().find('.branch_sub_node').each(function(j,k){
+                    $(k).attr('squid',squid());
+                });
+            }
+            $('.alert_node_title').attr('data-id','');
+            layer.closeAll('tips');
+        });
+        //单个条件节点添加
+        $('body').on('click','.branch_addBtn',function(){
+            var this_=this;
+            var tClass=$(this_).find('a').attr('data-class');
+            var num=parseInt($($(this_).parent().find('>.branch_innerBox>div')[$(this_).parent().find('>.branch_innerBox>div').length-1]).css('order'));
+            $($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-1]).find('.shadeBox').remove();
+            var node=
+                '<div style="order:'+(num+1)+';position:relative;display:inline-flex;flex-direction: column;" class="'+tClass+'">'+
+                '<div class="shadeBox">'+
+                '<div class="branch_topShade_right"></div>'+
+                '<div class="branch_bottomShade_right"></div>'+
+                '</div>'+
+                '<div class="branch_sub_node node" id="'+uuid()+'" squid="'+squid()+'">'+
+                '<div class="baranch_box node_box">'+
+                '<div class="node_title edit_box sign_drug">'+
+                '<div>条件'+(num+1)+'</div>'+
+                '<span class="node_priority">等级'+(num+1)+'</span>'+
+                '<i class="close_btn">x</i>'+
+                '</div>'+
+                '<div class="node_content">'+
+                '<div class="node_text sign_drug">请设置条件</div>'+
+                '</div>'+
+                '</div>'+
+                '<div class="add_node">'+
+                '<a href="#none" class="add_btn">+</a>'+
+                '</div>'+
+                '</div>'+
+                '</div>';
+            $($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-1]).after($(node));
+            layer.closeAll('tips');
+        })
+    });
+</script>
+</html>

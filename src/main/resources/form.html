@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../layui-v2.5.4/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/image.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <style>
+        .layui-laypage .layui-laypage-curr .layui-laypage-em{
+            background-color: #1F7BBC;
+        }
+        .layui-laypage a:hover{
+            color: #1F7BBC;
+        }
+        .layui-btn{
+            background-color: #1F7BBC;
+        }
+        .layui-btn-primary{
+            background-color: #fff;
+        }
+        .layui-form-item{
+            display:inline-block;
+        }
+        .layui-form-label{
+            font-size: initial;
+            color: #666;
+        }
+        input {
+            font-size: initial;
+        }
+        .layui-table-view{
+            margin:10px 10px;
+        }
+        .search-collapse,.select-table {
+            width: auto;
+            margin-left: 10px;
+            margin-right: 10px;
+            background: #fff;
+            border-radius: 6px;
+            margin-top: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md6">
+            <div class="ibox-content">
+                <div class="alert alert-info">
+                    拖拽左侧的表单元.......素到右侧ykyukykyuuykyky区域，即可生成相应的HTML代码，表单代码，轻松搞定！
+                </div>
+                <form class="layui-form" style="width: 90%; margin-top: inherit;">
+                    <div class="dragabled">
+                    <div class="layui-form-item " style="width: 400px">
+                        <label class="layui-form-label">机构名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="officeName" required autocomplete="off" class="layui-input" >
+                        </div>
+                    </div>
+                    </div>
+                    <div class="form-group draggable">
+                        <label class="col-sm-3 control-label">文本框：</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="" class="form-control" placeholder="请输入文本">
+                        </div>
+                    </div>
+                    <div class="form-group draggable">
+                        <label class="col-sm-3 control-label">多行文本框：</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" name="" class="form-control" placeholder="请输入文本"></textarea>
+                        </div>
+                    </div>
+                </form>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+        <div class="layui-col-md6">
+            你的内容 9/1
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
