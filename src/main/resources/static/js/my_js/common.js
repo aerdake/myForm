@@ -14,6 +14,7 @@ function uuid() {
 }
 //生成序号
 function squid(){
+    //1 开始 2结束
     var maxid=0;
     $('.node').each(function (i,v) {
         if(parseInt(maxid)<parseInt($(v).attr('squid'))){
@@ -42,9 +43,9 @@ function subNode(index,uuidClass){
 					lstr+
 					'<div class="branch_sub_node node" id="'+uuid()+'">'+
 						'<div class="baranch_box node_box">'+
-							'<div class="node_title edit_box sign_drug">'+
-								'<div>条件'+i+'</div>'+
-								'<span class="node_priority">等级'+i+'</span>'+
+							'<div class="node_title edit_box sign_drug" contenteditable="tur">'+
+								'<div contenteditable="true">条件'+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             i+'</div>'+
+								// '<span class="node_priority">等级'+i+'</span>'+
 								'<i class="close_btn">x</i>'+
 							'</div>'+
 							'<div class="node_content">'+
@@ -64,7 +65,7 @@ function subNode(index,uuidClass){
 					'<div class="branch_sub_node node" id="'+uuid()+'">'+
 						'<div class="baranch_box node_box">'+
 							'<div class="node_title edit_box sign_drug">'+
-								'<div>条件'+i+'</div>'+
+								'<div contenteditable="true">条件'+i+'</div>'+
 								'<span class="node_priority">等级'+i+'</span>'+
 								'<i class="close_btn">x</i>'+
 							'</div>'+
@@ -129,7 +130,7 @@ function  cNode(){
 	var n_node=$('<div class="approval_node node" id="'+uuidName+'" squid="'+maxid+'">'+
 		'<div class="approval_box node_box">'+
 			'<div class="node_title edit_box sign_drug">'+
-				'<div>审批人</div>'+
+				'<div contenteditable="true">审批人</div>'+
 				'<i class="close_btn">x</i>'+
 			'</div>'+
 			'<div class="node_content">'+
@@ -478,13 +479,28 @@ function prevNode(){
 }
 //查询节点的下一个节点的数组
 function getextNode($node){
-     var index=$node.attr('squid');
-     $($node).each(function(){
-         c
-     });
-
-
 
 }
-
-
+// 可编辑div非空判断
+function divIsNull(layer){
+    $('.node_title').on('input',function(e){
+        if($(e.target).text()==''){
+            layer.msg('标题不能为空');
+            if($(e.target).parent().parent().hasClass('baranch_box')){
+                $(e.target).text('条件'+($(e.target).parent().parent().parent().parent().index()+1));
+            } else if ($(e.target).parent().parent().hasClass('approval_box')){
+                $(e.target).text('审批人');
+            }
+        }
+        console.log(e)
+    });
+}
+//全部验证
+function verifyInit(form){
+    form.verify({
+        //申请表名验证
+        application_verify: function(value, item){
+            // [a-z]
+        }
+    });
+}

@@ -70,7 +70,38 @@
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item">
-
+            <form class="layui-form" action="">
+                <div class="layui-form-item hidden">
+                    <label class="layui-form-label">流程id(打开时后端向前端获取)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">定义流程名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">申请人范围</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入申请人范围" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">指定申请表名(正则 不能重复)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">定义流程说明</label>
+                    <div class="layui-input-block">
+                        <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </form>
         </div>
         <div class="layui-tab-item">
             <div class="wrapper wrapper-content">
@@ -501,7 +532,7 @@
                             <a href="#none" class="add_btn">+</a>
                         </div>
                     </div>
-                    <div class="end_node">
+                    <div class="end_node node" squid="2">
                         <i class="end_icon"></i>
                         <div class="node_title">流程结束</div>
                     </div>
@@ -900,7 +931,10 @@
         var tree3 = $("#treeDemo_only").TransferTree2({
             zNodes: zNodes,
         });
-        //多节点保存
+        /*
+            json处理相关
+        */
+        //根据节点生成json
         $('.step_con_btn').unbind('click').on('click',function(){
             var sArr=[];
             var actIndex=1;
@@ -911,7 +945,7 @@
                     json['act_step_id']=$(v).attr('squid');
                     json['act_id']=1;
                     json['step_name']=$(v).find('.node_title').text();
-                    json['step_node_type']=2;
+                    json['step_node_type']=1;
                     json['approve_user_type']='';
                     json['roles_approve_type']='';
                     json['approve_user']='';
@@ -919,6 +953,7 @@
                     json['role_form']=$(v).data('role_form')||'';
                     json['judge']=$(v).data('dValue')||'';
                     json['priority']='';
+                    debugger
                     var nextArr=[];
                     if((i+1)<=$('.node').length-1){
                         if($($('.node')[i+1]).hasClass('branch_sub_node')){
@@ -928,6 +963,11 @@
                         } else if($($('.node')[i+1]).hasClass('approval_node')){
                             nextArr.push($($('.node')[i+1]).attr('squid'));
                         }
+                        if(nextArr.length==0){
+                            nextArr.push(2)
+                        }
+                    }else {
+                        nextArr.push(2)
                     }
                     json['next_node']=nextArr;
                     json['disagree_node']='';
@@ -937,7 +977,7 @@
                     json['act_step_id']=$(v).attr('squid');
                     json['act_id']=1;
                     json['step_name']=$(v).find('.node_title').text();
-                    json['step_node_type']=1;
+                    json['step_node_type']=3;
                     json['approve_user_type']='';
                     json['roles_approve_type']='';
                     json['approve_user']='';
@@ -950,6 +990,7 @@
                         if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
                             if($(v).parents('.branch_node').next().hasClass('end_node')){
                                 nextArr=[];
+                                nextArr.push(2);
                             }else {
                                 if($(v).parents('.branch_node').next().hasClass('approval_node')){
                                     nextArr.push($(v).parents('.branch_node').next().attr('squid'));
@@ -967,7 +1008,12 @@
                             } else if($($('.node')[i+1]).hasClass('approval_node')){
                                 nextArr.push($($('.node')[i+1]).attr('squid'));
                             }
+                            if(nextArr.length==0){
+                                nextArr.push(2)
+                            }
                         }
+                    } else{
+                        nextArr.push(2)
                     }
                     json['next_node']=nextArr;
                     json['disagree_node']='';
@@ -985,6 +1031,7 @@
                         if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
                             if($(v).parents('.branch_node').next().hasClass('end_node')){
                                 nextArr=[];
+                                nextArr.push(2);
                             }else {
                                 if($(v).parents('.branch_node').next().hasClass('approval_node')){
                                     nextArr.push($(v).parents('.branch_node').next().attr('squid'));
@@ -1002,19 +1049,38 @@
                             } else if($($('.node')[i+1]).hasClass('approval_node')){
                                 nextArr.push($($('.node')[i+1]).attr('squid'));
                             }
+                            if(nextArr.length==0){
+                                nextArr.push(2)
+                            }
                         }
-
-
+                    }else{
+                        nextArr.push(2)
                     }
                     json['next_node']=nextArr;
                     json['status']=0;
                     var nodeJson=$(v).data('dValue');
-                    json['approve_user_type']=nodeJson['approve_user_type'];
-                    json['approve_user']=nodeJson['approve_user'];
-                    json['role_user']=nodeJson['role_user'];
-                    json['disagree_node']=nodeJson['disagree_node'];
+                    if(nodeJson) {
+                        json['approve_user_type'] = nodeJson['approve_user_type'] ? nodeJson['approve_user_type'] : '';
+                        json['approve_user'] = nodeJson['approve_user'] ? nodeJson['approve_user'] : '';
+                        json['role_user'] = nodeJson['role_user'] ? nodeJson['approve_user'] : '';
+                        json['disagree_node'] = nodeJson['disagree_node'] ? nodeJson['approve_user'] : '';
 
-
+                    }
+                }
+                if($(v).hasClass('end_node')){
+                    json['act_step_id']=$(v).attr('squid');
+                    json['act_id']=1;
+                    json['step_name']='结束节点';
+                    json['step_node_type']=2;
+                    json['roles_approve_type']='';
+                    json['approve_user']='';
+                    json['role_user']='';
+                    json['role_form']='';
+                    json['judge']='';
+                    json['priority']='';
+                    json['next_node']='';
+                    json['disagree_node']='';
+                    json['status']='';
                 }
                 console.log(json);
                 // console.log($(v).data('dValue'));
@@ -1025,8 +1091,10 @@
 
 
         });
-        //多节点读取
-
+        //根据json生成节点
+        function node_init(jsonArr){
+            // jsonArr[]
+        }
         //表单权限 0 可编辑  1 只读  2 隐藏
         /*
             表单权限
@@ -1131,19 +1199,7 @@
             el: '#node_select',
             paging: true,
             filterable: true,
-            data: [
-                {name: '张三', value: 1},
-                {name: '李四', value: 2},
-                {name: '王五', value: 3},
-                {name: '赵六', value: 4},
-                {name: '苹果', value: 5},
-                {name: '香蕉', value: 6},
-                {name: '凤梨', value: 7},
-                {name: '葡萄', value: 8},
-                {name: '樱桃', value: 9},
-                {name: '车厘子', value: 10},
-                {name: '火龙果', value: 11},
-            ]
+            data: []
         })
         //可编辑div 延后
         // transfer.render({
@@ -1210,17 +1266,10 @@
         // 	// }
         // })
 
-        //条件节点移位 延后
-        //回退节点连接线 延后
-        /*
-            json处理相关
-        */
-        //根据json生成节点
-        //通过json 生成
         //条件节点弹窗
         $('body').on('click','.baranch_box',function(e){
             var this_=this;
-            if(!$(e.target).hasClass('close_btn')){
+            if(!$(e.target).parent().hasClass('node_title')){
                 var baranch = layer.tab({
                     title:$(this_).find('.node_title>div').text(),
                     type: 1,
@@ -1263,8 +1312,8 @@
                                     $.each(pArr,function(w,m){
                                         pstr+=m.name+','
                                         tree.checkNodeByData(m, true, true);
-                                });
-                        }
+                                    });
+                                }
                             }else{
                                 $('.condition_list_sum').text(1);
                             }
@@ -1295,9 +1344,9 @@
                                             var json={};
                                             var dV=[];
                                             $.each(getFormJson().form_data,function(j,k){
-                                                    if(k.field_type==v.type){
-                                                        json=k;
-                                                    }
+                                                if(k.field_type==v.type){
+                                                    json=k;
+                                                }
                                             });
                                             $.each($('#'+$('#condition_msg').data('pId')).data('dValue'),function(i,v){
                                                 if(v.type==json.field_type){
@@ -1650,7 +1699,7 @@
         //审批节点弹窗
         $('body').on('click','.approval_box',function(e){
             var this_=this;
-            if(!$(e.target).hasClass('close_btn')){
+            if(!$(e.target).parent().hasClass('node_title')){
                 var approval =layer.tab({
                     title:$(this_).find('.node_title>div').text(),
                     type: 1,
@@ -1663,12 +1712,15 @@
                     content: $('#approval_msg'),
                     yes:function(){
                         var json={};
+                        var node_str='';
                        json['approve_user_type']=$('.approval_memType>form>div').children('input:checked').val();
                        switch(json['approve_user_type']){
                            case '0':
                                json['approve_user']=[];
                                json['role_user']=[];
                                json['roles_approve_type']=$('.approval_type input[type="radio"]:checked').val();
+                               node_str='上级领导会签';
+                               $('#'+$('#approval_msg').data('pId')).find('.node_text').text(node_str);
                                break;
                            case '1':
                                json['approve_user']=$('.approval_member_list').data('nameList');
@@ -1682,6 +1734,14 @@
                                }else{
                                    json['roles_approve_type']='';
                                }
+                               if(json.hasOwnProperty('approve_user_json')){
+                                   if((json['approve_user_json'][0].name+(json['approve_user_json'][1]?json['approve_user_json'][1].name:'')).length<=5){
+                                       node_str=''+json['approve_user_json'][0].name+(json['approve_user_json'][1]?','+json['approve_user_json'][1].name:'')+'会签'
+                                   } else {
+                                       node_str=json['approve_user_json'].length+'人会签'
+                                   }
+                               }
+                               $('#'+$('#approval_msg').data('pId')).find('.node_text').text(node_str);
                                break;
                            case '2':
                                json['approve_user']=[];
@@ -1694,10 +1754,14 @@
                                }else{
                                    json['roles_approve_type']='';
                                }
+                               node_str='角色会签';
+                               $('#'+$('#approval_msg').data('pId')).find('.node_text').text(node_str);
                                break;
                            default:
+                               $('#'+$('#approval_msg').data('pId')).find('.node_text').text('选择审批人');
                                break;
                        }
+                       //不同意节点保存
                        json['disagree_node']=[];
                         if($('.approval_msg select[name="dis_node_select_option"]').val()=='0'){
                             json['disagree_node'].push(0);
@@ -1707,8 +1771,6 @@
                             $.each(xm_select.getValue(value),function(n,m){
                                 json['disagree_node'].push(m.value);
                             });
-
-                            // json['disagree_node']=;
                         }
                         //权限保存
                         var role_form_arr=[];
@@ -1724,7 +1786,9 @@
                         }
                         $(this_).parent('.approval_node').data('role_form',role_form_arr);
                         $(this_).parent('.approval_node').data('dValue',json);
-                        console.log(json)
+                        console.log(json);
+                        //更新文字
+
                         layer.close(approval);
                     },
                     btn2:function(){
@@ -1809,10 +1873,10 @@
                                     if(k.name==$(this__).parent('.app_mem_item').text()){
                                         arrA.splice(j,1);
                                         arrB.splice(j,1);
-                                        $('.approval_member_list').data('namedata',arrA);
-                                        $('.approval_member_list').data('nameList',arrB);
                                     }
                                 });
+                                $('.approval_member_list').data('namedata',arrA);
+                                $('.approval_member_list').data('nameList',arrB);
                                 $(this).parent('.app_mem_item').remove();
                                 if($('.approval_member_list').find('li').length>1){
                                     $('.approval_type').css('display','block');
@@ -1863,10 +1927,10 @@
                                             if(k.name==$(this__).parent('.app_mem_item').text()){
                                                 arrA.splice(j,1);
                                                 arrB.splice(j,1);
-                                                $('.approval_member_list').data('namedata',arrA);
-                                                $('.approval_member_list').data('nameList',arrB);
                                             }
                                         });
+                                        $('.approval_member_list').data('namedata',arrA);
+                                        $('.approval_member_list').data('nameList',arrB);
                                         $(this).parent('.app_mem_item').remove();
                                         if($('.approval_member_list').find('li').length>1){
                                             $('.approval_type').css('display','block');
@@ -2246,6 +2310,8 @@
                 $('#'+$(this_).parent().find('.node_title').attr('data-id')).after(cNode());
             }
             $('.alert_node_title').attr('data-id','');
+            // 可编辑div非空判断
+            divIsNull(layer);
             layer.closeAll('tips');
         });
         //条件节点添加
@@ -2262,10 +2328,12 @@
                 });
             }
             $('.alert_node_title').attr('data-id','');
+            // 可编辑div非空判断
+            divIsNull(layer);
             layer.closeAll('tips');
         });
         //单个条件节点添加
-        $('body').on('click','.branch_addBtn',function(){
+         $('body').on('click','.branch_addBtn',function(){
             var this_=this;
             var tClass=$(this_).find('a').attr('data-class');
             var num=parseInt($($(this_).parent().find('>.branch_innerBox>div')[$(this_).parent().find('>.branch_innerBox>div').length-1]).css('order'));
@@ -2279,8 +2347,8 @@
                 '<div class="branch_sub_node node" id="'+uuid()+'" squid="'+squid()+'">'+
                 '<div class="baranch_box node_box">'+
                 '<div class="node_title edit_box sign_drug">'+
-                '<div>条件'+(num+1)+'</div>'+
-                '<span class="node_priority">等级'+(num+1)+'</span>'+
+                '<div contenteditable="true">条件'+(num+1)+'</div>'+
+                // '<span class="node_priority">等级'+(num+1)+'</span>'+
                 '<i class="close_btn">x</i>'+
                 '</div>'+
                 '<div class="node_content">'+
@@ -2293,6 +2361,8 @@
                 '</div>'+
                 '</div>';
             $($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-1]).after($(node));
+            // 可编辑div非空判断
+            divIsNull(layer);
             layer.closeAll('tips');
         })
     });
