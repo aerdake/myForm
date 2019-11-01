@@ -54,52 +54,53 @@
     }
 </style>
 <body class="gray-bg">
-<div>
-    <button onclick="prevNode()">1233333</button>
-</div>
 <div class="step_con_btn">
     <a href="#none" class="step_con_select">保存</a>
+    <a href="#none" class="step_con_publish layui-btn-disabled">发布</a>
     <a href="#none" class="">退出</a>
 </div>
 <div class="layui-tab" lay-filter="outer-tab">
     <ul class="layui-tab-title">
-        <li >基础设置</li>
+        <li class="layui-this">基础设置</li>
         <li>表单设计</li>
-        <li class="layui-this">流程设计</li>
+        <li >流程设计</li>
         <li>高级设置</li>
     </ul>
     <div class="layui-tab-content">
-        <div class="layui-tab-item">
-            <form class="layui-form" action="">
+        <div class="layui-tab-item layui-show base_seting_box">
+            <form class="layui-form" action="" lay-filter="testa">
                 <div class="layui-form-item hidden">
                     <label class="layui-form-label">流程id(打开时后端向前端获取)</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                        <input type="text" name="act_id" id="act_id" lay-verify="required" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">定义流程名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                        <input type="text" name="act_name" lay-verify="required|chinese_only" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">申请人范围</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入申请人范围" autocomplete="off" class="layui-input">
+                        <input type="text" name="apply_user_range" readonly="readonly" lay-verify="required" placeholder="请输入申请人范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">指定申请表名(正则 不能重复)</label>
+                    <label class="layui-form-label">指定申请表名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="act_name" lay-verify="required|application_verify|max_length20" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">定义流程说明</label>
                     <div class="layui-input-block">
-                        <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        <textarea name="discripe" placeholder="请输入内容" class="layui-textarea"></textarea>
                     </div>
+                </div>
+                <div class="layui-form-item hidden">
+                <button lay-submit lay-filter="go">1233333</button>
                 </div>
             </form>
         </div>
@@ -517,7 +518,7 @@
                 </div>
             </div>
         </div>
-        <div class="layui-tab-item layui-show">
+        <div class="layui-tab-item">
             <div class="outerBox">
                 <button onclick="getAllJson()">123</button>
                 <div class="edit_board">
@@ -899,6 +900,41 @@
         xmSelect: 'xm-select'
     }).use(['jquery','layer','transfer','form','element','xmSelect'], function(){
         var layer = layui.layer,$ = layui.$,transfer = layui.transfer,form=layui.form,element=layui.element;
+        //初始化验证
+        verifyInit(form);
+        form.render();
+        //基础设置表单操作
+        //提交
+        form.on('submit(go)', function(data){
+            console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        //初始化数据
+        $('#act_id').val(len_uuid(20,12));
+        //初始化申请人范围
+        $('input[name="apply_user_range"]').unbind('click').on('click',function(){
+            var range_inp=layer.open({
+                type:1,
+                title:'选择申请人范围',
+                content:$('#screen_msg'),
+                area:['680px','540px'],
+                btn: ['确定', '取消'],
+                success:function(){
+                    $('input[name="apply_user_range"]').data('v','');
+                },
+                yes:function(){
+                    var getData = tree.getCheckData('obj').varStr;
+                    console.log(getData);
+                    $('input[name="apply_user_range"]').data('v',tree.getCheckData('obj'));
+                    $('input[name="apply_user_range"]').val(getData);
+                    tree.resetPlug();
+                    layer.close(range_inp);
+                }
+            });
+        });
+        //
         /* 穿梭框 */
         //替换方案
         // http://www.weivb.com/so/iframe.php?a=https://blog.csdn.net/weixin_42603150/article/details/80999605
@@ -935,74 +971,30 @@
             json处理相关
         */
         //根据节点生成json
-        $('.step_con_btn').unbind('click').on('click',function(){
-            var sArr=[];
-            var actIndex=1;
-            console.log($('.node'))
-            $('.node').each(function(i,v){
-                var json={};
-                if($(v).hasClass('star_node')){
-                    json['act_step_id']=$(v).attr('squid');
-                    json['act_id']=1;
-                    json['step_name']=$(v).find('.node_title').text();
-                    json['step_node_type']=1;
-                    json['approve_user_type']='';
-                    json['roles_approve_type']='';
-                    json['approve_user']='';
-                    json['role_user']='';
-                    json['role_form']=$(v).data('role_form')||'';
-                    json['judge']=$(v).data('dValue')||'';
-                    json['priority']='';
+        $('.step_con_btn').unbind('click').on('click',function(e){
+            if($(e.target).hasClass('step_con_select')){
+                var sArr=[];
+                var actIndex=1;
+                console.log($('.node'))
+                $('.node').each(function(i,v){
+                    var json={};
+                    if($(v).hasClass('star_node')){
+                        json['act_step_id']=$(v).attr('squid');
+                        json['act_id']=1;
+                        json['step_name']=$(v).find('.node_title').text();
+                        json['step_node_type']=1;
+                        json['approve_user_type']='';
+                        json['roles_approve_type']='';
+                        json['approve_user']='';
+                        json['role_user']='';
+                        json['role_form']=$(v).data('role_form')||'';
+                        json['judge']=$(v).data('dValue')||'';
+                        json['priority']='';
                     debugger
-                    var nextArr=[];
-                    if((i+1)<=$('.node').length-1){
-                        if($($('.node')[i+1]).hasClass('branch_sub_node')){
-                            $($('.node')[i+1]).parents('.branch_node').children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
-                                nextArr.push($(k).attr('squid'));
-                            });
-                        } else if($($('.node')[i+1]).hasClass('approval_node')){
-                            nextArr.push($($('.node')[i+1]).attr('squid'));
-                        }
-                        if(nextArr.length==0){
-                            nextArr.push(2)
-                        }
-                    }else {
-                        nextArr.push(2)
-                    }
-                    json['next_node']=nextArr;
-                    json['disagree_node']='';
-                    json['status']=0;
-                }
-                if($(v).hasClass('branch_sub_node')){
-                    json['act_step_id']=$(v).attr('squid');
-                    json['act_id']=1;
-                    json['step_name']=$(v).find('.node_title').text();
-                    json['step_node_type']=3;
-                    json['approve_user_type']='';
-                    json['roles_approve_type']='';
-                    json['approve_user']='';
-                    json['role_user']='';
-                    json['role_form']='';
-                    json['judge']=$(v).data('dValue')||'';
-                    json['priority']='';
-                    var nextArr=[];
-                    if((i+1)<=$('.node').length-1){
-                        if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
-                            if($(v).parents('.branch_node').next().hasClass('end_node')){
-                                nextArr=[];
-                                nextArr.push(2);
-                            }else {
-                                if($(v).parents('.branch_node').next().hasClass('approval_node')){
-                                    nextArr.push($(v).parents('.branch_node').next().attr('squid'));
-                                }else if($(v).parents('.branch_node').next().hasClass('branch_node')){
-                                    $(v).parents('.branch_node').next().find('.node').each(function(j,k){
-                                        nextArr.push($(k).attr('squid'));
-                                    });
-                                }
-                            }
-                        } else {
+                        var nextArr=[];
+                        if((i+1)<=$('.node').length-1){
                             if($($('.node')[i+1]).hasClass('branch_sub_node')){
-                                $($('.node')[i+1]).parent().parent().parent().children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
+                                $($('.node')[i+1]).parents('.branch_node').children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
                                     nextArr.push($(k).attr('squid'));
                                 });
                             } else if($($('.node')[i+1]).hasClass('approval_node')){
@@ -1010,90 +1002,166 @@
                             }
                             if(nextArr.length==0){
                                 nextArr.push(2)
-                            }
-                        }
-                    } else{
-                        nextArr.push(2)
-                    }
-                    json['next_node']=nextArr;
-                    json['disagree_node']='';
-                    json['status']=0;
-                    var nextArr=[];
-                }
-                if($(v).hasClass('approval_node')){
-                    json['act_step_id']=$(v).attr('squid');
-                    json['act_id']=1;
-                    json['step_name']=$(v).find('.node_title').text();
-                    json['step_node_type']=0;
-                    var nextArr=[];
-                    json['judge']='';
-                    if((i+1)<=$('.node').length-1){
-                        if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
-                            if($(v).parents('.branch_node').next().hasClass('end_node')){
-                                nextArr=[];
-                                nextArr.push(2);
-                            }else {
-                                if($(v).parents('.branch_node').next().hasClass('approval_node')){
-                                    nextArr.push($(v).parents('.branch_node').next().attr('squid'));
-                                }else if($(v).parents('.branch_node').next().hasClass('branch_node')){
-                                    $(v).parents('.branch_node').next().find('.node').each(function(j,k){
-                                        nextArr.push($(k).attr('squid'));
-                                    });
-                                }
                             }
                         }else {
-                            if($($('.node')[i+1]).hasClass('branch_sub_node')){
-                                $($('.node')[i+1]).parent().parent().parent().children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
-                                    nextArr.push($(k).attr('squid'));
-                                });
-                            } else if($($('.node')[i+1]).hasClass('approval_node')){
-                                nextArr.push($($('.node')[i+1]).attr('squid'));
-                            }
-                            if(nextArr.length==0){
-                                nextArr.push(2)
-                            }
+                            nextArr.push(2)
                         }
-                    }else{
-                        nextArr.push(2)
+                        json['next_node']=nextArr;
+                        json['disagree_node']='';
+                        json['status']=0;
                     }
-                    json['next_node']=nextArr;
-                    json['status']=0;
-                    var nodeJson=$(v).data('dValue');
-                    if(nodeJson) {
-                        json['approve_user_type'] = nodeJson['approve_user_type'] ? nodeJson['approve_user_type'] : '';
-                        json['approve_user'] = nodeJson['approve_user'] ? nodeJson['approve_user'] : '';
-                        json['role_user'] = nodeJson['role_user'] ? nodeJson['approve_user'] : '';
-                        json['disagree_node'] = nodeJson['disagree_node'] ? nodeJson['approve_user'] : '';
-
+                    if($(v).hasClass('branch_sub_node')){
+                        json['act_step_id']=$(v).attr('squid');
+                        json['act_id']=1;
+                        json['step_name']=$(v).find('.node_title').text();
+                        json['step_node_type']=3;
+                        json['approve_user_type']='';
+                        json['roles_approve_type']='';
+                        json['approve_user']='';
+                        json['role_user']='';
+                        json['role_form']='';
+                        json['judge']=$(v).data('dValue')||'';
+                        json['priority']='';
+                        var nextArr=[];
+                        if((i+1)<=$('.node').length-1){
+                            if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
+                                if($(v).parents('.branch_node').next().hasClass('end_node')){
+                                    nextArr=[];
+                                    nextArr.push(2);
+                                }else {
+                                    if($(v).parents('.branch_node').next().hasClass('approval_node')){
+                                        nextArr.push($(v).parents('.branch_node').next().attr('squid'));
+                                    }else if($(v).parents('.branch_node').next().hasClass('branch_node')){
+                                        $(v).parents('.branch_node').next().find('.node').each(function(j,k){
+                                            nextArr.push($(k).attr('squid'));
+                                        });
+                                    }
+                                }
+                            } else {
+                                if($($('.node')[i+1]).hasClass('branch_sub_node')){
+                                    $($('.node')[i+1]).parent().parent().parent().children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
+                                        nextArr.push($(k).attr('squid'));
+                                    });
+                                } else if($($('.node')[i+1]).hasClass('approval_node')){
+                                    nextArr.push($($('.node')[i+1]).attr('squid'));
+                                }
+                                if(nextArr.length==0){
+                                    nextArr.push(2)
+                                }
+                            }
+                        } else{
+                            nextArr.push(2)
+                        }
+                        json['next_node']=nextArr;
+                        json['disagree_node']='';
+                        json['status']=0;
+                        var nextArr=[];
                     }
-                }
-                if($(v).hasClass('end_node')){
-                    json['act_step_id']=$(v).attr('squid');
-                    json['act_id']=1;
-                    json['step_name']='结束节点';
-                    json['step_node_type']=2;
-                    json['roles_approve_type']='';
-                    json['approve_user']='';
-                    json['role_user']='';
-                    json['role_form']='';
-                    json['judge']='';
-                    json['priority']='';
-                    json['next_node']='';
-                    json['disagree_node']='';
-                    json['status']='';
-                }
-                console.log(json);
-                // console.log($(v).data('dValue'));
-                // console.log($(v).data('role_form'));
-            });
+                    if($(v).hasClass('approval_node')){
+                        json['act_step_id']=$(v).attr('squid');
+                        json['act_id']=1;
+                        json['step_name']=$(v).find('.node_title').text();
+                        json['step_node_type']=0;
+                        var nextArr=[];
+                        json['judge']='';
+                        if((i+1)<=$('.node').length-1){
+                            if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
+                                if($(v).parents('.branch_node').next().hasClass('end_node')){
+                                    nextArr=[];
+                                    nextArr.push(2);
+                                }else {
+                                    if($(v).parents('.branch_node').next().hasClass('approval_node')){
+                                        nextArr.push($(v).parents('.branch_node').next().attr('squid'));
+                                    }else if($(v).parents('.branch_node').next().hasClass('branch_node')){
+                                        $(v).parents('.branch_node').next().find('.node').each(function(j,k){
+                                            nextArr.push($(k).attr('squid'));
+                                        });
+                                    }
+                                }
+                            }else {
+                                if($($('.node')[i+1]).hasClass('branch_sub_node')){
+                                    $($('.node')[i+1]).parent().parent().parent().children('.branch_innerBox').children('div').children('.branch_sub_node').each(function(j,k){
+                                        nextArr.push($(k).attr('squid'));
+                                    });
+                                } else if($($('.node')[i+1]).hasClass('approval_node')){
+                                    nextArr.push($($('.node')[i+1]).attr('squid'));
+                                }
+                                if(nextArr.length==0){
+                                    nextArr.push(2)
+                                }
+                            }
+                        }else{
+                            nextArr.push(2)
+                        }
+                        json['next_node']=nextArr;
+                        json['status']=0;
+                        var nodeJson=$(v).data('dValue');
+                        if(nodeJson) {
+                            json['approve_user_type'] = nodeJson['approve_user_type'] ? nodeJson['approve_user_type'] : '';
+                            json['approve_user'] = nodeJson['approve_user'] ? nodeJson['approve_user'] : '';
+                            json['role_user'] = nodeJson['role_user'] ? nodeJson['approve_user'] : '';
+                            json['disagree_node'] = nodeJson['disagree_node'] ? nodeJson['approve_user'] : '';
 
-
-
-
+                        }
+                    }
+                    if($(v).hasClass('end_node')){
+                        json['act_step_id']=$(v).attr('squid');
+                        json['act_id']=1;
+                        json['step_name']='结束节点';
+                        json['step_node_type']=2;
+                        json['roles_approve_type']='';
+                        json['approve_user']='';
+                        json['role_user']='';
+                        json['role_form']='';
+                        json['judge']='';
+                        json['priority']='';
+                        json['next_node']='';
+                        json['disagree_node']='';
+                        json['status']='';
+                    }
+                    console.log(json);
+                    // console.log($(v).data('dValue'));
+                    // console.log($(v).data('role_form'));
+                });
+            }
+            if($(e.target).hasClass('step_con_publish')){
+                layer.msg('')
+            }
         });
+
+
+
+
+
         //根据json生成节点
-        function node_init(jsonArr){
-            // jsonArr[]
+        function node_init(jsonArr) {
+            $.each(jsonArr, function (i, v) {
+                if (v.act_step_id == 1 && v.step_name == '开始节点') {
+                    //开始节点 直接赋值
+                    var start_node=get_node(1);
+                    //需要更新
+
+                    // data role_form  dValue squid(审批和条件使用开始结束固定值无需更新)
+                    //表单 node_title  node_text
+                    //next_node 用来判断下个与其连接的节点
+                    //
+                    if(start_node.data('dValue',{
+
+                    })){
+
+                    }
+                }
+            });
+        }
+        //查找节点
+        function get_node(squid){
+            var $node=[];
+            $('.node').each(function(i,v){
+                if($(v).attr(squid)==squid){
+                    $node.push($(v));
+                }
+            });
+            return $node;
         }
         //表单权限 0 可编辑  1 只读  2 隐藏
         /*

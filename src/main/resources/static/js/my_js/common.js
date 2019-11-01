@@ -12,6 +12,30 @@ function uuid() {
 	var uuid = s.join("");
 	return uuid;
 }
+function len_uuid(len, radix) {
+    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+    var uuid = [], i;
+    radix = radix || chars.length;
+    if (len) {
+        // Compact form
+        for (i = 0; i < len; i++) uuid[i] = chars[0 | Math.random()*radix];
+    } else {
+        // rfc4122, version 4 form
+        var r;
+        // rfc4122 requires these characters
+        uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+        uuid[14] = '4';
+        // Fill in random data.  At i==19 set the high bits of clock sequence as
+        // per rfc4122, sec. 4.1.5
+        for (i = 0; i < 36; i++) {
+            if (!uuid[i]) {
+                r = 0 | Math.random()*16;
+                uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+            }
+        }
+    }
+    return uuid.join('');
+}
 //生成序号
 function squid(){
     //1 开始 2结束
@@ -500,7 +524,23 @@ function verifyInit(form){
     form.verify({
         //申请表名验证
         application_verify: function(value, item){
-            // [a-z]
+            debugger
+            if(!new RegExp("^[a-z]([a-z]+|_[a-z]+){0,}(_+)([a-z]{0,}|[a-z]{0,}_){0,}[a-z]$").test(value)){
+                return '该输入框只能输入小写字母,单词间以下划线分隔';
+            }
+        },
+        //限制20个字符
+        max_length20:function(value, item){
+            if(value.length>20){
+                return '该输入框不能输入超过20个字符';
+            }
+        },
+        //中文验证
+        chinese_only:function(value,item){
+            if(!new RegExp("^[\u4e00-\u9fa5]+$").test(value)){
+                return '该输入框只能输入中文';
+            }
         }
+        //
     });
 }
