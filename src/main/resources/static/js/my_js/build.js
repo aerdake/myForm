@@ -276,14 +276,21 @@ $(document).on('click', '.dropped',function (e) {
 $(document).on("click", ".icon-jian", function (ev){
     var num=$("#select_attribute").attr("attr_num");
     var field_num="[field_num="+num+"]";
-    $(this).parent().remove();
-    var option=$("#select_attribute").find("#select").find("input");
-    $(field_num).find('select').empty();
-    option.each(function(index,val){
-        $(field_num).find('select').append('<option value=""></option>');
-        $(field_num).find("option")[index].innerText= val.value;
-        $(field_num).find("option")[index].value= val.value;
-    })
+    if ($(this).parent().parent().find(":input").length>1) {
+        var thisParent = $(this).parent().parent();
+        $(this).parent().remove();
+        var option=$("#select_attribute").find("#select").find("input");
+        $(field_num).find('select').empty();
+
+        if (thisParent.find(":input").length == 1) {
+            thisParent.find(".icon-jian").attr("disabled","disabled")
+        }
+        option.each(function(index,val){
+            $(field_num).find('select').append('<option value=""></option>');
+            $(field_num).find("option")[index].innerText= val.value;
+            $(field_num).find("option")[index].value= val.value;
+        })
+    }
 })
 //下拉框属性的加号点击事件
 $(document).on("click", ".icon-wuuiconxiangjifangda", function (ev){
