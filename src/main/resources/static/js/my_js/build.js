@@ -297,8 +297,19 @@ $(document).on("click", ".icon-wuuiconxiangjifangda", function (ev){
     var num=$("#select_attribute").attr("attr_num");
     var field_num="[field_num="+num+"]";
     var option=$("#select_attribute").find("#select").find("input");
-    var i= option.length+1;
-    $(this).parent().after('<div><input type="text" value="选项 '+i+'" class="form-control"><i class="iconfont icon-wuuiconxiangjifangda"></i><i class="iconfont icon-jian"></i></div>');
+    for(var i=1;i<=option.length+1;i++){
+        var j=true;
+        option.each(function(index,item){
+            if (("选项"+i)==item.value) {
+                j = false;
+                return false;
+            }
+        })
+        if (j){
+            $(this).parent().after('<div><input type="text" value="选项'+i+'" class="form-control"><i class="iconfont icon-wuuiconxiangjifangda"></i><i class="iconfont icon-jian"></i></div>');
+            return false;
+        }
+    }
     option=$("#select_attribute").find("#select").find("input");
     //var select=$(attr).find("option");
     $(field_num).find('select').empty();
