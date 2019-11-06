@@ -73,14 +73,14 @@
         </javaClientGenerator>
 
         <!-- 指定数据库表,  去掉Mybatis Generator生成的一堆 example-->
-        <table  tableName="sys_user">
+        <table  tableName="sys_act_form">
                 <!--enableCountByExample="false"-->
                 <!--enableDeleteByExample="false"-->
                 <!--enableSelectByExample="false"-->
                 <!--enableUpdateByExample="false"-->
                 <!--selectByExampleQueryId="false"-->
             <!-- 字段id为主键，并且自动递增 -->
-            <generatedKey column="user_id" sqlStatement="Mysql"/>
+            <generatedKey column="act_form_id" sqlStatement="Mysql"/>
         </table>
 
         <!--注意：生成前，先删除对应的mapper.xml，以免有重复resultMap运行报错!-->
