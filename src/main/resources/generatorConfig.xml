@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 注意以下标签的顺序:property*,plugin*,commentGenerator?,jdbcConnection,
+                javaTypeResolver?,javaModelGenerator,sqlMapGenerator?,
+                javaClientGenerator?,table+ -->
+<generatorConfiguration>
+
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <!-- 由于beginningDelimiter和endingDelimiter的默认值为双引号(")，
+            在Mysql中不能这么写，所以还要将这两个默认值改为**反单引号(`)** -->
+        <property name="autoDelimitKeywords" value="true"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+
+        <!--集成lombok插件-->
+        <plugin type="fun.mashuai.mybatis.generator.lombok.plugin.LombokPlugin" >
+            <property name="hasLombok" value="true"/>
+        </plugin>
+
+        <!-- 序列化、equalsHashCode、toString -->
+        <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <!--<plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>-->
+        <!-- 分页相关 -->
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+
+        <commentGenerator>
+            <!-- 去除自动生成的注释信息 -->
+            <property name="suppressAllComments" value="true"/>
+            <!-- 去除自动生成的时间戳，避免重复提交SVN -->
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+
+        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://172.17.30.255:3306/nanchang-lamp?characterEncoding=utf-8"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和
+            NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 生成model模型，对应的包路径，以及文件存放路径(targetProject)，targetProject可以指定具体的路径
+             也可以使用“MAVEN”来自动生成，这样生成的代码会在target/generatord-source目录下-->
+        <javaModelGenerator targetPackage="com.example.pojo"
+                            targetProject="../src/main/java">
+
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false" />
+
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true" />
+
+        </javaModelGenerator>
+
+        <!-- targetProject:mapper映射文件生成的位置 -->
+        <sqlMapGenerator targetPackage="mapping"
+                         targetProject="../src/main/resources">
+        </sqlMapGenerator>
+
+        <!-- targetPackage：mapper接口生成的位置 -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.mapper"
+                             targetProject="../src/main/java">
+        </javaClientGenerator>
+
+        <!-- 指定数据库表,  去掉Mybatis Generator生成的一堆 example-->
+        <table  tableName="sys_user">
+                <!--enableCountByExample="false"-->
+                <!--enableDeleteByExample="false"-->
+                <!--enableSelectByExample="false"-->
+                <!--enableUpdateByExample="false"-->
+                <!--selectByExampleQueryId="false"-->
+            <!-- 字段id为主键，并且自动递增 -->
+            <generatedKey column="user_id" sqlStatement="Mysql"/>
+        </table>
+
+        <!--注意：生成前，先删除对应的mapper.xml，以免有重复resultMap运行报错!-->
+    </context>
+</generatorConfiguration>
