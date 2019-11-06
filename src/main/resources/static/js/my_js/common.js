@@ -161,13 +161,24 @@ function  cNode(){
 	'</div>');
 	return n_node;
 }
-//获取全部json
-function getAllJson(){
-	console.log($('.node'))
-}
-//获取单个json
-function getUnitJson(nodID){
-	
+//获取单个json  并返回 本身json和nextjson
+function getUnitJson(nodID,data){
+	var self_node={},next_idArr=[],next_node=[];
+	$.each(data,function(i,v){
+		if(parseInt(v.act_step_id)===nodID) {
+			self_node = v;
+			next_idArr = v.next_node;
+		}
+	});
+	var arr1 = data.filter(function(value, index){
+		return next_idArr.includes(parseInt(value.act_step_id))
+	});
+	console.log(arr1)
+	return {
+		"self_node":self_node,
+		"next_node":next_node,
+		"next_idArr":next_idArr
+	}
 }
 //根据form生成表单权限表单
 function setFormAccess(layero) {

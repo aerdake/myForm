@@ -1007,6 +1007,7 @@
 
         form.render();
 
+
         /* 穿梭框*/
         //替换方案
         // http://www.weivb.com/so/iframe.php?a=https://blog.csdn.net/weixin_42603150/article/details/80999605
@@ -1048,8 +1049,9 @@
         //根据节点生成json
         $('.step_con_btn').unbind('click').on('click',function(e){
             if($(e.target).hasClass('step_con_select')){
+
                 //基础数据保存
-                $('#base_data_sub').trigger('click');
+                //$('#base_data_sub').trigger('click');
                 form.on('submit(go)', function(data){
                     debugger
                     var djson={};
@@ -1219,8 +1221,9 @@
                     // console.log(json);
                     sArr.push(json);
                 });
-                // console.log(sArr);
+                console.log(sArr);
                 $('.step_con_select').data('v',sArr);
+                node_create(sArr);
             }
             //发布
             if($(e.target).hasClass('step_con_publish')){
@@ -1293,41 +1296,39 @@
                 }
             });
         });
-        //根据json生成节点
-        function node_init(jsonArr) {
-            $.each(jsonArr, function (i, v) {
-                if (v.act_step_id == 1 && v.step_name == '开始节点') {
-                    //开始节点 直接赋值
-                    var start_node=get_node(1);
-                    //需要更新
-
-                    // data role_form  dValue squid(审批和条件使用开始结束固定值无需更新)
-                    //表单 node_title  node_text
-                    //next_node 用来判断下个与其连接的节点
-                    //
-                    if(start_node.data('dValue',{
-
-                    })){
-
-                    }
-                }
-            });
-        }
-        //查找节点
-        function get_node(squid){
-            var $node=[];
-            $('.node').each(function(i,v){
-                if($(v).attr(squid)==squid){
-                    $node.push($(v));
-                }
-            });
-            return $node;
-        }
         //表单权限 0 可编辑  1 只读  2 隐藏
         /*
             表单权限
         */
-        //点击全部选中
+        //根据json生成节点
+        function node_create(jsonArr){
+            //根据jsonArr遍历生成节点，每次都会重新生成 可加入localstage中进行缓存
+            //当只有两个节点时可以不进行绘制
+            //创建公共方法根据节点id找寻节点返回节点数据 getUnitJson
+            var s_node_data=getUnitJson(1,jsonArr);
+
+        }
+        //生成节点递归
+        //传递next数组 判断节点类型后创建节点大于2的节点一定是条件节点 id不为2 的节点一定是审批节点
+        function aa(nextIdArr){
+            /*
+            1 判断
+                nextIdArr.length==1 && nextIdArr[0].act_step_id!=='2' //审批节点
+                nextIdArr.length>=2 //条件节点
+                nextIdArr[0].act_step_id==='2' 返回false 退出
+
+            2 生成节点
+
+            3 通过id查找节点数据
+            getUnitJson(nodID,data)
+
+            4递归调用该方法
+
+
+
+            */
+        }
+        // 点击全部选中。
         form.on('radio(all_edit)', function(data){
             if(data.value=='on'){
                 $('.access_content li span:nth-child(2)').find('input').prop('checked', true);
