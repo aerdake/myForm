@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.SysActFormMapper" >
+  <resultMap id="BaseResultMap" type="com.example.pojo.SysActForm" >
+    <id column="act_form_id" property="actFormId" jdbcType="BIGINT" />
+    <result column="act_id" property="actId" jdbcType="BIGINT" />
+    <result column="field_id" property="fieldId" jdbcType="VARCHAR" />
+    <result column="field_class" property="fieldClass" jdbcType="VARCHAR" />
+    <result column="field_datakey" property="fieldDatakey" jdbcType="VARCHAR" />
+    <result column="field_filter" property="fieldFilter" jdbcType="VARCHAR" />
+    <result column="field_label" property="fieldLabel" jdbcType="VARCHAR" />
+    <result column="field_tag" property="fieldTag" jdbcType="VARCHAR" />
+    <result column="field_type" property="fieldType" jdbcType="VARCHAR" />
+    <result column="data_type" property="dataType" jdbcType="VARCHAR" />
+    <result column="field_placeholder" property="fieldPlaceholder" jdbcType="VARCHAR" />
+    <result column="field_length" property="fieldLength" jdbcType="INTEGER" />
+    <result column="is_hidden" property="isHidden" jdbcType="CHAR" />
+    <result column="is_required" property="isRequired" jdbcType="CHAR" />
+    <result column="validate" property="validate" jdbcType="VARCHAR" />
+    <result column="field_style" property="fieldStyle" jdbcType="VARCHAR" />
+    <result column="field_attribute" property="fieldAttribute" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="recycle" property="recycle" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    act_form_id, act_id, field_id, field_class, field_datakey, field_filter, field_label, 
+    field_tag, field_type, data_type, field_placeholder, field_length, is_hidden, is_required, 
+    `validate`, field_style, field_attribute, `status`, create_time, update_time, remark, 
+    recycle
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.pojo.SysActFormExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_act_form
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_act_form
+    where act_form_id = #{actFormId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_act_form
+    where act_form_id = #{actFormId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.pojo.SysActFormExample" >
+    delete from sys_act_form
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.pojo.SysActForm" >
+    <selectKey resultType="java.lang.Long" keyProperty="actFormId" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_act_form (act_form_id, act_id, field_id, 
+      field_class, field_datakey, field_filter, 
+      field_label, field_tag, field_type, 
+      data_type, field_placeholder, field_length, 
+      is_hidden, is_required, `validate`, 
+      field_style, field_attribute, `status`, 
+      create_time, update_time, remark, 
+      recycle)
+    values (#{actFormId,jdbcType=BIGINT}, #{actId,jdbcType=BIGINT}, #{fieldId,jdbcType=VARCHAR}, 
+      #{fieldClass,jdbcType=VARCHAR}, #{fieldDatakey,jdbcType=VARCHAR}, #{fieldFilter,jdbcType=VARCHAR}, 
+      #{fieldLabel,jdbcType=VARCHAR}, #{fieldTag,jdbcType=VARCHAR}, #{fieldType,jdbcType=VARCHAR}, 
+      #{dataType,jdbcType=VARCHAR}, #{fieldPlaceholder,jdbcType=VARCHAR}, #{fieldLength,jdbcType=INTEGER}, 
+      #{isHidden,jdbcType=CHAR}, #{isRequired,jdbcType=CHAR}, #{validate,jdbcType=VARCHAR}, 
+      #{fieldStyle,jdbcType=VARCHAR}, #{fieldAttribute,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{recycle,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.pojo.SysActForm" >
+    <selectKey resultType="java.lang.Long" keyProperty="actFormId" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into sys_act_form
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      act_form_id,
+      <if test="actId != null" >
+        act_id,
+      </if>
+      <if test="fieldId != null" >
+        field_id,
+      </if>
+      <if test="fieldClass != null" >
+        field_class,
+      </if>
+      <if test="fieldDatakey != null" >
+        field_datakey,
+      </if>
+      <if test="fieldFilter != null" >
+        field_filter,
+      </if>
+      <if test="fieldLabel != null" >
+        field_label,
+      </if>
+      <if test="fieldTag != null" >
+        field_tag,
+      </if>
+      <if test="fieldType != null" >
+        field_type,
+      </if>
+      <if test="dataType != null" >
+        data_type,
+      </if>
+      <if test="fieldPlaceholder != null" >
+        field_placeholder,
+      </if>
+      <if test="fieldLength != null" >
+        field_length,
+      </if>
+      <if test="isHidden != null" >
+        is_hidden,
+      </if>
+      <if test="isRequired != null" >
+        is_required,
+      </if>
+      <if test="validate != null" >
+        `validate`,
+      </if>
+      <if test="fieldStyle != null" >
+        field_style,
+      </if>
+      <if test="fieldAttribute != null" >
+        field_attribute,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="recycle != null" >
+        recycle,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{actFormId,jdbcType=BIGINT},
+      <if test="actId != null" >
+        #{actId,jdbcType=BIGINT},
+      </if>
+      <if test="fieldId != null" >
+        #{fieldId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldClass != null" >
+        #{fieldClass,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldDatakey != null" >
+        #{fieldDatakey,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldFilter != null" >
+        #{fieldFilter,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLabel != null" >
+        #{fieldLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldTag != null" >
+        #{fieldTag,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldType != null" >
+        #{fieldType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldPlaceholder != null" >
+        #{fieldPlaceholder,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLength != null" >
+        #{fieldLength,jdbcType=INTEGER},
+      </if>
+      <if test="isHidden != null" >
+        #{isHidden,jdbcType=CHAR},
+      </if>
+      <if test="isRequired != null" >
+        #{isRequired,jdbcType=CHAR},
+      </if>
+      <if test="validate != null" >
+        #{validate,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldStyle != null" >
+        #{fieldStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldAttribute != null" >
+        #{fieldAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recycle != null" >
+        #{recycle,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.pojo.SysActFormExample" resultType="java.lang.Integer" >
+    select count(*) from sys_act_form
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_act_form
+    <set >
+      <if test="record.actFormId != null" >
+        act_form_id = #{record.actFormId,jdbcType=BIGINT},
+      </if>
+      <if test="record.actId != null" >
+        act_id = #{record.actId,jdbcType=BIGINT},
+      </if>
+      <if test="record.fieldId != null" >
+        field_id = #{record.fieldId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldClass != null" >
+        field_class = #{record.fieldClass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldDatakey != null" >
+        field_datakey = #{record.fieldDatakey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldFilter != null" >
+        field_filter = #{record.fieldFilter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldLabel != null" >
+        field_label = #{record.fieldLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldTag != null" >
+        field_tag = #{record.fieldTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldType != null" >
+        field_type = #{record.fieldType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataType != null" >
+        data_type = #{record.dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldPlaceholder != null" >
+        field_placeholder = #{record.fieldPlaceholder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldLength != null" >
+        field_length = #{record.fieldLength,jdbcType=INTEGER},
+      </if>
+      <if test="record.isHidden != null" >
+        is_hidden = #{record.isHidden,jdbcType=CHAR},
+      </if>
+      <if test="record.isRequired != null" >
+        is_required = #{record.isRequired,jdbcType=CHAR},
+      </if>
+      <if test="record.validate != null" >
+        `validate` = #{record.validate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldStyle != null" >
+        field_style = #{record.fieldStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldAttribute != null" >
+        field_attribute = #{record.fieldAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        `status` = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recycle != null" >
+        recycle = #{record.recycle,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_act_form
+    set act_form_id = #{record.actFormId,jdbcType=BIGINT},
+      act_id = #{record.actId,jdbcType=BIGINT},
+      field_id = #{record.fieldId,jdbcType=VARCHAR},
+      field_class = #{record.fieldClass,jdbcType=VARCHAR},
+      field_datakey = #{record.fieldDatakey,jdbcType=VARCHAR},
+      field_filter = #{record.fieldFilter,jdbcType=VARCHAR},
+      field_label = #{record.fieldLabel,jdbcType=VARCHAR},
+      field_tag = #{record.fieldTag,jdbcType=VARCHAR},
+      field_type = #{record.fieldType,jdbcType=VARCHAR},
+      data_type = #{record.dataType,jdbcType=VARCHAR},
+      field_placeholder = #{record.fieldPlaceholder,jdbcType=VARCHAR},
+      field_length = #{record.fieldLength,jdbcType=INTEGER},
+      is_hidden = #{record.isHidden,jdbcType=CHAR},
+      is_required = #{record.isRequired,jdbcType=CHAR},
+      `validate` = #{record.validate,jdbcType=VARCHAR},
+      field_style = #{record.fieldStyle,jdbcType=VARCHAR},
+      field_attribute = #{record.fieldAttribute,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=CHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      recycle = #{record.recycle,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.pojo.SysActForm" >
+    update sys_act_form
+    <set >
+      <if test="actId != null" >
+        act_id = #{actId,jdbcType=BIGINT},
+      </if>
+      <if test="fieldId != null" >
+        field_id = #{fieldId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldClass != null" >
+        field_class = #{fieldClass,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldDatakey != null" >
+        field_datakey = #{fieldDatakey,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldFilter != null" >
+        field_filter = #{fieldFilter,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLabel != null" >
+        field_label = #{fieldLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldTag != null" >
+        field_tag = #{fieldTag,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldType != null" >
+        field_type = #{fieldType,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        data_type = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldPlaceholder != null" >
+        field_placeholder = #{fieldPlaceholder,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldLength != null" >
+        field_length = #{fieldLength,jdbcType=INTEGER},
+      </if>
+      <if test="isHidden != null" >
+        is_hidden = #{isHidden,jdbcType=CHAR},
+      </if>
+      <if test="isRequired != null" >
+        is_required = #{isRequired,jdbcType=CHAR},
+      </if>
+      <if test="validate != null" >
+        `validate` = #{validate,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldStyle != null" >
+        field_style = #{fieldStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldAttribute != null" >
+        field_attribute = #{fieldAttribute,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        `status` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="recycle != null" >
+        recycle = #{recycle,jdbcType=CHAR},
+      </if>
+    </set>
+    where act_form_id = #{actFormId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.pojo.SysActForm" >
+    update sys_act_form
+    set act_id = #{actId,jdbcType=BIGINT},
+      field_id = #{fieldId,jdbcType=VARCHAR},
+      field_class = #{fieldClass,jdbcType=VARCHAR},
+      field_datakey = #{fieldDatakey,jdbcType=VARCHAR},
+      field_filter = #{fieldFilter,jdbcType=VARCHAR},
+      field_label = #{fieldLabel,jdbcType=VARCHAR},
+      field_tag = #{fieldTag,jdbcType=VARCHAR},
+      field_type = #{fieldType,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
+      field_placeholder = #{fieldPlaceholder,jdbcType=VARCHAR},
+      field_length = #{fieldLength,jdbcType=INTEGER},
+      is_hidden = #{isHidden,jdbcType=CHAR},
+      is_required = #{isRequired,jdbcType=CHAR},
+      `validate` = #{validate,jdbcType=VARCHAR},
+      field_style = #{fieldStyle,jdbcType=VARCHAR},
+      field_attribute = #{fieldAttribute,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      recycle = #{recycle,jdbcType=CHAR}
+    where act_form_id = #{actFormId,jdbcType=BIGINT}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.example.pojo.SysActFormExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_act_form
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
