@@ -8,9 +8,7 @@ function uuid() {
 	s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
 	s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
 	s[8] = s[13] = s[18] = s[23] = "-";
-
-	var uuid = s.join("");
-	return uuid;
+	return s.join("");
 }
 function len_uuid(len, radix) {
     var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
@@ -30,7 +28,7 @@ function len_uuid(len, radix) {
         for (i = 0; i < 36; i++) {
             if (!uuid[i]) {
                 r = 0 | Math.random()*16;
-                uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r];
+                uuid[i] = chars[(i === 19) ? (r & 0x3) | 0x8 : r];
             }
         }
     }
@@ -61,9 +59,8 @@ function subNode(index,uuidClass){
 		'</div>';
 	var n_node='';
 	for(i=1;i<=index;i++){
-		if(i==1){
-			var node=
-				'<div style="order:'+i+';position:relative;display:inline-flex;flex-direction: column;" class="'+uuidClass+'">'+
+		if(i===1){
+			var node='<div style="order:'+i+';position:relative;display:inline-flex;flex-direction: column;" class="'+uuidClass+'">'+
 					lstr+
 					'<div class="branch_sub_node node" id="'+uuid()+'">'+
 						'<div class="baranch_box node_box">'+
@@ -82,9 +79,8 @@ function subNode(index,uuidClass){
 					'</div>'+
 				'</div>';
 			n_node+=node;	
-		} else if(i==index){
-			var node=
-				'<div style="order:'+i+';position:relative;display:inline-flex;flex-direction: column;" class="'+uuidClass+'">'+
+		} else if(i===index){
+			var node= '<div style="order:'+i+';position:relative;display:inline-flex;flex-direction: column;" class="'+uuidClass+'">'+
 					rstr+
 					'<div class="branch_sub_node node" id="'+uuid()+'">'+
 						'<div class="baranch_box node_box">'+
@@ -104,8 +100,7 @@ function subNode(index,uuidClass){
 				'</div>';
 			n_node+=node;	
 		} else {
-			var node=
-				'<div style="order:'+i+';position:relative;display:inline-flex;flex-direction: column;" class="'+uuidClass+'">'+
+			var node='<div style="order:'+i+';position:relative;display:inline-flex;flex-direction: column;" class="'+uuidClass+'">'+
 					'<div class="branch_sub_node node" id="'+uuid()+'">'+
 						'<div class="baranch_box node_box">'+
 							'<div class="node_title edit_box sign_drug">'+
@@ -134,8 +129,7 @@ function bNode(){
 	var uuidName=uuid(); 
 	var uuidClass=uuid();
 	var subStr=subNode(index,uuidClass);
-	var n_node=
-	'<div class="branch_node" id="'+uuidName+'">'+
+	var n_node='<div class="branch_node" id="'+uuidName+'">'+
 		'<div class="branch_addBtn" >'+
 			'<a href="#none" data-class="'+uuidClass+'">添加条件</a>'+
 		'</div>'+
@@ -148,7 +142,7 @@ function bNode(){
 }
 //创建审批节点
 function  cNode(){
-	var ren='审批人';
+	// var ren='审批人';
 	var uuidName=uuid();
 	var maxid=squid();
 	var n_node=$('<div class="approval_node node" id="'+uuidName+'" squid="'+maxid+'">'+
@@ -184,7 +178,7 @@ function setFormAccess(layero) {
 						'暂无支持权限设置的字段'+
 					'</div>' +
 				' </div>';
-		if(getFormJson()=='form_empty'){
+		if(getFormJson()==='form_empty'){
 			$(layero[0]).find('.access_box').append(str);
 		}
 	}else {
@@ -477,17 +471,18 @@ function symSel(n){
         case 5:
             s='介于';
             break;
-            s='无';
         case 6:
+			s='无';
             break;
+		default:
+			break;
     }
     return s;
 }
 //判断审批节点上一节点
 function prevNode(){
-	$node=$('.node[squid="2"]')
+	$node=$('.node[squid="2"]');
 	//查询当前节点的上一节点进行判断是否是条件节点
-	console.log()
 	if($node.prev().hasClass('star_node')){
 		console.log('开始节点')
 	}
@@ -495,7 +490,7 @@ function prevNode(){
 		console.log('审批节点'+ $node.prev().attr('squid'));
 	}
 	if($node.prev().hasClass('branch_node')){
-		var arr=[];
+		// var arr=[];
 		$node.prev().find('.branch_innerBox').each(function(i,v){
 			// if($(v)
 		})
@@ -508,7 +503,7 @@ function getextNode($node){
 // 可编辑div非空判断
 function divIsNull(layer){
     $('.node_title').on('input',function(e){
-        if($(e.target).text()==''){
+        if($(e.target).text()===''){
             layer.msg('标题不能为空');
             if($(e.target).parent().parent().hasClass('baranch_box')){
                 $(e.target).text('条件'+($(e.target).parent().parent().parent().parent().index()+1));
@@ -522,25 +517,55 @@ function divIsNull(layer){
 //全部验证
 function verifyInit(form){
     form.verify({
+		//不能为空
+		not_null:function(value, item){
+			if(value.replace(/^\s+|\s+$/g,"")===''){
+				return '基础设置表单必填项不能为空'
+			}
+		},
         //申请表名验证
-        application_verify: function(value, item){
-            debugger
+        application_verify:function(value, item){
             if(!new RegExp("^[a-z]([a-z]+|_[a-z]+){0,}(_+)([a-z]{0,}|[a-z]{0,}_){0,}[a-z]$").test(value)){
-                return '该输入框只能输入小写字母,单词间以下划线分隔';
+                return '基础设置申请表名只能输入小写字母,单词间以下划线分隔';
             }
         },
         //限制20个字符
         max_length20:function(value, item){
             if(value.length>20){
-                return '该输入框不能输入超过20个字符';
+                return '基础设置申请表名不能输入超过20个字符';
             }
         },
         //中文验证
         chinese_only:function(value,item){
             if(!new RegExp("^[\u4e00-\u9fa5]+$").test(value)){
-                return '该输入框只能输入中文';
+                return '基础设置流程名称只能输入中文';
             }
         }
         //
     });
+}
+//验证数据完整性
+function isFinished() {
+	//验证基础设置完整性
+	// var base_data=false;
+	//验证流程完整性
+	var flow_data=false;
+	var flow_arr=$('.step_con_select').data('v');
+	flow_arr.each(function (i,v) {
+		if(v.step_node_type===0){
+			flow_data=true
+		}
+	});
+	//验证表单完整性
+	var form_data=false;
+	if(typeof getFormJson() != 'string'){
+		if(getFormJson().form_data.length>=1){
+			form_data=true;
+		}
+	}
+	return {
+		"base_data":form_data,
+		"flow_data":flow_data,
+		"form_data":form_data
+	}
 }

@@ -305,10 +305,19 @@ body{
     cursor:pointer;
     padding:8px 20px;
     background-color:#dedede;
+	cursor: pointer;
 }
 .step_con_btn>a.step_con_select{
     color:#fff !important;
     background-color: #1E9FFF;
+}
+.step_con_btn>a.step_con_publish{
+    color:#fff !important;
+    background-color: #1E9FFF;
+}
+.step_con_btn>a.step_con_publish.layui-btn-disabled{
+    color: #333 !important;
+    background-color: #dedede;
 }
 /* 表单权限 */
 .access_title{
@@ -520,4 +529,14 @@ body{
 }
 .add_condition .layui-input-block{
 	margin-left:0;
+}
+.base_data_form .layui-input-block{
+    margin-left:130px;
+}
+.base_data_form .layui-form-label{
+    width: 120px;
+}
+.msg_mLocation .ztree li span.button.chk{
+    width:13px;
+    height:13px;
 }

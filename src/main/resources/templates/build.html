@@ -31,9 +31,9 @@
     <link th:href="@{/css/test2.css}" rel="stylesheet"/>
 </head>
 <style>
-    .droppable-active {
-        background-color: #ffe !important
-    }
+    /*.droppable-active {*/
+    /*    background-color: #ffe !important*/
+    /*}*/
 
     .tools a {
         cursor: pointer;
@@ -47,19 +47,19 @@
     .draggable {
         cursor: move
     }
-    .layui-fom  .layui-form -label{
-        disply:flex;
-        align-center:center;
+    .layui-fom .layui-form-label{
+        display:flex;
+        align-items: center;
         justify-content: center;
     }
 </style>
 <body class="gray-bg">
 <div class="step_con_btn">
-    <a href="#none" class="step_con_select">保存</a>
-    <a href="#none" class="step_con_publish layui-btn-disabled">发布</a>
-    <a href="#none" class="">退出</a>
+    <a class="step_con_select">保存</a>
+    <a class="step_con_publish layui-btn-disabled">发布</a>
+    <a class="">退出</a>
 </div>
-<div class="layui-tab" lay-filter="outer-tab">
+<div class="layui-tab" lay-filter="outer_tab">
     <ul class="layui-tab-title">
         <li class="layui-this">基础设置</li>
         <li>表单设计</li>
@@ -68,29 +68,35 @@
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show base_seting_box">
-            <form class="layui-form" action="" lay-filter="testa">
+            <form class="layui-form base_data_form" action="" lay-filter="testa">
                 <div class="layui-form-item hidden">
                     <label class="layui-form-label">流程id(打开时后端向前端获取)</label>
                     <div class="layui-input-block">
-                        <input type="text" name="act_id" id="act_id" lay-verify="required" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                        <input type="text" name="actId" id="act_id" lay-verify="not_null" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">定义流程名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="act_name" lay-verify="required|chinese_only" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                        <input type="text" name="act_name" lay-verify="not_null|chinese_only" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">申请人范围</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="apply_user_range" readonly="readonly" lay-verify="required" placeholder="请输入申请人范围" autocomplete="off" class="layui-input">
+                    <div class="layui-input-block range_select" style="margin-bottom:20px">
+                        <select name="applyUserRange" lay-verify="not_null" lay-filter="applyUserRange">
+                            <option value="0" selected>指定所有人</option>
+                            <option value="1">指定特定人员</option>
+                        </select>
+                    </div>
+                    <div class="layui-input-block apply_user_range">
+                        <input type="text" name="apply_user_range" readonly="readonly" placeholder="请输入申请人范围" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">指定申请表名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="act_name" lay-verify="required|application_verify|max_length20" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="tbName" lay-verify="not_null|application_verify|max_length20" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -99,8 +105,21 @@
                         <textarea name="discripe" placeholder="请输入内容" class="layui-textarea"></textarea>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="menuName" lay-verify="not_null|chinese_only" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">菜单位置选择</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="menu_location" id="menu_location" lay-verify="not_null" placeholder="请输菜单位置" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
                 <div class="layui-form-item hidden">
-                <button lay-submit lay-filter="go">1233333</button>
+                <div lay-submit lay-filter="go" id="base_data_sub">123</div>
                 </div>
             </form>
         </div>
@@ -566,29 +585,27 @@
 <div class="msg_alert start_msg" id="start_msg" style="display:none;">
     <div class="layui-tab layui-tab-brief" lay-filter="start_tab" style="width:500px;">
         <ul class="layui-tab-title">
-            <li class="layui-this" lay-id="start_sponsor">选择发起人</li>
+<!--            <li class="layui-this" lay-id="start_sponsor">选择发起人</li>-->
             <li lay-id="start_access">表单权限管理</li>
         </ul>
         <div class="layui-tab-content">
+<!--            <div class="layui-tab-item">-->
+<!--                <form action="" class="layui-form">-->
+<!--                    <div class="layui-form-item">-->
+<!--                        <label class="layui-form-label">发起人</label>-->
+<!--                        <div class="layui-input-block">-->
+<!--                            <input type="text" name="promoter" required lay-verify="required" placeholder="选择发起人" autocomplete="off" class="layui-input" readonly="readonly">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="layui-form-item isLeader_box">-->
+<!--                        <label class="layui-form-label">是否是领导</label>-->
+<!--                        <div class="layui-input-block">-->
+<!--                            <input type="checkbox" name="islEeader" title="是否是领导" lay-skin="primary">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
             <div class="layui-tab-item layui-show">
-                <form action="" class="layui-form">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">发起人</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="promoter" required lay-verify="required" placeholder="选择发起人" autocomplete="off" class="layui-input" readonly="readonly">
-                        </div>
-                    </div>
-                    <div class="layui-form-item isLeader_box">
-                        <label class="layui-form-label">是否是领导</label>
-                        <div class="layui-input-block">
-                            <input type="checkbox" name="islEeader" title="是否是领导" lay-skin="primary">
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-            <div class="layui-tab-item">
                 <form class="layui-form">
                         <div class="access_box" >
                         <div class="access_title layui-container" style="width:100%;">
@@ -630,9 +647,10 @@
             <div class="layui-tab-item layui-show approval_memType">
                 <h4>选择审批人类型</h4>
                 <form action="" class="layui-form layui-row">
-                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><input type="radio" name="role" value="1" title="指定成员" checked lay-filter="approval_role"></div>
-                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><input type="radio" name="role" value="0" title="指定上级" lay-filter="approval_role"></div>
-                    <div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><input type="radio" name="role" value="2" title="指定角色" lay-filter="approval_role"></div>
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><input type="radio" name="role" value="3" title="指定所有人" checked lay-filter="approval_role"></div>
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><input type="radio" name="role" value="1" title="指定成员" lay-filter="approval_role"></div>
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><input type="radio" name="role" value="0" title="指定上级" lay-filter="approval_role"></div>
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><input type="radio" name="role" value="2" title="指定角色" lay-filter="approval_role"></div>
                     <div class="approval_select layui-col-xs12 layui-col-sm12 layui-col-md12">
                         <div class="approval_member" style="display:none;">
                             <a href="#none" class="approval_member_select layui-btn layui-btn-sm">修改成员</a>
@@ -828,7 +846,7 @@
     </div>
 </div>
 <!-- 双重穿梭框 可以选择人员和角色-->
-<div class="msg_alert screen_msg_doulbe" id="screen_msg_double" style="display:block;">
+<div class="msg_alert screen_msg_doulbe" id="screen_msg_double" style="display:none;">
     <div class="content_wrap">
         <div class="zTreeDemoBackground left">
             <div class="tree-change">
@@ -846,6 +864,12 @@
             <ul class="choose-content-doulbe">
             </ul>
         </div>
+    </div>
+</div>
+<!--菜单选择弹窗-->
+<div class="msg_mLocation" id="msg_mLocation" style="display:none;">
+    <div>
+        <ul id="menuTree" class="ztree"></ul>
     </div>
 </div>
 <!--jquery-->
@@ -903,16 +927,37 @@
         //初始化验证
         verifyInit(form);
         form.render();
-        //基础设置表单操作
-        //提交
-        form.on('submit(go)', function(data){
-            console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        //添加表单id
+        if($('#act_id').val()==''){
+            $('#act_id').val(len_uuid(20,12));
+        }
+        //清空申请人范围选择
+        $('.apply_user_range').css('display','none');
+        $('.range_select').css('marginBottom','0');
+        $('input[name="apply_user_range"]').data('v','');
+        $('input[name="applyUserRange"]').val(0);
+
+        //初始化申请人范围控件
+        form.on('select(applyUserRange)', function(data){
+            switch(data.value){
+                case '0':
+                    $('.apply_user_range').css('display','none');
+                    $('.range_select').css('marginBottom','0');
+                    $('input[name="apply_user_range"]').data('v','');
+                    $('input[name="apply_user_range"]').val('');
+                    break;
+                case '1':
+                    $('.apply_user_range').css('display','block');
+                    $('.range_select').css('marginBottom','20px');
+                    break;
+                default:
+                    $('.apply_user_range').css('display','none');
+                    $('.range_select').css('marginBottom','0');
+                    $('input[name="apply_user_range"]').data('v','');
+                    $('input[name="apply_user_range"]').val('');
+                    break;
+            }
         });
-        //初始化数据
-        $('#act_id').val(len_uuid(20,12));
         //初始化申请人范围
         $('input[name="apply_user_range"]').unbind('click').on('click',function(){
             var range_inp=layer.open({
@@ -926,7 +971,7 @@
                 },
                 yes:function(){
                     var getData = tree.getCheckData('obj').varStr;
-                    console.log(getData);
+                    // console.log(getData);
                     $('input[name="apply_user_range"]').data('v',tree.getCheckData('obj'));
                     $('input[name="apply_user_range"]').val(getData);
                     tree.resetPlug();
@@ -934,14 +979,42 @@
                 }
             });
         });
-        //
-        /* 穿梭框 */
+        //初始化基础数据
+
+        //监听 选项卡切换
+        element.on('tab(outer_tab)', function(data){
+            console.log(data.index); //得到当前Tab的所在下标
+            var form_ald=false;
+            switch(data.index) {
+                case 0:
+                    break;
+                case 1:
+                    form_ald=true;
+                    break;
+                case 2:
+                    if(form_ald){
+                        //不读取表单数据
+                    }else{
+                        //读取表单数据
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        });
+
+
+        form.render();
+
+        /* 穿梭框*/
         //替换方案
         // http://www.weivb.com/so/iframe.php?a=https://blog.csdn.net/weixin_42603150/article/details/80999605
         // https://fullsmilespace.com/?p=15081
         // https://blog.csdn.net/cuicui_web/article/details/89154487
         var zNodes = [
-            { id: 1, pId: 0, name: "集团", open: false, checked: false, searchdata: "集团",idname:'officeid'},
+            { id: 1, pId: 0, name: "集团",
+                open: false, checked: false, searchdata: "集团",idname:'officeid'},
             { id: 11, pId: 1, name: "一汽", open: true, checked: false, searchdata: '集团一汽',idname:'officeid' },
             { id: 111, pId: 11, name: "一汽子成员1", checked: false, searchdata: '集团一汽一汽子成员1',idname:'userId' },
             { id: 112, pId: 11, name: "一汽子成员2", checked: false, searchdata: '集团一汽一汽子成员2' ,idname:'userId'},
@@ -967,15 +1040,40 @@
         var tree3 = $("#treeDemo_only").TransferTree2({
             zNodes: zNodes,
         });
+
+        var tree3='';
         /*
             json处理相关
         */
         //根据节点生成json
         $('.step_con_btn').unbind('click').on('click',function(e){
             if($(e.target).hasClass('step_con_select')){
+                //基础数据保存
+                $('#base_data_sub').trigger('click');
+                form.on('submit(go)', function(data){
+                    debugger
+                    var djson={};
+                    djson["actId"]=data.field.actId;
+                    djson["tbName"]=data.field.tbName;
+                    djson["applyUserRange"]=data.field.applyUserRange;
+                    if(data.field.applyUserRange==1){
+                        djson["officeId"]=$('input[name="apply_user_range"]').data('v').pArr
+                        djson["userId"]=$('input[name="apply_user_range"]').data('v').cArr
+                    }else if(data.field.applyUserRange==0){
+                        djson["officeId"]='';
+                        djson["userId"]='';
+                    }
+                    djson["discripe"]=data.field.discripe;
+                    djson["actName"]=data.field.act_name;
+                    djson["menuName"]=data.field.menuName;
+                    djson["parentId"]=$('#menu_location').data('v')[0].id;
+                    console.log(djson)
+                    return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+                });
+                //流程保存
                 var sArr=[];
                 var actIndex=1;
-                console.log($('.node'))
+                // console.log($('.node'))
                 $('.node').each(function(i,v){
                     var json={};
                     if($(v).hasClass('star_node')){
@@ -990,7 +1088,6 @@
                         json['role_form']=$(v).data('role_form')||'';
                         json['judge']=$(v).data('dValue')||'';
                         json['priority']='';
-                    debugger
                         var nextArr=[];
                         if((i+1)<=$('.node').length-1){
                             if($($('.node')[i+1]).hasClass('branch_sub_node')){
@@ -1119,20 +1216,83 @@
                         json['disagree_node']='';
                         json['status']='';
                     }
-                    console.log(json);
-                    // console.log($(v).data('dValue'));
-                    // console.log($(v).data('role_form'));
+                    // console.log(json);
+                    sArr.push(json);
                 });
+                // console.log(sArr);
+                $('.step_con_select').data('v',sArr);
             }
+            //发布
             if($(e.target).hasClass('step_con_publish')){
-                layer.msg('')
+                // console.log(getFormJson())
+                if($(e).hasClass('layui-btn-disabled')){
+                    layer.msg('请先保存该流程');
+                }
+                //发布先保存后发布
+                $('.step_con_btn .step_con_select').trigger("click");
+                //验证json 数据完整性 (至少有一个审批节点 表单至少有一个元素)
+
+                // 验证基础数据完整性
+
             }
         });
 
+        //基础设置表单操作
+        //菜单位置选择
+        //菜单初始化
+        var data2=[
+            {"id":1, "parentId":0, "title":"路灯管理1","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+            {"id":2, "parentId":1, "title":"路灯管理2","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+            {"id":3, "parentId":1, "title":"路灯管理3","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+            {"id":4, "parentId":0, "title":"路灯管理4","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+            {"id":5, "parentId":4, "title":"路灯管理5","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+            {"id":6, "parentId":0, "title":"路灯管理6","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
 
+        ];
+        var settingsA={
+            data: {
+                simpleData: {
+                    enable: true,
+                    pIdKey: "parentId",
+                },
+                key:{
+                    name: "title"
+                }
+            },
+            check: {
+                enable: true,
+                radioType:'all',
+                chkStyle: 'radio'
+            },
+            callback: {
+                onClick: function (e, treeId, treeNode, clickFlag) {
+                    zTreeObjA.checkNode(treeNode, !treeNode.checked, true);
+                },
+                onCheck: function(e, treeId, treeNode){
+                    zTreeObjA.selectNode(treeNode);
+                }
+            }
+        }
+        var zTreeObjA=$.fn.zTree.init($("#menuTree"), settingsA, data2);
+        // 点击选中事件
+        $('#menu_location').on('click',function(){
+            var mMsg=layer.open({
+                type:1,
+                title:'请选择发起人',
+                content:$('#msg_mLocation'),
+                area:['680px','540px'],
+                btn: ['确定', '取消'],
+                success:function(e){
 
-
-
+                },
+                yes:function(e){
+                    var nodes = zTreeObjA.getSelectedNodes();
+                    $('#menu_location').data('v',nodes);
+                    $('#menu_location').val(nodes[0].title);
+                    layer.close(mMsg);
+                }
+            });
+        });
         //根据json生成节点
         function node_init(jsonArr) {
             $.each(jsonArr, function (i, v) {
@@ -1529,8 +1689,8 @@
                         });
                         $('#'+$('#condition_msg').data('pId')).data('cv',$('#condition_msg').data('cv'));
                         $('#'+$('#condition_msg').data('pId')).data('dValue',sumArr);
-                        console.log(sumArr)
-                        console.log($('#condition_msg').data('cv'));
+                        // console.log(sumArr)
+                        // console.log($('#condition_msg').data('cv'));
                         //更新node数据
                         update_node_text($('#condition_msg').data('pId'),sumArr);
                     },
@@ -1825,6 +1985,13 @@
                                node_str='角色会签';
                                $('#'+$('#approval_msg').data('pId')).find('.node_text').text(node_str);
                                break;
+                           case '3':
+                               json['approve_user']=[];
+                               json['role_user']=[];
+                               json['roles_approve_type']=$('.approval_type input[type="radio"]:checked').val();
+                               node_str='所有人会签';
+                               $('#'+$('#approval_msg').data('pId')).find('.node_text').text(node_str);
+                               break;
                            default:
                                $('#'+$('#approval_msg').data('pId')).find('.node_text').text('选择审批人');
                                break;
@@ -1854,7 +2021,7 @@
                         }
                         $(this_).parent('.approval_node').data('role_form',role_form_arr);
                         $(this_).parent('.approval_node').data('dValue',json);
-                        console.log(json);
+                        // console.log(json);
                         //更新文字
 
                         layer.close(approval);
@@ -1870,7 +2037,8 @@
                         //初始化控件
                         element.tabChange('start_tab', 'start_sponsor');
                         //初始化人员选择界面
-                        $('.approval_member').css('display','block').siblings().css('display','none');
+                        $('.approval_select').css('display','none');
+                        $('.approval_type').css('display','block');
                         $('input[name="dis_node_select_option"]').val('0a');
                         //初始化人员树选择
                         tree.resetPlug();
@@ -2064,9 +2232,9 @@
                                             $('.approval_type').css('display','none');
                                         }
                                     });
-                                    console.log(tree2.getCheckData('obj'))
+                                    // console.log(tree2.getCheckData('obj'))
                                     var getData = tree2.getCheckData('obj').varStr;
-                                    console.log(tree2.getMemData());
+                                    // console.log(tree2.getMemData());
                                     tree2.resetPlug()
                                     layer.close(inp);
                                 }
@@ -2082,16 +2250,27 @@
                         //审批人员选择事件
                         form.on('radio(approval_role)', function(data){
                             switch (data.value){
+                                case '3':
+                                    $('.approval_select').css('display','none');
+                                    $('.approval_type').css('display','block');
+                                    $('.approval_member_list').data('nameList',[]);
+                                    $('.approval_member_list').data('namedata',[]);
+                                    $('.approval_role_list').data('nameList',[]);
+                                    $('.approval_role_list').data('namedata',[]);
+                                    $('.approval_member_list').empty();
+                                    $('.approval_role_list').empty();
+                                    break;
                                 case '0':
-                                    $('.approval_select>div').css('display','block').siblings().css('display','none');
+                                    $('.approval_select').css('display','none');
                                     $('.approval_type').css('display','block');
                                     $('.approval_role_list').data('nameList',[]);
                                     $('.approval_role_list').data('namedata',[]);
                                     $('.approval_role_list').empty();
                                     break;
                                 case '1':
+                                    $('.approval_select').css('display','block');
                                     $('.approval_member').css('display','block').siblings().css('display','none');
-                                    $('.approval_type').css('display','block');
+                                    $('.approval_type').css('display','none');
                                     $('.approval_member_list').data('nameList',[]);
                                     $('.approval_member_list').data('namedata',[]);
                                     $('.approval_role_list').data('nameList',[]);
@@ -2100,6 +2279,7 @@
                                     $('.approval_role_list').empty();
                                     break;
                                 case '2':
+                                    $('.approval_select').css('display','block');
                                     $('.approval_roles').css('display','block').siblings().css('display','none');
                                     $('.approval_type').css('display','none');
                                     $('.approval_member_list').data('nameList',[]);
@@ -2107,7 +2287,7 @@
                                     $('.approval_member_list').empty();
                                     break;
                                 default:
-                                    $('approval_select>div').css('display','none');
+                                    $('.approval_select').css('display','none');
                                     $('.approval_member_list').data('nameList',[]);
                                     $('.approval_member_list').data('namedata',[]);
                                     $('.approval_role_list').data('nameList',[]);
@@ -2145,58 +2325,59 @@
                 content: $('#start_msg'),
                 success:function(layero, index){
                     // 发起人弹窗
-                    $('.start_msg input[name="promoter"]').unbind('click').on('click',function(){
-                        var inp=layer.open({
-                            type:1,
-                            title:'请选择发起人',
-                            content:$('#screen_msg'),
-                            area:['680px','540px'],
-                            btn: ['确定', '取消'],
-                            success:function(){
-                                $('input[name="promoter"]').data('v','');
-                            },
-                            yes:function(){
-                                var getData = tree.getCheckData('obj').varStr;
-                                console.log(getData);
-                                $('input[name="promoter"]').data('v',tree.getCheckData('obj'));
-                                $('input[name="promoter"]').val(getData);
-                                if(tree.getCheckData('obj').cArr.length==1 && tree.getCheckData('obj').pArr.length<=0){
-                                    $('input[name="islEeader"]').removeAttr('disabled');
-                                    form.render();
-                                } else {
-                                    $('input[name="islEeader"]').prop('checked',false);
-                                    $('input[name="islEeader"]').attr('disabled','disabled');
-                                    form.render();
-                                }
-                                console.log()
-                                tree.resetPlug();
-                                layer.close(inp);
-                            }
-                        });
-                    });
+                    // $('.start_msg input[name="promoter"]').unbind('click').on('click',function(){
+                    //     var inp=layer.open({
+                    //         type:1,
+                    //         title:'请选择发起人',
+                    //         content:$('#screen_msg'),
+                    //         area:['680px','540px'],
+                    //         btn: ['确定', '取消'],
+                    //         success:function(){
+                    //             $('input[name="promoter"]').data('v','');
+                    //         },
+                    //         yes:function(){
+                    //             var getData = tree.getCheckData('obj').varStr;
+                    //             console.log(getData);
+                    //             $('input[name="promoter"]').data('v',tree.getCheckData('obj'));
+                    //             $('input[name="promoter"]').val(getData);
+                    //             if(tree.getCheckData('obj').cArr.length==1 && tree.getCheckData('obj').pArr.length<=0){
+                    //                 $('input[name="islEeader"]').removeAttr('disabled');
+                    //                 form.render();
+                    //             } else {
+                    //                 $('input[name="islEeader"]').prop('checked',false);
+                    //                 $('input[name="islEeader"]').attr('disabled','disabled');
+                    //                 form.render();
+                    //             }
+                    //             console.log()
+                    //             tree.resetPlug();
+                    //             layer.close(inp);
+                    //         }
+                    //     });
+                    // });
                     //初始化表单
-                    element.tabChange('start_tab', 'start_sponsor');
+                    // element.tabChange('start_tab', 'start_sponsor');
+                    element.tabChange('start_tab', 'start_access');
                     $('#start_msg').data('pId','');
-                    $('#start_msg').find('input[name="promoter"]').val('');
-                    tree.resetPlug();
+                    // $('#start_msg').find('input[name="promoter"]').val('');
+                    // tree.resetPlug();
                     $('#start_msg').data('pId','s_node');
                     var accessArr=$('#s_node').data('role_form')||[];
-                    var jsonArr=$('#s_node').data('dValue')||[];
-                    $('input[name="islEeader"]').attr('disabled','true');
+                    //var jsonArr=$('#s_node').data('dValue')||[];
+                    // $('input[name="islEeader"]').attr('disabled','true');
                     //初始化表单
-                    if(jsonArr.length>0){
-                        var pstr='';
-                        var arr=jsonArr[0].content[0].value.concat(jsonArr[0].content[1].value);
-                        if(jsonArr[0].content[0].value.length==1 && jsonArr[0].content[1].value.length<=0 && jsonArr[0].content[2].value.length<=0){
-                            $('input[name="islEeader"]').removeAttr('disabled')
-                            form.render();
-                        }
-                        $.each(arr,function(w,m){
-                            pstr+=m.name+','
-                            tree.checkNodeByData(m, true, true);
-                        });
-                        $('.start_msg input[name="promoter"]').val(pstr.substr(0,pstr.length-1))
-                    }
+                    //if(jsonArr.length>0){
+                        //var pstr='';
+                        //var arr=jsonArr[0].content[0].value.concat(jsonArr[0].content[1].value);
+                        // if(jsonArr[0].content[0].value.length==1 && jsonArr[0].content[1].value.length<=0 && jsonArr[0].content[2].value.length<=0){
+                        //     $('input[name="islEeader"]').removeAttr('disabled')
+                        //     form.render();
+                        // }
+                        //$.each(arr,function(w,m){
+                        //    pstr+=m.name+','
+                        //   tree.checkNodeByData(m, true, true);
+                        //});
+                        //$('.start_msg input[name="promoter"]').val(pstr.substr(0,pstr.length-1))
+                    //}
                     //设置表单权限
                     setFormAccess(layero);
                     //初始化权限
@@ -2211,7 +2392,6 @@
                             $('.access_content li').find('input[value="0"]').prop('checked', true);
                         }
                     }
-
                     form.render();
                     var accessSum=$('#start_msg .access_content li').length;
                     if($('#start_msg .subRadio1:checked').length==accessSum){
@@ -2249,60 +2429,59 @@
                         });
                     }
                     $('#s_node').data('role_form',role_form_arr);
-                    var jsonArr=[];
-                    var userContent=[];
-                    userContent.push({
-                        "operator": 6,
-                        "value": $('.start_msg').find('input[name="promoter"]').data('v')?$('.start_msg').find('input[name="promoter"]').data('v').cArr:[],
-                        "label": "用户ID",
-                        "field": "userId"
-                    });
-                    userContent.push({
-                        "operator": 6,
-                        "value": $('.start_msg').find('input[name="promoter"]').data('v')?$('.start_msg').find('input[name="promoter"]').data('v').pArr:[],
-                        "label": "部门ID",
-                        "field": "officeId"
-                    });
-                    userContent.push({
-                        "operator": 6,
-                        "value": [],
-                        "label": "角色ID",
-                        "field": "roleId"
-                    });
-                    jsonArr.push({
-                        title:'发起人',
-                        name:'user',
-                        type:'initiator',
-                        cname:'SysUser',
-                        content:userContent
-                    });
+                    // var jsonArr=[];
+                    //var userContent=[];
+                    // userContent.push({
+                    //     "operator": 6,
+                    //     "value": $('.start_msg').find('input[name="promoter"]').data('v')?$('.start_msg').find('input[name="promoter"]').data('v').cArr:[],
+                    //     "label": "用户ID",
+                    //     "field": "userId"
+                    // });
+                    // userContent.push({
+                    //     "operator": 6,
+                    //     "value": $('.start_msg').find('input[name="promoter"]').data('v')?$('.start_msg').find('input[name="promoter"]').data('v').pArr:[],
+                    //     "label": "部门ID",
+                    //     "field": "officeId"
+                    // });
+                    // userContent.push({
+                    //     "operator": 6,
+                    //     "value": [],
+                    //     "label": "角色ID",
+                    //     "field": "roleId"
+                    // });
+                    // jsonArr.push({
+                    //     title:'发起人',
+                    //     name:'user',
+                    //     type:'initiator',
+                    //     cname:'SysUser',
+                    //     content:userContent
+                    // });
                     form.render();
-                    console.log()
-                    jsonArr.push({
-                        title:'是否部门领导',
-                        name:'isLeader',
-                        type:'leaderType',
-                        cname:'SysUser',
-                        content:[{
-                            operator: 6,
-                            value: $('input[name="islEeader"]').is(':checked')?1:0,
-                            label: $('input[name="islEeader"]').is(':checked')?'是':'否',
-                            field: ""
-                        }]
-                    });
+                    // jsonArr.push({
+                    //     title:'是否部门领导',
+                    //     name:'isLeader',
+                    //     type:'leaderType',
+                    //     cname:'SysUser',
+                    //     content:[{
+                    //         operator: 6,
+                    //         value: $('input[name="islEeader"]').is(':checked')?1:0,
+                    //         label: $('input[name="islEeader"]').is(':checked')?'是':'否',
+                    //         field: ""
+                    //     }]
+                    // });
 
 
-                    if((userContent[0].value.length==0) && (userContent[1].value.length==0)){
-                        $('#s_node').find('.node_text').text('选择发起人');
-                    }
-                    var str='';
-                    var pStr='';
-                    $.each(userContent[0].value.concat(userContent[1].value),function (i,v) {
-                        str+=v.name+'或'
-                    });
-                    pStr+=str.substr(0,str.length-1);
-                    $('#s_node').find('.node_text').text(pStr);
-                    $('#s_node').data('dValue',jsonArr);
+                    // if((userContent[0].value.length==0) && (userContent[1].value.length==0)){
+                    //     $('#s_node').find('.node_text').text('选择发起人');
+                    // }
+                    // var str='';
+                    // var pStr='';
+                    // $.each(userContent[0].value.concat(userContent[1].value),function (i,v) {
+                    //     str+=v.name+'或'
+                    // });
+                    // pStr+=str.substr(0,str.length-1);
+                    // $('#s_node').find('.node_text').text(pStr);
+                    // $('#s_node').data('dValue',jsonArr);
                     layer.close(s_alert);
                 },
                 cancel:function(){
@@ -2387,8 +2566,7 @@
             var this_=this;
             if(!$(this_).parent().find('.node_title').attr('data-id') || $(this_).parent().find('.node_title').attr('data-id')==''){
                 s_node.after(bNode());
-                debugger
-                console.log(s_node);
+                // console.log(s_node);
             } else{
                 $('#'+$(this_).parent().find('.node_title').attr('data-id')).after(bNode());
                 $('#'+$(this_).parent().find('.node_title').attr('data-id')).next().find('.branch_sub_node').each(function(j,k){
