@@ -1,11 +1,13 @@
 package com.example.pojo;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.example.utils.BasePage;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.util.Date;
+
 @Data
-public class SysMenu implements Serializable {
+public class SysMenu extends BasePage implements Serializable {
     private Long menuId;
 
     private String menuName;

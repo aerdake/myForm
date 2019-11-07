@@ -1,8 +1,9 @@
 package com.example.pojo;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 @Data
 public class SysAct implements Serializable {
@@ -23,6 +24,10 @@ public class SysAct implements Serializable {
     private String formFieldId;
 
     private String tbName;
+
+    private String menuName;
+
+    private Long menuPid;
 
     private Date startTime;
 

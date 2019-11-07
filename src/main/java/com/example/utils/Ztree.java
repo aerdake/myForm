@@ -14,10 +14,10 @@ public class Ztree implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** 节点ID */
-    private Integer id;
+    private Long id;
 
     /** 节点父ID */
-    private Integer pId;
+    private Long pId;
 
     /** 节点名称 */
     private String name;
@@ -34,20 +34,29 @@ public class Ztree implements Serializable {
     /** 是否能勾选 */
     private boolean nocheck = false;
 
+    private String url;
 
-    public Integer getId() {
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getpId() {
+    public Long getpId() {
         return pId;
     }
 
-    public void setpId(Integer pId) {
+    public void setpId(Long pId) {
         this.pId = pId;
     }
 

@@ -11,6 +11,8 @@
     <result column="form_html" property="formHtml" jdbcType="VARCHAR" />
     <result column="form_field_id" property="formFieldId" jdbcType="VARCHAR" />
     <result column="tb_name" property="tbName" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_pid" property="menuPid" jdbcType="BIGINT" />
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="status" property="status" jdbcType="CHAR" />
@@ -81,8 +83,8 @@
   </sql>
   <sql id="Base_Column_List" >
     act_id, act_name, discripe, apply_user_range, office_ids, user_ids, form_html, form_field_id, 
-    tb_name, start_time, end_time, `status`, create_time, update_time, create_person, 
-    update_person, remark, recycle
+    tb_name, menu_name, menu_pid, start_time, end_time, `status`, create_time, update_time, 
+    create_person, update_person, remark, recycle
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.example.pojo.SysActExample" >
     select
@@ -121,17 +123,17 @@
     insert into sys_act (act_id, act_name, discripe, 
       apply_user_range, office_ids, user_ids, 
       form_html, form_field_id, tb_name, 
-      start_time, end_time, `status`, 
-      create_time, update_time, create_person, 
-      update_person, remark, recycle
-      )
+      menu_name, menu_pid, start_time, 
+      end_time, `status`, create_time, 
+      update_time, create_person, update_person, 
+      remark, recycle)
     values (#{actId,jdbcType=BIGINT}, #{actName,jdbcType=VARCHAR}, #{discripe,jdbcType=VARCHAR}, 
       #{applyUserRange,jdbcType=CHAR}, #{officeIds,jdbcType=VARCHAR}, #{userIds,jdbcType=VARCHAR}, 
       #{formHtml,jdbcType=VARCHAR}, #{formFieldId,jdbcType=VARCHAR}, #{tbName,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createPerson,jdbcType=VARCHAR}, 
-      #{updatePerson,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{recycle,jdbcType=CHAR}
-      )
+      #{menuName,jdbcType=VARCHAR}, #{menuPid,jdbcType=BIGINT}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createPerson,jdbcType=VARCHAR}, #{updatePerson,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{recycle,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.pojo.SysAct" >
     <selectKey resultType="java.lang.Long" keyProperty="actId" order="BEFORE" >
@@ -163,6 +165,12 @@
       </if>
       <if test="tbName != null" >
         tb_name,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuPid != null" >
+        menu_pid,
       </if>
       <if test="startTime != null" >
         start_time,
@@ -217,6 +225,12 @@
       </if>
       <if test="tbName != null" >
         #{tbName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPid != null" >
+        #{menuPid,jdbcType=BIGINT},
       </if>
       <if test="startTime != null" >
         #{startTime,jdbcType=TIMESTAMP},
@@ -283,6 +297,12 @@
       <if test="record.tbName != null" >
         tb_name = #{record.tbName,jdbcType=VARCHAR},
       </if>
+      <if test="record.menuName != null" >
+        menu_name = #{record.menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.menuPid != null" >
+        menu_pid = #{record.menuPid,jdbcType=BIGINT},
+      </if>
       <if test="record.startTime != null" >
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
@@ -326,6 +346,8 @@
       form_html = #{record.formHtml,jdbcType=VARCHAR},
       form_field_id = #{record.formFieldId,jdbcType=VARCHAR},
       tb_name = #{record.tbName,jdbcType=VARCHAR},
+      menu_name = #{record.menuName,jdbcType=VARCHAR},
+      menu_pid = #{record.menuPid,jdbcType=BIGINT},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       `status` = #{record.status,jdbcType=CHAR},
@@ -365,6 +387,12 @@
       </if>
       <if test="tbName != null" >
         tb_name = #{tbName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPid != null" >
+        menu_pid = #{menuPid,jdbcType=BIGINT},
       </if>
       <if test="startTime != null" >
         start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -406,6 +434,8 @@
       form_html = #{formHtml,jdbcType=VARCHAR},
       form_field_id = #{formFieldId,jdbcType=VARCHAR},
       tb_name = #{tbName,jdbcType=VARCHAR},
+      menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_pid = #{menuPid,jdbcType=BIGINT},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       `status` = #{status,jdbcType=CHAR},

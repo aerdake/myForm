@@ -1,5 +1,10 @@
 package com.example.service;
 
+import com.example.pojo.SysMenu;
+import com.example.utils.Ztree;
+
+import java.util.List;
+
 /**
  * @ClassName MenuService.java
  * @Description TODO
@@ -9,4 +14,7 @@ package com.example.service;
  */
 
 public interface MenuService {
+    List<Ztree> menuTreeData();
+
+    List<SysMenu> selectMenuList();
 }
