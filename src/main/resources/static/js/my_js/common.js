@@ -591,7 +591,10 @@ function getUserJson(){
 		async:false,
 		url:'/office/officeTreeData',
 		success:function (res) {
-			data=res;
+			if(res.code==200){
+				data=res.data;
+			}
+
 		},
 		error:function(e){
 			data='error';
