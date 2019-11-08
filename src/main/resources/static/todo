@@ -5,7 +5,8 @@
 11 添加角色选择
 17 全部数据回显 分开读取数据  打开时先读取基础数据 点击表单项读取表单数据 点击流程项读取流程数据并判断表单项是否已读取，如果未读取则读取表单项数据
 //21 重新修改保存和读取数据 将整个dom元素进行保存 和读取 读取后根据 id进行赋值 所有事件改成事件委托
-
+23 基础设置数据交互
+24 表单json数据改成驼峰命名
 
 暂时废弃
 //20 添加上一节点id 属性
@@ -34,4 +35,41 @@ next
 //18 修改保存json中的act_id
 //19 条件节点下添加条件节点 后新增条件节点处bug 线不能被覆盖
 //20 添加层次属性用来生成层级结构 生成树时按照层次生成节点数据 层次属性在生成节点时生成 层次生成判断该节点外嵌套条件节点的层数来判断 需要注意同级节点问题
+//22 点击缩小和切换页面时关闭添加节点按钮
 next
+
+
+
+
+
+
+
+
+
+用户测试数据
+var zNodes = [
+    { id: 1, pId: 0, name: "集团",open: false, checked: false, searchdata: "集团",idname:'officeid'},
+    { id: 11, pId: 1, name: "一汽", open: true, checked: false, searchdata: '集团一汽',idname:'officeid' },
+    { id: 111, pId: 11, name: "一汽子成员1", checked: false, searchdata: '集团一汽一汽子成员1',idname:'userId' },
+    { id: 112, pId: 11, name: "一汽子成员2", checked: false, searchdata: '集团一汽一汽子成员2' ,idname:'userId'},
+    { id: 12, pId: 1, name: "二汽", open: false, checked: false, searchdata: '集团二汽' },
+    { id: 121, pId: 12, name: "二汽子成员1", checked: false, searchdata: '集团二汽二汽子成员1' },
+    { id: 122, pId: 12, name: "二汽子成员2", checked: false, searchdata: '集团二汽二汽子成员2' },
+    { id: 2, pId: 0, name: "集团 2", checked: false, open: false, searchdata: '集团 2' },
+    { id: 21, pId: 2, name: "一汽", checked: false, searchdata: '集团 2一汽' },
+    { id: 22, pId: 2, name: "二汽", open: false, checked: false, searchdata: '集团 2二汽' },
+    { id: 221, pId: 22, name: "二汽1", checked: false, searchdata: '集团 2二汽二汽1' },
+    { id: 222, pId: 22, name: "二汽2", checked: false, searchdata: '集团 2二汽二汽2' },
+    { id: 23, pId: 2, name: "三汽", checked: false, searchdata: '集团 2二汽三汽' },
+    { id: 3, pId: 0, name: "其他", open: false, checked: false, searchdata: "其他" },
+];
+菜单 测试数据
+var data2=[
+    {"id":1, "parentId":0, "title":"路灯管理1","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+    {"id":2, "parentId":1, "title":"路灯管理2","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+    {"id":3, "parentId":1, "title":"路灯管理3","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+    {"id":4, "parentId":0, "title":"路灯管理4","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+    {"id":5, "parentId":4, "title":"路灯管理5","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+    {"id":6, "parentId":0, "title":"路灯管理6","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
+
+];

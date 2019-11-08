@@ -72,7 +72,7 @@
                 <div class="layui-form-item hidden">
                     <label class="layui-form-label">流程id(打开时后端向前端获取)</label>
                     <div class="layui-input-block">
-                        <input type="text" name="actId" id="act_id" lay-verify="not_null" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
+                        <input type="text" name="actId" id="actId" lay-verify="not_null" placeholder="请输入流程名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -913,7 +913,7 @@
 <!--<script th:inline="javascript"> var ctx = [[@{/}]]; </script>-->
 <!--自定义-->
 <script src="../js/my_js/build.js"></script>
-<script th:src="@{/js/my_js/common.js}"></script>
+<script th:src="@{../js/my_js/common.js}"></script>
 <script src="../js/my_js/tree.js"></script>
 <script src="../js/my_js/tree2.js"></script>
 <script type="text/javascript">
@@ -923,19 +923,23 @@
         xmSelect: 'xm-select'
     }).use(['jquery','layer','transfer','form','element','xmSelect'], function(){
         var layer = layui.layer,$ = layui.$,transfer = layui.transfer,form=layui.form,element=layui.element;
+        //获取用户数据
+        var userTree=getUserJson();
         //初始化验证
         verifyInit(form);
+
+
+
         form.render();
         //添加表单id
-        if($('#act_id').val()==''){
-            $('#act_id').val(len_uuid(20,12));
+        if($('#actId').val()==''){
+            $('#actId').val(len_uuid(20,12));
         }
         //清空申请人范围选择
         $('.apply_user_range').css('display','none');
         $('.range_select').css('marginBottom','0');
         $('input[name="apply_user_range"]').data('v','');
         $('input[name="applyUserRange"]').val(0);
-
         //初始化申请人范围控件
         form.on('select(applyUserRange)', function(data){
             switch(data.value){
@@ -982,6 +986,7 @@
 
         //监听 选项卡切换
         element.on('tab(outer_tab)', function(data){
+            layer.closeAll();
             console.log(data.index); //得到当前Tab的所在下标
             var form_ald=false;
             switch(data.index) {
@@ -1005,70 +1010,85 @@
 
 
         form.render();
-
-
         /* 穿梭框*/
         //替换方案
         // http://www.weivb.com/so/iframe.php?a=https://blog.csdn.net/weixin_42603150/article/details/80999605
         // https://fullsmilespace.com/?p=15081
         // https://blog.csdn.net/cuicui_web/article/details/89154487
-        var zNodes = [
-            { id: 1, pId: 0, name: "集团",
-                open: false, checked: false, searchdata: "集团",idname:'officeid'},
-            { id: 11, pId: 1, name: "一汽", open: true, checked: false, searchdata: '集团一汽',idname:'officeid' },
-            { id: 111, pId: 11, name: "一汽子成员1", checked: false, searchdata: '集团一汽一汽子成员1',idname:'userId' },
-            { id: 112, pId: 11, name: "一汽子成员2", checked: false, searchdata: '集团一汽一汽子成员2' ,idname:'userId'},
-            { id: 12, pId: 1, name: "二汽", open: false, checked: false, searchdata: '集团二汽' },
-            { id: 121, pId: 12, name: "二汽子成员1", checked: false, searchdata: '集团二汽二汽子成员1' },
-            { id: 122, pId: 12, name: "二汽子成员2", checked: false, searchdata: '集团二汽二汽子成员2' },
-            { id: 2, pId: 0, name: "集团 2", checked: false, open: false, searchdata: '集团 2' },
-            { id: 21, pId: 2, name: "一汽", checked: false, searchdata: '集团 2一汽' },
-            { id: 22, pId: 2, name: "二汽", open: false, checked: false, searchdata: '集团 2二汽' },
-            { id: 221, pId: 22, name: "二汽1", checked: false, searchdata: '集团 2二汽二汽1' },
-            { id: 222, pId: 22, name: "二汽2", checked: false, searchdata: '集团 2二汽二汽2' },
-            { id: 23, pId: 2, name: "三汽", checked: false, searchdata: '集团 2二汽三汽' },
-            { id: 3, pId: 0, name: "其他", open: false, checked: false, searchdata: "其他" },
-        ];
+        //初始化穿错框
         var tree = $("#treeDemo").TransferTree({
-            zNodes: zNodes,
+            zNodes: userTree,
         });
         //创建only tree
         var tree2 = $("#treeDemo_only").TransferTree2({
-            zNodes: zNodes,
+            zNodes: userTree,
         });
-
         var tree3 = $("#treeDemo_only").TransferTree2({
-            zNodes: zNodes,
+            zNodes: userTree,
         });
-
-        var tree3='';
         /*
             json处理相关
         */
+        form.on('submit(go)', function(data){
+            console.log(getFormJson());
+            var djson={};
+            djson["actId"]=data.field.actId;
+            djson["tbName"]=data.field.tbName;
+            djson["applyUserRange"]=data.field.applyUserRange;
+            if(data.field.applyUserRange==1){
+                var pArrId=[],cArrId=[];
+                $.each($('input[name="apply_user_range"]').data('v').pArr,function(i,v){
+                    pArrId.push(v.id)
+                });
+                $.each($('input[name="apply_user_range"]').data('v').cArr,function(i,v){
+                    cArrId.push(v.id)
+                });
+                djson["userId"]=cArrId;
+                djson["officeId"]=pArrId;
+            }else if(data.field.applyUserRange==0){
+                djson["officeId"]=[];
+                djson["userId"]=[];
+            }
+            djson["discripe"]=data.field.discripe;
+            djson["actName"]=data.field.act_name;
+            djson["menuName"]=data.field.menuName;
+            djson["parentId"]=$('#menu_location').data('v')[0].id;
+            console.log(djson)
+            $.ajax({
+                type:'post',
+                async:false,
+                url:'/act/add',
+                data:{
+                    "actId": djson.actId,
+                    "actName": djson.actName,
+                    "discripe": djson.discripe,
+                    "applyUserRange": djson.applyUserRange,
+                    "userIds": djson.userId,
+                    "officeIds": djson.officeId,
+                    "formHtml": '',
+                    "formFieldId": '',
+                    "tbName": djson.tbName,
+                    "menuName": djson.menuName,
+                    "menuPid": djson.parentId
+                },
+                success:function(res){
+                    if(res.code==200){
+                        layer.alert('保存失败')
+                    }else if(res.code==500){
+                        layer.alert('保存失败')
+                    }
+                },
+                error:function(e){
+                    console.log(e)
+                }
+            });
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
         //根据节点生成json
         $('.step_con_btn').unbind('click').on('click',function(e){
             if($(e.target).hasClass('step_con_select')){
                 //基础数据保存
-                //$('#base_data_sub').trigger('click');
-                form.on('submit(go)', function(data){
-                    var djson={};
-                    djson[".fieactId"]=datald.actId;
-                    djson["tbName"]=data.field.tbName;
-                    djson["applyUserRange"]=data.field.applyUserRange;
-                    if(data.field.applyUserRange==1){
-                        djson["officeId"]=$('input[name="apply_user_range"]').data('v').pArr
-                        djson["userId"]=$('input[name="apply_user_range"]').data('v').cArr
-                    }else if(data.field.applyUserRange==0){
-                        djson["officeId"]='';
-                        djson["userId"]='';
-                    }
-                    djson["discripe"]=data.field.discripe;
-                    djson["actName"]=data.field.act_name;
-                    djson["menuName"]=data.field.menuName;
-                    djson["parentId"]=$('#menu_location').data('v')[0].id;
-                    console.log(djson)
-                    return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-                });
+                $('#base_data_sub').trigger('click');
                 //流程保存
                 var sArr=[];
                 var actIndex=1;
@@ -1220,23 +1240,16 @@
         //基础设置表单操作
         //菜单位置选择
         //菜单初始化
-        var data2=[
-            {"id":1, "parentId":0, "title":"路灯管理1","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
-            {"id":2, "parentId":1, "title":"路灯管理2","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
-            {"id":3, "parentId":1, "title":"路灯管理3","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
-            {"id":4, "parentId":0, "title":"路灯管理4","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
-            {"id":5, "parentId":4, "title":"路灯管理5","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
-            {"id":6, "parentId":0, "title":"路灯管理6","iconCls":null,"href":"#","checked":false,"spread":true,"children":null},
-
-        ];
+        var data2=getMenuJson();
         var settingsA={
             data: {
                 simpleData: {
                     enable: true,
-                    pIdKey: "parentId",
+                    pIdKey: "pId",
                 },
                 key:{
-                    name: "title"
+                    name: "title",
+                    url:"src"
                 }
             },
             check: {
@@ -1424,6 +1437,7 @@
                 $('.outerBox').css('transform','scale('+text/100+')');
                 $('.zoom_msg').text(text+'%');
             }
+            layer.closeAll();
         });
         $('.zoom_down').on('click',function(){
             if(parseInt($('.zoom_msg').text())>=100){
@@ -1433,6 +1447,7 @@
                 $('.outerBox').css('transform','scale('+text/100+')');
                 $('.zoom_msg').text(text+'%');
             }
+            layer.closeAll();
         });
         /* transform: scale(1);
         transform-origin: 50% 0px 0px;*/

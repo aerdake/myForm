@@ -580,3 +580,41 @@ function isFinished() {
 		"form_data":form_data
 	}
 }
+
+//读取数据
+//部门用户树形结构
+// /office/officeTreeData
+function getUserJson(){
+	var data;
+	$.ajax({
+		type:'post',
+		async:false,
+		url:'/office/officeTreeData',
+		success:function (res) {
+			data=res;
+		},
+		error:function(e){
+			data='error';
+		}
+	})
+	return data
+}
+//菜单树形结构
+// /menu/menuTreeData
+function getMenuJson(){
+	var data;
+	$.ajax({
+		type:'post',
+		async:false,
+		url:'/menu/menuTreeData',
+		success:function (res) {
+			if(res.code==200){
+				data=res.data;
+			}
+		},
+		error:function(e){
+			data='error';
+		}
+	})
+	return data
+}
