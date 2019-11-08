@@ -4,6 +4,7 @@ import com.example.pojo.SysAct;
 import com.example.service.SysActService;
 import com.example.utils.NanChangResult;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,7 +31,7 @@ public class SysActController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public NanChangResult addSysAct(SysAct sysAct){
+    public NanChangResult addSysAct(@RequestBody SysAct sysAct){
         NanChangResult result=sysActService.addSysAct(sysAct);
         return result;
     }
