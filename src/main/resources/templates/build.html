@@ -933,7 +933,8 @@
         form.render();
         //添加表单id
         if($('#actId').val()==''){
-            $('#actId').val(len_uuid(20,12));
+            // $('#actId').val(len_uuid(20,12))
+            $('#actId').val(new Date().getTime());
         }
         //清空申请人范围选择
         $('.apply_user_range').css('display','none');
@@ -1059,19 +1060,7 @@
                 async:false,
                 url:'/act/add',
                 contentType: 'application/json',
-                data:{
-                    "actId": djson.actId,
-                    "actName": djson.actName,
-                    "discripe": djson.discripe,
-                    "applyUserRange": djson.applyUserRange,
-                    "userIds": djson.userId,
-                    "officeIds": djson.officeId,
-                    "formHtml": '',
-                    "formFieldId": '',
-                    "tbName": djson.tbName,
-                    "menuName": djson.menuName,
-                    "menuPid": djson.parentId
-                },
+                data:JSON.stringify(djson),
                 success:function(res){
                     if(res.code==200){
                         layer.alert('保存失败')
