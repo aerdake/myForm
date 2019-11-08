@@ -47,11 +47,11 @@
     .draggable {
         cursor: move
     }
-    .layui-fom .layui-form-label{
-        display:flex;
-        align-items: center;
-        justify-content: center;
-    }
+    /*.layui-fom .layui-form-label{*/
+    /*    display:flex;*/
+    /*    align-items: center;*/
+    /*    justify-content: center;*/
+    /*}*/
 </style>
 <body class="gray-bg">
 <div class="step_con_btn">
@@ -539,9 +539,8 @@
         </div>
         <div class="layui-tab-item">
             <div class="outerBox">
-                <button onclick="getAllJson()">123</button>
                 <div class="edit_board">
-                    <div class="star_node node" id="s_node" squid="1">
+                    <div class="star_node node" id="s_node" squid="1" level="0">
                         <div class="node_box star_box">
                             <div class="node_title">发起人</div>
                             <div class="node_content">
@@ -549,19 +548,19 @@
                             </div>
                         </div>
                         <div class="add_node">
-                            <a href="#none" class="add_btn">+</a>
+                            <a href="javascript:;" class="add_btn">+</a>
                         </div>
                     </div>
-                    <div class="end_node node" squid="2">
+                    <div class="end_node node" squid="2" level="0">
                         <i class="end_icon"></i>
                         <div class="node_title">流程结束</div>
                     </div>
                 </div>
             </div>
             <div class="zoomBox">
-                <a href="#none" class="zoom_up"><</a>
+                <a href="javascript:;" class="zoom_up"><</a>
                 <span class="zoom_msg">100%</span>
-                <a href="#none" class="zoom_down">></a>
+                <a href="javascript:;" class="zoom_down">></a>
             </div>
         </div>
         <div class="layui-tab-item">
@@ -578,8 +577,8 @@
 <!--插入按钮响应-->
 <div class="add_alert close_box" style="display:none;">
     <div class="node_title alert_node_title">123</div>
-    <a href="#none" class="add_approval_btn">添加审批人</a>
-    <a href="#none" class="add_branch_btn">添加条件</a>
+    <a href="javascript:;" class="add_approval_btn">添加审批人</a>
+    <a href="javascript:;" class="add_branch_btn">添加条件</a>
 </div>
 <!-- 开始节点弹窗 -->
 <div class="msg_alert start_msg" id="start_msg" style="display:none;">
@@ -653,8 +652,8 @@
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><input type="radio" name="role" value="2" title="指定角色" lay-filter="approval_role"></div>
                     <div class="approval_select layui-col-xs12 layui-col-sm12 layui-col-md12">
                         <div class="approval_member" style="display:none;">
-                            <a href="#none" class="approval_member_select layui-btn layui-btn-sm">修改成员</a>
-                            <div><a href="#none" class="approval_member_clearAll">清空</a></div>
+                            <a href="javascript:;" class="approval_member_select layui-btn layui-btn-sm">修改成员</a>
+                            <div><a href="javascript:;" class="approval_member_clearAll">清空</a></div>
                             <div style="font-size:12px;color:#ccc;">最多只能选择20个用户</div>
                             <ul class="approval_member_list"></ul>
                         </div>
@@ -671,8 +670,8 @@
 <!--                            </div>-->
 <!--                    </div>-->
                         <div class="approval_roles layui-col-xs12 layui-col-sm12 layui-col-md12" style="display:none;">
-                            <a href="#none"class="layui-btn layui-btn-sm approval_role_select">添加角色</a>
-                            <div><a href="#none" class="approval_role_clearAll">清空</a></div>
+                            <a href="javascript:;"class="layui-btn layui-btn-sm approval_role_select">添加角色</a>
+                            <div><a href="javascript:;" class="approval_role_clearAll">清空</a></div>
                             <ul class="approval_role_list"></ul>
                         </div>
                     </div>
@@ -738,7 +737,7 @@
 <!-- 条件弹窗 -->
 <div class="msg_alert condition_msg" id="condition_msg" style="display:none;">
     <div class="condition_msg_con">
-        <a href="#none" class="layui-btn layui-btn-normal add-condition-btn">添加条件</a>
+        <a href="javascript:;" class="layui-btn layui-btn-normal add-condition-btn">添加条件</a>
         <div>还有<span class="condition_list_sum">0</span>个可用条件</div>
     </div>
     <form action="" class="layui-form" lay-filter="conForm">
@@ -850,8 +849,8 @@
     <div class="content_wrap">
         <div class="zTreeDemoBackground left">
             <div class="tree-change">
-                <a href="#none" class="select">选择人员</a>
-                <a href="#none">选择角色</a>
+                <a href="javascript:;" class="select">选择人员</a>
+                <a href="javascript:;">选择角色</a>
             </div>
             <div class="input-search">
                 <input type="text" placeholder="输入关键字查询" id="filter-text-doulbe" class="empty" /><span style="color:red;font-size:12px;position:absolute;left:0;right:0;top:40px;display:none;" class="no-data">查找不到结果~</span>
@@ -1049,13 +1048,11 @@
         //根据节点生成json
         $('.step_con_btn').unbind('click').on('click',function(e){
             if($(e.target).hasClass('step_con_select')){
-
                 //基础数据保存
                 //$('#base_data_sub').trigger('click');
                 form.on('submit(go)', function(data){
-                    debugger
                     var djson={};
-                    djson["actId"]=data.field.actId;
+                    djson[".fieactId"]=datald.actId;
                     djson["tbName"]=data.field.tbName;
                     djson["applyUserRange"]=data.field.applyUserRange;
                     if(data.field.applyUserRange==1){
@@ -1078,18 +1075,24 @@
                 // console.log($('.node'))
                 $('.node').each(function(i,v){
                     var json={};
+                    // 提取公共数据
+                    json['level']=$(v).attr('level');
+                    json['act_step_id']=$(v).attr('squid');
+                    json['act_id']=$('#act_id').val();
+                    json['step_name']=$(v).find('.node_title').text();
+                    //大部分为空
+                    json['approve_user_type']='';
+                    json['roles_approve_type']='';
+                    json['approve_user']='';
+                    json['role_user']='';
+                    json['disagree_node']='';
+                    //延后处理
+                    json['status']=0;
+                    json['priority']='';
                     if($(v).hasClass('star_node')){
-                        json['act_step_id']=$(v).attr('squid');
-                        json['act_id']=1;
-                        json['step_name']=$(v).find('.node_title').text();
                         json['step_node_type']=1;
-                        json['approve_user_type']='';
-                        json['roles_approve_type']='';
-                        json['approve_user']='';
-                        json['role_user']='';
                         json['role_form']=$(v).data('role_form')||'';
                         json['judge']=$(v).data('dValue')||'';
-                        json['priority']='';
                         var nextArr=[];
                         if((i+1)<=$('.node').length-1){
                             if($($('.node')[i+1]).hasClass('branch_sub_node')){
@@ -1106,21 +1109,11 @@
                             nextArr.push(2)
                         }
                         json['next_node']=nextArr;
-                        json['disagree_node']='';
-                        json['status']=0;
                     }
                     if($(v).hasClass('branch_sub_node')){
-                        json['act_step_id']=$(v).attr('squid');
-                        json['act_id']=1;
-                        json['step_name']=$(v).find('.node_title').text();
                         json['step_node_type']=3;
-                        json['approve_user_type']='';
-                        json['roles_approve_type']='';
-                        json['approve_user']='';
-                        json['role_user']='';
                         json['role_form']='';
                         json['judge']=$(v).data('dValue')||'';
-                        json['priority']='';
                         var nextArr=[];
                         if((i+1)<=$('.node').length-1){
                             if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
@@ -1152,17 +1145,12 @@
                             nextArr.push(2)
                         }
                         json['next_node']=nextArr;
-                        json['disagree_node']='';
-                        json['status']=0;
-                        var nextArr=[];
                     }
                     if($(v).hasClass('approval_node')){
-                        json['act_step_id']=$(v).attr('squid');
-                        json['act_id']=1;
-                        json['step_name']=$(v).find('.node_title').text();
+                        json['role_form']=$(v).data('role_form')||'';
                         json['step_node_type']=0;
-                        var nextArr=[];
                         json['judge']='';
+                        var nextArr=[];
                         if((i+1)<=$('.node').length-1){
                             if($(v).parent('div').next().find('.node').attr('squid')==$($('.node')[i+1]).attr('squid')){
                                 if($(v).parents('.branch_node').next().hasClass('end_node')){
@@ -1193,37 +1181,26 @@
                             nextArr.push(2)
                         }
                         json['next_node']=nextArr;
-                        json['status']=0;
                         var nodeJson=$(v).data('dValue');
                         if(nodeJson) {
                             json['approve_user_type'] = nodeJson['approve_user_type'] ? nodeJson['approve_user_type'] : '';
                             json['approve_user'] = nodeJson['approve_user'] ? nodeJson['approve_user'] : '';
                             json['role_user'] = nodeJson['role_user'] ? nodeJson['approve_user'] : '';
-                            json['disagree_node'] = nodeJson['disagree_node'] ? nodeJson['approve_user'] : '';
-
+                            json['disagree_node'] = nodeJson['disagree_node'] ? nodeJson['disagree_node'] : '';
                         }
                     }
                     if($(v).hasClass('end_node')){
-                        json['act_step_id']=$(v).attr('squid');
-                        json['act_id']=1;
                         json['step_name']='结束节点';
                         json['step_node_type']=2;
-                        json['roles_approve_type']='';
-                        json['approve_user']='';
-                        json['role_user']='';
                         json['role_form']='';
                         json['judge']='';
-                        json['priority']='';
                         json['next_node']='';
-                        json['disagree_node']='';
-                        json['status']='';
                     }
-                    // console.log(json);
                     sArr.push(json);
                 });
                 console.log(sArr);
                 $('.step_con_select').data('v',sArr);
-                node_create(sArr);
+                // node_create(sArr);
             }
             //发布
             if($(e.target).hasClass('step_con_publish')){
@@ -1300,34 +1277,70 @@
         /*
             表单权限
         */
-        //根据json生成节点
-        function node_create(jsonArr){
+        //根据json生成节点 暂时废弃 修改为整个读取div元素 并绑定数据和值
+        /*function node_create(jsonArr){
             //根据jsonArr遍历生成节点，每次都会重新生成 可加入localstage中进行缓存
             //当只有两个节点时可以不进行绘制
             //创建公共方法根据节点id找寻节点返回节点数据 getUnitJson
             var s_node_data=getUnitJson(1,jsonArr);
-
-        }
+            //根据数据中的level判断层级，低层级的先进行赋值和生成
+            jsonArr.each(function(i,v){
+            });
+        }*/
         //生成节点递归
         //传递next数组 判断节点类型后创建节点大于2的节点一定是条件节点 id不为2 的节点一定是审批节点
-        function aa(nextIdArr){
+        /*function aa(nextIdArr){*/
             /*
             1 判断
+                nextI成节点
+                dArr.level 按照范围由外向内生成节点
                 nextIdArr.length==1 && nextIdArr[0].act_step_id!=='2' //审批节点
                 nextIdArr.length>=2 //条件节点
                 nextIdArr[0].act_step_id==='2' 返回false 退出
-
             2 生成节点
-
             3 通过id查找节点数据
             getUnitJson(nodID,data)
-
             4递归调用该方法
-
-
-
             */
+        /*}*/
+        var data_string='123';
+        //fun2 整体存取div元素并赋值
+        function Init_flow(data_string,arrJson){
+            //判断data_string是否有值存在，如果存在则清空编辑元素并插入
+            if(data_string){
+                $('.edit_board').empty();
+                $('.edit_board').prepend(data_string);
+                //赋值arrJson
+                arrJson.each(function(i,v){
+                    switch(v.step_node_type){
+                        case '1':
+                            //开始节点
+                            $('.node[squid="'+v.act_step_id+'"]').data('role_form',v.role_form);
+                            break;
+                        case '2':
+                            //结束节点 无可更新项
+                            break;
+                        case '3':
+                            //条件节点 更新条件
+                            $('.node[squid="'+v.act_step_id+'"]').data('dValue',v.judge);
+
+                            break;
+                        case '0':
+                            //审批节点 更新权限 用户选择项
+                            $('.node[squid="'+v.act_step_id+'"]').data('role_form',v.role_form);
+                            v['approve_user_json']=v.approve_user;
+                            v['approve_role_json']=v.role_user;
+                            v.approve_user='';
+                            v.role_user='';
+                            $('.node[squid="'+v.act_step_id+'"]').data('dValue',v);
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            }
         }
+        //Init_flow(data_string)
         // 点击全部选中。
         form.on('radio(all_edit)', function(data){
             if(data.value=='on'){
@@ -2040,7 +2053,8 @@
                         //初始化人员选择界面
                         $('.approval_select').css('display','none');
                         $('.approval_type').css('display','block');
-                        $('input[name="dis_node_select_option"]').val('0a');
+                        $('.approval_type input[value="2"]').prop('checked',true);
+                        $('input[name="dis_node_select_option"]').val(0);
                         //初始化人员树选择
                         tree.resetPlug();
                         //初始化多人员选择
@@ -2122,6 +2136,8 @@
                                 }
                             });
                         }
+                        //TODO
+                        //初始化角色选择
                         form.render();
                         //选择人员弹窗
                         $('.approval_member_select').unbind('click').on('click', function () {
@@ -2207,7 +2223,7 @@
                                     form.render();
                                 },
                                 yes:function(){
-                                    var apArr=tree3.getCheckData('obj').varStr.split(",");
+                                    var apArr=tree2.getCheckData('obj').varStr.split(",");
                                     $('.approval_role_list').data('roleList',apArr);
                                     $.each(apArr,function(i,v){
                                         if(index>=20){
@@ -2498,7 +2514,8 @@
         element.on('tab(outer-tab)', function(data){
             layer.closeAll('tips');
         });
-        //节点添加 审核节点添加
+        /*节点添加*/
+        // 节点添加按钮事件
         $('body').on('click','.add_btn',function(){
             var this_=this;
             if($(this_).parent().parent().hasClass('branch_node')){
@@ -2556,6 +2573,17 @@
                 s_node.after(cNode());
             } else{
                 $('#'+$(this_).parent().find('.node_title').attr('data-id')).after(cNode());
+                var level=0;
+                if($('#'+$(this_).parent().find('.node_title').attr('data-id')).hasClass('branch_sub_node')){
+                    level=parseInt($('#'+$(this_).parent().find('.node_title').attr('data-id')).attr('level'))+1;
+                } else{
+                    if($('#' + $(this_).parent().find('.node_title').attr('data-id')).hasClass('branch_node')){
+                        level=$($('#' + $(this_).parent().find('.node_title').attr('data-id')).find('.branch_sub_node')[0]).attr('level')
+                    }else {
+                        level = $('#'+$(this_).parent().find('.node_title').attr('data-id')).attr('level');
+                    }
+                }
+                $('#'+$(this_).parent().find('.node_title').attr('data-id')).next().attr('level',level);
             }
             $('.alert_node_title').attr('data-id','');
             // 可编辑div非空判断
@@ -2568,10 +2596,21 @@
             if(!$(this_).parent().find('.node_title').attr('data-id') || $(this_).parent().find('.node_title').attr('data-id')==''){
                 s_node.after(bNode());
                 // console.log(s_node);
-            } else{
-                $('#'+$(this_).parent().find('.node_title').attr('data-id')).after(bNode());
-                $('#'+$(this_).parent().find('.node_title').attr('data-id')).next().find('.branch_sub_node').each(function(j,k){
-                    $(k).attr('squid',squid());
+            } else {
+                $('#' + $(this_).parent().find('.node_title').attr('data-id')).after(bNode());
+                var level = 0;
+                if ($('#' + $(this_).parent().find('.node_title').attr('data-id')).hasClass('branch_sub_node')) {
+                    level = parseInt($('#' + $(this_).parent().find('.node_title').attr('data-id')).attr('level')) + 1;
+                } else {
+                    if($('#' + $(this_).parent().find('.node_title').attr('data-id')).hasClass('branch_node')){
+                        level=$($('#' + $(this_).parent().find('.node_title').attr('data-id')).find('.branch_sub_node')[0]).attr('level')
+                    }else {
+                        level = parseInt($('#' + $(this_).parent().find('.node_title').attr('data-id')).attr('level'));
+                    }
+                }
+                $('#' + $(this_).parent().find('.node_title').attr('data-id')).next().find('.branch_sub_node').each(function (j, k) {
+                    $(k).attr('squid', squid());
+                    $(k).attr('level', level);
                 });
             }
             $('.alert_node_title').attr('data-id','');
@@ -2584,7 +2623,7 @@
             var this_=this;
             var tClass=$(this_).find('a').attr('data-class');
             var num=parseInt($($(this_).parent().find('>.branch_innerBox>div')[$(this_).parent().find('>.branch_innerBox>div').length-1]).css('order'));
-            $($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-1]).find('.shadeBox').remove();
+            $($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-1]).children('.shadeBox').remove();
             var node=
                 '<div style="order:'+(num+1)+';position:relative;display:inline-flex;flex-direction: column;" class="'+tClass+'">'+
                 '<div class="shadeBox">'+
@@ -2608,6 +2647,11 @@
                 '</div>'+
                 '</div>';
             $($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-1]).after($(node));
+            $($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-1]).attr('level',$($(this_).parent().find('.'+tClass)[$(this_).parent().find('>.branch_innerBox>div').length-2]).attr('level'))
+
+
+
+
             // 可编辑div非空判断
             divIsNull(layer);
             layer.closeAll('tips');
