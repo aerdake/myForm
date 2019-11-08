@@ -1036,18 +1036,18 @@
             djson["tbName"]=data.field.tbName;
             djson["applyUserRange"]=data.field.applyUserRange;
             if(data.field.applyUserRange==1){
-                var pArrId=[],cArrId=[];
+                var pArrId='',cArrId='';
                 $.each($('input[name="apply_user_range"]').data('v').pArr,function(i,v){
-                    pArrId.push(v.id)
+                    pArrId+=v.id+','
                 });
                 $.each($('input[name="apply_user_range"]').data('v').cArr,function(i,v){
-                    cArrId.push(v.id)
+                    cArrId+=v.id+','
                 });
                 djson["userId"]=cArrId;
                 djson["officeId"]=pArrId;
             }else if(data.field.applyUserRange==0){
-                djson["officeId"]=[];
-                djson["userId"]=[];
+                djson["officeId"]='';
+                djson["userId"]='';
             }
             djson["discripe"]=data.field.discripe;
             djson["actName"]=data.field.act_name;
