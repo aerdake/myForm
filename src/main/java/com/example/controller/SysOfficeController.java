@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.pojo.SysOffice;
 import com.example.service.SysOfficeService;
+import com.example.utils.NanChangResult;
 import com.example.utils.Ztree;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,9 +41,9 @@ public class SysOfficeController {
      */
     @RequestMapping("/officeTreeData")
     @ResponseBody
-    public List<Ztree> officeTreeData(){
+    public NanChangResult officeTreeData(){
         List<Ztree> ztrees=sysOfficeService.officeTreeData();
-        return ztrees;
+        return NanChangResult.ok(ztrees);
     }
 
 }

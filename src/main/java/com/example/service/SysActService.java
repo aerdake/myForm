@@ -11,5 +11,8 @@ import com.example.utils.NanChangResult;
  * @Version 1.0
  */
 public interface SysActService {
+
     NanChangResult addSysAct(SysAct sysAct);
+
+    NanChangResult selectOne(SysAct sysAct);
 }

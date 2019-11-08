@@ -22,11 +22,32 @@ public class SysActController {
     @Resource
     private SysActService sysActService;
 
+
+    /**
+     * 流程的定义新增
+     * @param sysAct
+     * @return
+     */
     @RequestMapping("/add")
     @ResponseBody
     public NanChangResult addSysAct(SysAct sysAct){
         NanChangResult result=sysActService.addSysAct(sysAct);
         return result;
     }
+
+
+    /**
+     * 根据ID查询流程进行数据回显
+     * @param sysAct
+     * @return
+     */
+    @RequestMapping("/selectOne")
+    @ResponseBody
+    public NanChangResult selectOne(SysAct sysAct){
+        NanChangResult result=sysActService.selectOne(sysAct);
+        return result;
+    }
+
+
 
 }
