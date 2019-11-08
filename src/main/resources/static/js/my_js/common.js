@@ -86,7 +86,7 @@ function subNode(index,uuidClass){
 						'<div class="baranch_box node_box">'+
 							'<div class="node_title edit_box sign_drug">'+
 								'<div contenteditable="true">条件'+i+'</div>'+
-								'<span class="node_priority">等级'+i+'</span>'+
+								// '<span class="node_priority">等级'+i+'</span>'+
 								'<i class="close_btn">x</i>'+
 							'</div>'+
 							'<div class="node_content">'+
@@ -105,7 +105,7 @@ function subNode(index,uuidClass){
 						'<div class="baranch_box node_box">'+
 							'<div class="node_title edit_box sign_drug">'+
 								'<div>条件'+i+'</div>'+
-								'<span class="node_priority">等级'+i+'</span>'+
+								// '<span class="node_priority">等级'+i+'</span>'+
 								'<i class="close_btn">x</i>'+
 							'</div>'+
 							'<div class="node_content">'+
