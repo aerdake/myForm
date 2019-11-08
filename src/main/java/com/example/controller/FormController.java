@@ -17,4 +17,9 @@ public class FormController {
     public String form(){
         return "build";
     }
+
+    @RequestMapping("tree")
+    public String tree(){
+        return "treetest";
+    }
 }

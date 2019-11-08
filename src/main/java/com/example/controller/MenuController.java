@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.pojo.SysMenu;
 import com.example.service.MenuService;
+import com.example.utils.NanChangResult;
 import com.example.utils.Ztree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,9 +39,9 @@ public class MenuController {
      */
     @RequestMapping("/menuTreeData")
     @ResponseBody
-    public List<Ztree> menuTreeData(){
+    public NanChangResult menuTreeData(){
         List<Ztree> ztrees = menuService.menuTreeData();
-        return ztrees;
+        return NanChangResult.ok(ztrees);
     }
 
 }
