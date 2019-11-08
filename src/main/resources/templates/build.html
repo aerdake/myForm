@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
@@ -1058,6 +1058,7 @@
                 type:'post',
                 async:false,
                 url:'/act/add',
+                contentType: 'application/json',
                 data:{
                     "actId": djson.actId,
                     "actName": djson.actName,
