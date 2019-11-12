@@ -15,4 +15,8 @@ public interface SysActService {
     NanChangResult addSysAct(SysAct sysAct);
 
     NanChangResult selectOne(SysAct sysAct);
+
+    NanChangResult selectActById(Long actId);
+
+    NanChangResult tbNameIsExists(String tbName);
 }

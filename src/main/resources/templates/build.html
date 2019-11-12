@@ -933,8 +933,8 @@
         form.render();
         //添加表单id
         if($('#actId').val()==''){
-            // $('#actId').val(len_uuid(20,12))
-            $('#actId').val(new Date().getTime());
+            //$('#actId').val(len_uuid(20,12));
+            $('#actId').val((new Date()).valueOf());
         }
         //清空申请人范围选择
         $('.apply_user_range').css('display','none');
@@ -1044,16 +1044,16 @@
                 $.each($('input[name="apply_user_range"]').data('v').cArr,function(i,v){
                     cArrId+=v.id+','
                 });
-                djson["userId"]=cArrId;
-                djson["officeId"]=pArrId;
+                djson["userIds"]=cArrId;
+                djson["officeIds"]=pArrId;
             }else if(data.field.applyUserRange==0){
-                djson["officeId"]='';
-                djson["userId"]='';
+                djson["officeIds"]='';
+                djson["userIds"]='';
             }
             djson["discripe"]=data.field.discripe;
             djson["actName"]=data.field.act_name;
             djson["menuName"]=data.field.menuName;
-            djson["parentId"]=$('#menu_location').data('v')[0].id;
+            djson["menuPid"]=$('#menu_location').data('v')[0].id;
             console.log(djson)
             $.ajax({
                 type:'post',
