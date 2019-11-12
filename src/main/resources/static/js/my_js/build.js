@@ -575,34 +575,34 @@ function getFormJson() {
         switch(my_field_type){
             case "单行输入框" :
                 my_form.append(Single_line_input_box);
-                SysActForm["field_tag"]=field_tag;
-                SysActForm["field_type"]=field_type;
-                SysActForm["data_type"]=data_type;
+                SysActForm["fieldTag"]=field_tag;
+                SysActForm["fieldType"]=field_type;
+                SysActForm["dataType"]=data_type;
                 var div=$(my_form.children("div")[index]);
                 div.find("label").attr("field_label",field_label);
-                SysActForm["field_label"]=field_label;
+                SysActForm["fieldLabel"]=field_label;
                 var input=div.find(":input");
                 if (!(field_placeholder==""||field_placeholder==undefined)){
                     input.attr("placeholder",field_placeholder);
-                    SysActForm["field_placeholder"]=field_placeholder;
+                    SysActForm["fieldPlaceholder"]=field_placeholder;
                 }
                 if (!(field_id==""||field_id==undefined)){
                     input.attr("id",field_id);
-                    SysActForm["field_id"]=field_id;
+                    SysActForm["fieldId"]=field_id;
                 }
                 if (!(field_datakey==""||field_datakey==undefined)){
                     input.attr("name",field_datakey);
-                    SysActForm["field_datakey"]=field_datakey;
+                    SysActForm["fieldDatakey"]=field_datakey;
                 }
                 if (!(field_class==""||field_class==undefined)){
                     input.addClass(field_class);
-                    SysActForm["field_class"]=field_class;
+                    SysActForm["fieldClass"]=field_class;
                 }
                 if (!(field_filter==""||field_filter==undefined)){
                     input.attr("lay-filter",field_filter);
-                    SysActForm["field_filter"]=field_filter;
+                    SysActForm["fieldFilter"]=field_filter;
                 }
-                SysActForm["is_required"]=is_required;
+                SysActForm["isRequired"]=is_required;
                 if(is_required=="1"){
                     input.attr("lay-verify","required");
                     if (!(validate=="0"||validate==undefined)){
@@ -611,12 +611,12 @@ function getFormJson() {
                         if(!(field_length==""||field_length==undefined)){
                             input.attr("lay-verify","required|"+validate+"|field_length");
                             input.attr("field_length",field_length);
-                            SysActForm["field_length"]=field_length;
+                            SysActForm["fieldLength"]=field_length;
                         }
                     }else {
                         if(!(field_length==""||field_length==undefined)){
                             input.attr("lay-verify","required|field_length");
-                            SysActForm["field_length"]=field_length;
+                            SysActForm["fieldLength"]=field_length;
                             input.attr("field_length",field_length);
                         }
                     }
@@ -628,17 +628,17 @@ function getFormJson() {
                         if(!(field_length==""||field_length==undefined)){
                             input.attr("lay-verify",validate+"|field_length");
                             input.attr("field_length",field_length);
-                            SysActForm["field_length"]=field_length;
+                            SysActForm["fieldLength"]=field_length;
                         }
                     }else {
                         if(!(field_length==""||field_length==undefined)){
                             input.attr("lay-verify","field_length");
-                            SysActForm["field_length"]=field_length;
+                            SysActForm["fieldLength"]=field_length;
                             input.attr("field_length",field_length);
                         }
                     }
                 }
-                SysActForm["is_hidden"]=is_hidden;
+                SysActForm["isHidden"]=is_hidden;
                 if (is_hidden=="1"){
                     div.addClass("hide");
                 }
@@ -646,38 +646,38 @@ function getFormJson() {
                 break;
             case "数字输入框" :
                 my_form.append(Digital_input_box);
-                SysActForm["field_tag"]=field_tag;
-                SysActForm["field_type"]=field_type;
-                SysActForm["data_type"]=data_type;
+                SysActForm["fieldTag"]=field_tag;
+                SysActForm["fieldType"]=field_type;
+                SysActForm["dataType"]=data_type;
                 var div=$(my_form.children("div")[index]);
                 div.find("label").attr("field_label",field_label);
-                SysActForm["field_label"]=field_label;
+                SysActForm["fieldLabel"]=field_label;
                 var input=div.find("input");
                 if (!(field_placeholder==""||field_placeholder==undefined)){
                     input.attr("placeholder",field_placeholder);
-                    SysActForm["field_placeholder"]=field_placeholder;
+                    SysActForm["fieldPlaceholder"]=field_placeholder;
                 }
                 if (!(field_id==""||field_id==undefined)){
                     input.attr("id",field_id);
-                    SysActForm["field_id"]=field_id;
+                    SysActForm["fieldId"]=field_id;
                 }
                 if (!(field_datakey==""||field_datakey==undefined)){
                     input.attr("name",field_datakey);
-                    SysActForm["field_datakey"]=field_datakey;
+                    SysActForm["fieldDatakey"]=field_datakey;
                 }
                 if (!(field_class==""||field_class==undefined)){
                     input.addClass(field_class);
-                    SysActForm["field_class"]=field_class;
+                    SysActForm["fieldClass"]=field_class;
                 }
                 if (!(field_filter==""||field_filter==undefined)){
                     input.attr("lay-filter",field_filter);
-                    SysActForm["field_filter"]=field_filter;
+                    SysActForm["fieldFilter"]=field_filter;
                 }
-                SysActForm["is_required"]=is_required;
+                SysActForm["isRequired"]=is_required;
                 if(is_required=="1"){
                     input.attr("lay-verify","required");
                 }
-                SysActForm["is_hidden"]=is_hidden;
+                SysActForm["isHidden"]=is_hidden;
                 if (is_hidden=="1"){
                     div.addClass("hide");
                 }
@@ -685,50 +685,50 @@ function getFormJson() {
                 break;
             case "多行输入框" :
                 my_form.append(Multi_line_input_box);
-                SysActForm["field_tag"]=field_tag;
-                SysActForm["field_type"]=field_type;
-                SysActForm["data_type"]=data_type;
+                SysActForm["fieldTag"]=field_tag;
+                SysActForm["fieldType"]=field_type;
+                SysActForm["dataType"]=data_type;
                 var div=$(my_form.children("div")[index]);
                 div.find("label").attr("field_label",field_label);
-                SysActForm["field_label"]=field_label;
+                SysActForm["fieldLabel"]=field_label;
                 var textarea=div.find("textarea");
                 if (!(field_placeholder==""||field_placeholder==undefined)){
                     textarea.attr("placeholder",field_placeholder);
-                    SysActForm["field_placeholder"]=field_placeholder;
+                    SysActForm["fieldPlaceholder"]=field_placeholder;
                 }
                 if (!(field_id==""||field_id==undefined)){
                     textarea.attr("id",field_id);
-                    SysActForm["field_id"]=field_id;
+                    SysActForm["fieldId"]=field_id;
                 }
                 if (!(field_datakey==""||field_datakey==undefined)){
                     textarea.attr("name",field_datakey);
-                    SysActForm["field_datakey"]=field_datakey;
+                    SysActForm["fieldDatakey"]=field_datakey;
                 }
                 if (!(field_class==""||field_class==undefined)){
                     textarea.addClass(field_class);
-                    SysActForm["field_class"]=field_class;
+                    SysActForm["fieldClass"]=field_class;
                 }
                 if (!(field_filter==""||field_filter==undefined)){
                     textarea.attr("lay-filter",field_filter);
-                    SysActForm["field_filter"]=field_filter;
+                    SysActForm["fieldFilter"]=field_filter;
                 }
-                SysActForm["is_required"]=is_required;
+                SysActForm["isRequired"]=is_required;
                 if(is_required=="1"){
                     textarea.attr("lay-verify","required");
                     if(!(field_length==""||field_length==undefined)){
                         textarea.attr("lay-verify","required|field_length");
                         textarea.attr("field_length",field_length);
-                        SysActForm["field_length"]=field_length;
+                        SysActForm["fieldLength"]=field_length;
                     }
 
                 }else {
                     if(!(field_length==""||field_length==undefined)){
                         textarea.attr("lay-verify","field_length");
                         textarea.attr("field_length",field_length);
-                        SysActForm["field_length"]=field_length;
+                        SysActForm["fieldLength"]=field_length;
                     }
                 }
-                SysActForm["is_hidden"]=is_hidden;
+                SysActForm["isHidden"]=is_hidden;
                 if (is_hidden=="1"){
                     div.addClass("hide");
                 }
@@ -736,9 +736,9 @@ function getFormJson() {
                 break;
             case "下拉框" :
                 my_form.append(Drop_down_box);
-                SysActForm["field_tag"]=field_tag;
-                SysActForm["field_type"]=field_type;
-                SysActForm["data_type"]=data_type;
+                SysActForm["fieldTag"]=field_tag;
+                SysActForm["fieldType"]=field_type;
+                SysActForm["dataType"]=data_type;
                 var div=$(my_form.children("div")[index]);
                 var options=$(item).find("option");
                 option_value=[];
@@ -751,31 +751,31 @@ function getFormJson() {
                 });
                 value["value"]=option_value;
                 JSON.stringify(value);
-                SysActForm["field_attribute"]=JSON.stringify(value);
+                SysActForm["fieldAttribute"]=JSON.stringify(value);
                 var select=div.find("select");
                 div.find("label").attr("field_label",field_label);
-                SysActForm["field_label"]=field_label;
+                SysActForm["fieldLabel"]=field_label;
                 if (!(field_id==""||field_id==undefined)){
                     select.attr("id",field_id);
-                    SysActForm["field_id"]=field_id;
+                    SysActForm["fieldId"]=field_id;
                 }
                 if (!(field_datakey==""||field_datakey==undefined)){
                     select.attr("name",field_datakey);
-                    SysActForm["field_datakey"]=field_datakey;
+                    SysActForm["fieldDatakey"]=field_datakey;
                 }
                 if (!(field_class==""||field_class==undefined)){
                     select.addClass(field_class);
-                    SysActForm["field_class"]=field_class;
+                    SysActForm["fieldClass"]=field_class;
                 }
                 if (!(field_filter==""||field_filter==undefined)){
                     select.attr("lay-filter",field_filter);
-                    SysActForm["field_filter"]=field_filter;
+                    SysActForm["fieldFilter"]=field_filter;
                 }
-                SysActForm["is_required"]=is_required;
+                SysActForm["isRequired"]=is_required;
                 if(is_required=="1"){
                     select.attr("lay-verify","required");
                 }
-                SysActForm["is_hidden"]=is_hidden;
+                SysActForm["isHidden"]=is_hidden;
                 if (is_hidden=="1"){
                     div.addClass("hide");
                 }
@@ -783,34 +783,34 @@ function getFormJson() {
                 break;
             case "日期选择框" :
                 my_form.append(Date_selection_box);
-                SysActForm["field_tag"]=field_tag;
-                SysActForm["field_type"]=field_type;
-                SysActForm["data_type"]=data_type;
+                SysActForm["fieldTag"]=field_tag;
+                SysActForm["fieldType"]=field_type;
+                SysActForm["dataType"]=data_type;
                 var div=$(my_form.children("div")[index]);
                 var input=div.find(":input");
                 div.find("label").attr("field_label",field_label);
-                SysActForm["field_label"]=field_label;
+                SysActForm["fieldLabel"]=field_label;
                 if (!(field_id==""||field_id==undefined)){
                     input.attr("id",field_id);
-                    SysActForm["field_id"]=field_id;
+                    SysActForm["fieldId"]=field_id;
                 }
                 if (!(field_datakey==""||field_datakey==undefined)){
                     input.attr("name",field_datakey);
-                    SysActForm["field_datakey"]=field_datakey;
+                    SysActForm["fieldDatakey"]=field_datakey;
                 }
                 if (!(field_class==""||field_class==undefined)){
                     input.addClass(field_class);
-                    SysActForm["field_class"]=field_class;
+                    SysActForm["fieldClass"]=field_class;
                 }
                 if (!(field_filter==""||field_filter==undefined)){
                     input.attr("lay-filter",field_filter);
-                    SysActForm["field_filter"]=field_filter;
+                    SysActForm["fieldFilter"]=field_filter;
                 }
-                SysActForm["is_required"]=is_required;
+                SysActForm["isRequired"]=is_required;
                 if(is_required=="1"){
                     input.attr("lay-verify","required");
                 }
-                SysActForm["is_hidden"]=is_hidden;
+                SysActForm["isHidden"]=is_hidden;
                 if (is_hidden=="1"){
                     div.addClass("hide");
                 }

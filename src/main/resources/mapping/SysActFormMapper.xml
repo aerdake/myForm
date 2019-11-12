@@ -120,9 +120,6 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.example.pojo.SysActForm" >
-    <selectKey resultType="java.lang.Long" keyProperty="actFormId" order="BEFORE" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into sys_act_form (act_form_id, act_id, field_id, 
       field_class, field_datakey, field_filter, 
       field_label, field_tag, field_type, 
@@ -141,9 +138,6 @@
       #{recycle,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.example.pojo.SysActForm" >
-    <selectKey resultType="java.lang.Long" keyProperty="actFormId" order="BEFORE" >
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into sys_act_form
     <trim prefix="(" suffix=")" suffixOverrides="," >
       act_form_id,
