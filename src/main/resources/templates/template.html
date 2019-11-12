@@ -60,18 +60,18 @@
 <div class="search-collapse">
     <form class="layui-form" autocomplete="off" style="width: 90%; margin-top: inherit;">
         <div class="layui-form-item" style="width: 300px">
-            <label class="layui-form-label">申请人</label>
+            <label class="layui-form-label">请假人</label>
             <div class="layui-input-block">
-                <input type="text" name="employeeName" th:value="${r'${session.user.employeeName}'}" readonly="readonly" autocomplete="off" class="layui-input" >
+                <input type="text" name="employeeName" th:value="${session.user.employeeName}" readonly="readonly" autocomplete="off" class="layui-input" >
             </div>
         </div>
         <div class="layui-form-item" style="width: 300px">
             <label class="layui-form-label">申请人部门</label>
             <div class="layui-input-block">
-                <input type="text" name="officeName" th:value="${r'${session.user.officeName}'}" readonly="readonly" autocomplete="off" class="layui-input" >
+                <input type="text" name="officeName" th:value="${session.office.officeName}" readonly="readonly" autocomplete="off" class="layui-input" >
             </div>
         </div>
-        <#list formField as field>
+
         <div class="layui-form-item" style="width: 200px">
             <label class="layui-form-label">假期类型
                 <span style="color:red">*</span>
@@ -102,47 +102,23 @@
                 <input id="endDate" type="text" name="endDate" lay-verify="required" class="layui-input" readonly="readonly" >
             </div>
         </div>
-            <#if field.fieldTag == "input" && field.fieldTag == "number">
-                <div class="layui-form-item" style="width: 200px">
-                    <label class="layui-form-label">${field.label}
-                        <#if field.isRequired=="1">
-                            <span style="color:red">*</span>
-                        </#if>
-                    </label>
-                    <div class="layui-input-block">
-                        <input type="number" name="leaveDays" lay-verify="<#if field.isRequired=="1">required</#if>" class="layui-input" >
-                    </div>
-                </div>
-            </#if>
 
-
-        <#if field.fieldTag == "input" && field.fieldTag == "text">
-            <div class="layui-form-item" style="width: 200px">
-                <label class="layui-form-label">${field.label}
-                    <#if field.isRequired=="1">
-                    <span style="color:red">*</span>
-                    </#if>
-                </label>
-                <div class="layui-input-block">
-                    <input type="number" name="leaveDays" lay-verify="<#if field.isRequired=="1">required</#if>" class="layui-input" >
-                </div>
+        <div class="layui-form-item" style="width: 200px">
+            <label class="layui-form-label">请假天数
+                <span style="color:red">*</span>
+            </label>
+            <div class="layui-input-block">
+                <input type="number" name="leaveDays" lay-verify="required" class="layui-input" >
             </div>
-        </#if>
-        <#if field.fieldTag == "textarea">
+        </div>
         <div class="layui-form-item" style="width: 600px">
-            <label class="layui-form-label">${field.label}
-                <#if field.isRequired=="1">
-                    <span style="color:red">*</span>
-                </#if>
+            <label class="layui-form-label">请假原因
+                <span style="color:red">*</span>
             </label>
             <div class="layui-input-block">
                 <textarea type="text" name="leaveCause" lay-verify="required" class="layui-textarea" ></textarea>
             </div>
         </div>
-        </#if>
-        <#if >
-
-
 
 
         <div class="layui-form-item">
@@ -150,9 +126,21 @@
                 <button class="layui-btn" lay-submit lay-filter="leave_apply">确认申请</button>
             </div>
         </div>
-        </#list>
     </form>
 </div>
+
+<!--数据列表-->
+<table id="leave_record" lay-filter="leave_record" ></table>
+
+<table class="layui-table" lay-data="{height:315, url:'/apply/queryByUserId', page:true, id:'leave_record'}" lay-filter="leave_record">
+    <thead>
+    <tr>
+        <th th:each="field : ${fields}" th:lay-data="${'{field:'''+field+''', width:80, sort: true}'}">ID</th>ss
+    </tr>
+    </thead>
+</table>
+
+
 
 
 <!--头工具栏模板-->
@@ -171,37 +159,18 @@
 
 </body>
 <script th:src="@{/lib/layui-v2.5.4/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
+
+    /*<![CDATA[*/
+    var username = '[[${session.user.name}]]';
+    /*]]>*/
+
     layui.use(['form', 'table','layer','laydate'], function () {
         var form = layui.form;
         var table = layui.table;
         var layer = layui.layer;
         var $ = layui.jquery;
         //初始化加载表格数据
-        table.render({
-            id: 'leave_record',
-            elem: '#leave_record',
-            url: '/apply/queryByUserId',
-            align: 'center',
-            toolbar: '#toolbar_apply',
-            page: true,
-            cols: [
-                [ //表头
-                    <#list rows as row>
-                    {field: '${row.field}', width: 80, title: '${row.title}'},
-                    </#list>
-                ]
-            ],
-            response: {
-                statusCode: 200 //规定成功的状态码，默认：0
-            },
-            //处理表格对不齐的问题
-            done: function(res, curr, count){
-                $(".layui-table-main  tr").each(function (index ,val) {
-                    $($(".layui-table-fixed .layui-table-body tbody tr")[index]).height($(val).height());
-                });
-            }
-        });
         //监听确认申请
         form.on('submit(add_apply)', function (data) {
             var applyData = data.field;
@@ -285,6 +254,135 @@
 
 
     });
+
+
+    /**
+     * 添加机构
+     */
+    function addoffice() {
+        //独立版的layer无需执行这一句
+        layui.use(['layer', 'jquery'], function () {
+            var $ = layui.$, layer = layui.layer;
+            layer.open({
+                type: 1,
+                title: '添加机构',
+                content: $('#office_add'),
+                area: '600px',
+                shade: 0.6, //遮罩透明度
+                anim: 0, //0-6的动画形式，-1不开启
+                success: function () {
+                    console.log(456);
+                },
+                end: function () {
+                    /*   $("office_add input[type='text']").each(function () {
+                           $(this).val('');
+                       });
+                       $(".layui-laypage-btn").click();*/
+
+                    $(".layui-laypage-btn").click();
+                    $("#add_form_id")[0].reset();
+
+                }
+            });
+
+        });
+
+    }
+
+    function updateoffice(data, officeId) {
+        //独立版的layer无需执行这一句
+        layui.use(['layer', 'jquery', 'form'], function () {
+            var $ = layui.$, layer = layui.layer, form = layui.form;
+            layer.open({
+                type: 1,
+                title: '编辑机构',
+                content: $('#office_update'),
+                area: '600px',
+                shade: 0.6, //遮罩透明度
+                anim: 0, //0-6的动画形式，-1不开启
+                success: function (layero, index) {
+                    form.val("update_form", {
+                        "officeId": data.officeId,
+                        "officeName": data.officeName, // "name": "value"
+                        "address": data.address,
+                        "phone": data.phone,
+                        "status": data.status,
+                        "remark": data.remark,
+                    })
+                },
+                end: function () {
+                    $("#update_form_id")[0].reset();
+                    $(".layui-laypage-btn").click();
+
+
+                    /*$("office_add input[type='text']").each(function () {
+                        $(this).val('');
+                    });
+                   */
+                }
+            });
+
+        });
+
+    }
+
+
+    function dateFormat(fmt, date) {
+        if (date == null) {
+            return '';
+        }
+        let ret;
+        var date = new Date(date);
+        let opt = {
+            "Y+": date.getFullYear().toString(),        // 年
+            "m+": (date.getMonth() + 1).toString(),     // 月
+            "d+": date.getDate().toString(),            // 日
+            "H+": date.getHours().toString(),           // 时
+            "M+": date.getMinutes().toString(),         // 分
+            "S+": date.getSeconds().toString()          // 秒
+            // 有其他格式化字符需求可以继续添加，必须转化成字符串
+        };
+        for (let k in opt) {
+            ret = new RegExp("(" + k + ")").exec(fmt);
+            if (ret) {
+                fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+            }
+            ;
+        }
+        ;
+        return fmt;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 

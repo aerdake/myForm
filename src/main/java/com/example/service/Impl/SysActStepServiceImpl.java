@@ -3,11 +3,12 @@ package com.example.service.Impl;
 import com.alibaba.fastjson.JSON;
 import com.example.mapper.SysActStepMapper;
 import com.example.pojo.SysActStep;
+import com.example.pojo.SysActStepExample;
 import com.example.service.SysActStepService;
 import com.example.utils.NanChangResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @Service
 public class SysActStepServiceImpl implements SysActStepService {
-    @Autowired
+    @Resource
     private SysActStepMapper sysActStepMapper;
 
 
@@ -34,5 +35,14 @@ public class SysActStepServiceImpl implements SysActStepService {
             sysActStepMapper.insertSelective(step);
         }
         return NanChangResult.ok();
+    }
+
+    @Override
+    public NanChangResult selectByActId(Long actId) {
+        SysActStepExample example=new SysActStepExample();
+        SysActStepExample.Criteria criteria=example.createCriteria();
+        criteria.andActIdEqualTo(actId);
+        List<SysActStep> stepList=sysActStepMapper.selectByExample(example);
+        return NanChangResult.ok(stepList);
     }
 }

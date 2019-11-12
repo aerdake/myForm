@@ -11,4 +11,6 @@ import com.example.utils.NanChangResult;
  */
 public interface SysActStepService {
     NanChangResult addActStep(String jsonRequest);
+
+    NanChangResult selectByActId(Long actId);
 }

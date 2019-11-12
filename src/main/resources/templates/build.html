@@ -1045,16 +1045,16 @@
                 $.each($('input[name="apply_user_range"]').data('v').cArr,function(i,v){
                     cArrId+=v.id+','
                 });
-                djson["userId"]=cArrId;
-                djson["officeId"]=pArrId;
+                djson["userIds"]=cArrId;
+                djson["officeIds"]=pArrId;
             }else if(data.field.applyUserRange==0){
-                djson["officeId"]='';
-                djson["userId"]='';
+                djson["officeIds"]='';
+                djson["userIds"]='';
             }
             djson["discripe"]=data.field.discripe;
             djson["actName"]=data.field.act_name;
             djson["menuName"]=data.field.menuName;
-            djson["parentId"]=$('#menu_location').data('v')[0].id;
+            djson["menuPid"]=$('#menu_location').data('v')[0].id;
             console.log(djson)
             $.ajax({
                 type:'post',

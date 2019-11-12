@@ -1,7 +1,12 @@
 package com.example.controller;
 
+import com.example.service.FormService;
+import com.example.utils.NanChangResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -18,8 +23,13 @@ public class FormController {
         return "build";
     }
 
-    @RequestMapping("tree")
-    public String tree(){
-        return "treetest";
+    @Autowired
+    FormService formService;
+
+    //保存表单
+    @RequestMapping("/act/save")
+    public NanChangResult saveAct(String formData,String actStepData,String actData){
+
+        return formService.saveAct(formData,actStepData,actData);
     }
 }
