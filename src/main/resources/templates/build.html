@@ -96,7 +96,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">指定申请表名</label>
                     <div class="layui-input-block">
-                        <input type="text" name="tbName" lay-verify="not_null|application_verify|max_length20" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                        <input type="text" name="tbName" lay-verify="app_repeat|not_null|application_verify|max_length20" placeholder="请输入标题" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -928,8 +928,6 @@
         //初始化验证
         verifyInit(form);
 
-
-
         form.render();
         //添加表单id
         if($('#actId').val()==''){
@@ -1032,7 +1030,6 @@
             json处理相关
         */
         form.on('submit(go)', function(data){
-            console.log(getFormJson());
             var djson={};
             djson["actId"]=data.field.actId;
             djson["tbName"]=data.field.tbName;
@@ -1215,7 +1212,6 @@
             }
             //发布
             if($(e.target).hasClass('step_con_publish')){
-                // console.log(getFormJson())
                 if($(e).hasClass('layui-btn-disabled')){
                     layer.msg('请先保存该流程');
                 }
@@ -1258,6 +1254,30 @@
             }
         }
         var zTreeObjA=$.fn.zTree.init($("#menuTree"), settingsA, data2);
+        //基础表单验证
+        $('input[name="tbName"]').on('blur',function(){
+            $.ajax({
+                type:'post',
+                url:'/act/isExists',
+                data:{
+                    tbName:$('input[name="tbName"]').val()
+                },
+                success:function(e){
+                    console.log(e);
+                    if(e.code==500){
+                        layer.msg('该申请表名已存在');
+                        $('input[name="tbName"]').addClass('layui-form-danger');
+                    } else if(e.code==200){
+                        $('input[name="tbName"]').removeClass('layui-form-danger');
+                    }
+                },
+                error:function(e){
+
+            }
+            });
+        });
+
+
         // 点击选中事件
         $('#menu_location').on('click',function(){
             var mMsg=layer.open({
@@ -1568,7 +1588,7 @@
                         } else{
                             var sum=0;
                             $.each(getFormJson().form_data,function(index,item){
-                                if(item.field_type== 'number' || item.field_type== 'select') {
+                                if(item.fieldType== 'number' || item.fieldType== 'select') {
                                     sum++;
                                 }
                             });
@@ -1592,12 +1612,12 @@
                                             var json={};
                                             var dV=[];
                                             $.each(getFormJson().form_data,function(j,k){
-                                                if(k.field_type==v.type){
+                                                if(k.fieldType==v.type){
                                                     json=k;
                                                 }
                                             });
                                             $.each($('#'+$('#condition_msg').data('pId')).data('dValue'),function(i,v){
-                                                if(v.type==json.field_type){
+                                                if(v.type==json.fieldType){
                                                     dV=v.content;
                                                 }
                                             });
@@ -1628,12 +1648,12 @@
                                             var json={};
                                             var dV=[];
                                             $.each(getFormJson().form_data,function(j,k){
-                                                if(k.field_type==v.type){
+                                                if(k.fieldType==v.type){
                                                     json=k;
                                                 }
                                             });
                                             $.each($('#'+$('#condition_msg').data('pId')).data('dValue'),function(i,v){
-                                                if(v.type==json.field_type){
+                                                if(v.type==json.fieldType){
                                                     dV=v.content;
                                                 }
                                             });
@@ -1753,14 +1773,14 @@
                     if(typeof getFormJson() !='string'){
                         allsum=getFormJson().form_data.length+1;
                         $.each(getFormJson().form_data,function(index,item){
-                            if(item.field_type== 'number' || item.field_type== 'select') {
-                                $('.condition_sum_list').append('<input type="checkbox" name="'+item.field_datakey+'" title="'+item.field_label+'" lay-skin="primary" lay-filter="condition_list_sel">')
+                            if(item.fieldType== 'number' || item.fieldType== 'select') {
+                                $('.condition_sum_list').append('<input type="checkbox" name="'+item.fieldDatakey   +'" title="'+item.fieldLabel+'" lay-skin="primary" lay-filter="condition_list_sel">')
                                 $.each(arrJson,function(i,v){
-                                    if(v.name==item.field_datakey){
-                                        $('.condition_sum_list').find('input[name="'+item.field_datakey+'"]').prop("checked", true);
+                                    if(v.name==item.fieldDatakey){
+                                        $('.condition_sum_list').find('input[name="'+item.fieldDatakey+'"]').prop("checked", true);
                                     }
                                 });
-                                $('.condition_sum_list').find('input[name="'+item.field_datakey+'"]').data("v",item);
+                                $('.condition_sum_list').find('input[name="'+item.fieldDatakey+'"]').data("v",item);
                             }
                         });
                         $.each(arrJson,function(index,item){
@@ -1770,7 +1790,7 @@
                         $('.condition_sum').text(arrJson.length);
                         form.on('checkbox(condition_list_sel)', function(data){
                             // 添加条件
-                            switch($(data.elem).data('v').field_type) {
+                            switch($(data.elem).data('v').dataType) {
                                     case 'promoter':
                                         if(data.elem.checked){
                                             inst_promoter(tree,$('.condition_msg_list'),arrJson,$('#'+$('#condition_msg').data('pId')).data('dValue'));

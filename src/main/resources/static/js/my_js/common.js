@@ -214,10 +214,10 @@ function setFormAccess(layero) {
 		$(layero[0]).find('.access_box').append('<ul class="access_content layui-container" style="width:100%;"></ul>');
 		$.each(form_data,function(index,item){
 			var strCon='<li class="layui-row">'+
-							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">'+item.field_label+'</span>'+
-							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="'+item.field_datakey+'" value="0" title="可编辑" checked lay-filter="subRadio1" class="subRadio1"></span>'+
-							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="'+item.field_datakey+'" value="1" title="只读" lay-filter="subRadio2" class="subRadio2"></span>'+
-							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="'+item.field_datakey+'" value="2" title="隐藏" lay-filter="subRadio3" class="subRadio3"> </span>'+
+							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block">'+item.fieldLabel+'</span>'+
+							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="'+item.fieldDatakey+'" value="0" title="可编辑" checked lay-filter="subRadio1" class="subRadio1"></span>'+
+							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="'+item.fieldDatakey+'" value="1" title="只读" lay-filter="subRadio2" class="subRadio2"></span>'+
+							'<span class="layui-col-xs3 layui-col-sm3 layui-col-lg3 layui-col-md3 layui-show-*-inline-block"><input type="radio" name="'+item.fieldDatakey+'" value="2" title="隐藏" lay-filter="subRadio3" class="subRadio3"> </span>'+
 						'</li>';
 			$(layero[0]).find('.access_content').append(strCon)
 		});
@@ -286,9 +286,9 @@ function inst_promoter(tree,$location,arrJson,dValue){
 }
 //添加number 条件box
 function  inst_number(json,$location,form,arrJson,dValue) {
-	var numberStr='<li class="number-box con-box" title="'+json.field_label+'" con-type="'+json.field_datakey+'">'+
+	var numberStr='<li class="number-box con-box" title="'+json.fieldLabel+'" con-type="'+json.fieldDatakey+'">'+
 		'<div class="layui-form-item layui-double-input">'+
-		'<label class="layui-form-label">'+json.field_label+'</label>'+
+		'<label class="layui-form-label">'+json.fieldLabel+'</label>'+
 		'<div class="layui-input-block">'+
 		'<div class="layui-nomal-box layui-double-box">'+
 		'<select name="logical_sum_select" lay-filter="logical-select">'+
@@ -375,9 +375,9 @@ function  inst_select(json,$location,form,arrJson,dValue) {
 			'<input type="checkbox" name="'+v+'" title="'+v+'" lay-skin="primary">'+
 			'</span>';
 	});
-	var selectStr=  '<li class="select-box con-box" title="'+json.field_label+'" con-type="'+json.field_datakey+'">'+
+	var selectStr=  '<li class="select-box con-box" title="'+json.fieldLabel+'" con-type="'+json.fieldDatakey+'">'+
 		'<div class="layui-form-item">'+
-		'<label class="layui-form-label">'+json.field_label+'</label>'+
+		'<label class="layui-form-label">'+json.fieldLabel+'</label>'+
 		'<div class="layui-input-block">' +
 		subStr+
 		'</div>'+
@@ -559,8 +559,28 @@ function verifyInit(form){
             if(!new RegExp("^[\u4e00-\u9fa5]+$").test(value)){
                 return '基础设置流程名称只能输入中文';
             }
+        },
+        //申请表重复验证
+        app_repeat:function(value,item){
+            var code=0;
+		    $.ajax({
+                type:'post',
+                url:'/act/isExists',
+                async:false,
+                data:{
+                    tbName:$('input[name="tbName"]').val()
+                },
+                success:function(e){
+                    code=e.code;
+                },
+                error:function(e){
+
+                }
+            });
+		    if(code==200){
+		        return '该申请表名已存在'
+            }
         }
-        //
     });
 }
 //验证数据完整性
