@@ -34,6 +34,14 @@ function len_uuid(len, radix) {
     }
     return uuid.join('');
 }
+//生成timenumberid
+function time_number(length){
+    var s='';
+    for(var i=0;i <= length;i++){
+        s+=''+Math.floor(Math.random()*10);
+    }
+    return new Date().getTime()+''+s;
+}
 //生成序号
 function squid(){
     //1 开始 2结束
